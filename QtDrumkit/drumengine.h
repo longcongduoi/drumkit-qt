@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QPair>
+#include <QTime>
+#include <QTimer>
 
 #include "GEAudioOut.h"
 #include "GEAudioMixer.h"
@@ -47,6 +50,7 @@ public slots:
 private:
     enum {
         StateStop = 0,
+
         StatePlayback,
         StateRecord
     } m_state;
@@ -59,6 +63,7 @@ public:
     bool isRecording();
 
 private slots:
+    void playbackTimerEvent();
 
 private:
     void play(GE::AudioBuffer* buffer);
@@ -68,6 +73,13 @@ private:
     GE::AudioOut* m_audioOut;
     GE::AudioMixer* m_audioMixer;
     QMap<QString, GE::AudioBuffer*> m_samples;
+
+    QList<QPair<QTime, QString> > m_drumTrack;
+    QTime m_drumTrackStartTime;
+
+    QTimer m_playbackTimer;
+    QTime m_playbackStartTime;
+    int m_playbackPosition;
 };
 
 #endif // DRUMENGINE_H

@@ -8,6 +8,8 @@ DrumEngine::DrumEngine(QObject *parent)
     : QObject(parent),
       m_state(StateStop)
 {
+    connect(&m_playbackTimer, SIGNAL(timeout()),
+	    this, SLOT(playbackTimerEvent()));
 
     m_audioMixer = new AudioMixer(this);
     m_audioOut = new AudioOut(m_audioMixer, this);
@@ -36,7 +38,7 @@ void DrumEngine::initSamples(QStringList names) {
 
 void DrumEngine::play(AudioBuffer* buffer) {
     AudioBufferPlayInstance* inst = buffer->playWithMixer(*m_audioMixer);
-    if(inst) {
+    if(inst == 0) {
         qWarning() << "playWithMixer failed";
     }
     //qDebug() << "Mixer source count:" << m_audioMixer->audioSourceCount();
@@ -61,21 +63,35 @@ void DrumEngine::play(AudioBuffer* buffer) {
 void DrumEngine::playSample(QString name)
 {
     qDebug() << "playSample" << name;
+
+    if(m_state == StateRecord) {
+	m_drumTrack.append(qMakePair(QTime::currentTime(), name));
+	if(m_drumTrackStartTime.isNull()) {
+	    m_drumTrackStartTime = QTime::currentTime();
+	}
+    }
+
     play(m_samples[name]);
 }
 
 void DrumEngine::play()
 {
-    qDebug() << __PRETTY_FUNCTION__;
-    m_state = StatePlayback;
+    m_state = StatePlayback;  
     updateState();
+
+    m_playbackStartTime = QTime::currentTime();
+    m_playbackPosition = 0;
+    m_playbackTimer.start(10); // 10 ms interval
+
 }
 
 void DrumEngine::record()
-
 {
-    qDebug() << __PRETTY_FUNCTION__;
     m_state = StateRecord;
+
+    m_drumTrack.clear();
+    m_drumTrackStartTime = QTime();
+
     updateState();
 }
 
@@ -89,31 +105,44 @@ void DrumEngine::updateState()
 
 void DrumEngine::stop()
 {
-    qDebug() << __PRETTY_FUNCTION__;
     m_state = StateStop;
+    m_playbackTimer.stop();
     updateState();
 }
 
 bool DrumEngine::isPlaying() 
 {
-    qDebug() << __PRETTY_FUNCTION__;
     return m_state == StatePlayback;
 }
 
 bool DrumEngine::isRecording() 
 {
-    qDebug() << __PRETTY_FUNCTION__;
     return m_state == StateRecord;
 }
 
 bool DrumEngine::canPlay() 
 {
-    qDebug() << __PRETTY_FUNCTION__;
-    return false;
+    return m_drumTrack.size() > 0;
 }
 
 bool DrumEngine::canRecord() 
 {
-    qDebug() << __PRETTY_FUNCTION__;
     return m_state == StateStop || m_state == StateRecord;
+}
+
+void DrumEngine::playbackTimerEvent()
+{
+    QTime current(QTime::currentTime());
+    int elapsed = m_playbackStartTime.msecsTo(current);
+
+    QPair<QTime, QString> note = m_drumTrack[m_playbackPosition];
+    int noteStart = m_drumTrackStartTime.msecsTo(note.first);
+    if(elapsed >= noteStart) {
+	playSample(note.second);
+	m_playbackPosition++;
+
+	if(m_playbackPosition >= m_drumTrack.size()) {
+	    stop();
+	}
+    }
 }
