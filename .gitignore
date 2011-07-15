@@ -1,0 +1,16 @@
+*.o
+*~ 
+*.pro.user
+*.dsc
+*.tar.gz
+*.changes
+*.so
+*.log
+*.substvars
+*.deb
+*.debhelper
+moc_*
+ui_*
+qrc_*
+QtDrumkit-build-*
+Makefile

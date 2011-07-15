@@ -1,0 +1,18 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+ <qresource prefix="/">
+        <file>samples/cowbell.wav</file>
+        <file>samples/crash.wav</file>
+        <file>samples/hihat1.wav</file>
+        <file>samples/hihat2.wav</file>
+        <file>samples/kick.wav</file>
+        <file>samples/ride1.wav</file>
+        <file>samples/ride2.wav</file>
+        <file>samples/snare.wav</file>
+        <file>samples/splash.wav</file>
+        <file>samples/tom1.wav</file>
+        <file>samples/tom2.wav</file>
+        <file>samples/tom3.wav</file>
+        <file>samples/chirp.wav</file>
+    </qresource>
+</RCC>
