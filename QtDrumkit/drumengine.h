@@ -71,7 +71,7 @@ private:
     void updateState();
 
     GE::AudioOut* m_audioOut;
-    GE::AudioMixer* m_audioMixer;
+    GE::AudioMixer m_audioMixer;
     QMap<QString, GE::AudioBuffer*> m_samples;
 
     QList<QPair<QTime, QString> > m_drumTrack;
@@ -80,6 +80,10 @@ private:
     QTimer m_playbackTimer;
     QTime m_playbackStartTime;
     int m_playbackPosition;
+
+#ifdef Q_OS_SYMBIAN
+    QTimer m_audioPullTimer; // Used to tick the audio engine
+#endif
 };
 
 #endif // DRUMENGINE_H

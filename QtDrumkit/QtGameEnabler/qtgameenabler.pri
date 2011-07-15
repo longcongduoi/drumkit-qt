@@ -2,9 +2,7 @@ CONFIG += mobility
 MOBILITY += multimedia
 
 #INCLUDEPATH += ./src 
-
 DEFINES -= GE_DEBUG
-DEFINES += Q_WS_MAEMO_6
 
 SOURCES += \
     $$PWD/src/GEAudioBuffer.cpp \

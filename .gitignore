@@ -14,3 +14,12 @@ ui_*
 qrc_*
 QtDrumkit-build-*
 Makefile
+ABLD.BAT
+*.mk
+bld.inf
+*.loc
+*.rss
+*.sis
+*.mmp
+*.pkg
+.make.cache

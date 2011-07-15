@@ -11,22 +11,28 @@ DrumEngine::DrumEngine(QObject *parent)
     connect(&m_playbackTimer, SIGNAL(timeout()),
 	    this, SLOT(playbackTimerEvent()));
 
-    m_audioMixer = new AudioMixer(this);
-    m_audioOut = new AudioOut(m_audioMixer, this);
+    m_audioOut = new AudioOut(&m_audioMixer, this);
 
-    //     m_audioMixer->setAbsoluteVolume(3.0f / m_players.size());
-
-    m_audioMixer->setAbsoluteVolume(3.0f / 10);
+    m_audioMixer.setAbsoluteVolume(3.0f / 10);
     QStringList samples;
     samples << "cowbell" << "crash" << "hihat1" << "hihat2" 
 	    << "kick" << "ride1" << "ride2" << "snare" 
 	    << "splash" << "tom1" << "tom2" << "tom3";
     initSamples(samples);
+
+#ifdef Q_OS_SYMBIAN
+    m_audioPullTimer.setInterval(5);
+    connect(&m_audioPullTimer, SIGNAL(timeout()), m_audioOut, SLOT(tick()));
+    m_audioPullTimer.start();
+#endif
 }
 
 
 DrumEngine::~DrumEngine()
 {
+#ifdef Q_OS_SYMBIAN
+    m_audioPullTimer.stop();
+#endif
 }
 
 void DrumEngine::initSamples(QStringList names) {
@@ -37,7 +43,7 @@ void DrumEngine::initSamples(QStringList names) {
 }
 
 void DrumEngine::play(AudioBuffer* buffer) {
-    AudioBufferPlayInstance* inst = buffer->playWithMixer(*m_audioMixer);
+    AudioBufferPlayInstance* inst = buffer->playWithMixer(m_audioMixer);
     if(inst == 0) {
         qWarning() << "playWithMixer failed";
     }
