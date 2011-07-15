@@ -14,13 +14,15 @@ Item {
 
     Image {
         id: img
-        source: parent.toggled ? parent.imagePressed : parent.image
+        source: parent.toggled || ma.pressed ? parent.imagePressed : parent.image
     }
 
     MouseArea {
         id: ma
         anchors.fill: img
         enabled: parent.enabled
-        onPressed: parent.pressed()
+        onReleased: {
+            parent.pressed()
+        }
     }
 }

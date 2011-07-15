@@ -45,12 +45,18 @@ Item {
             imagePressed: "gfx/play_pressed.png"
             enabled: engine.canPlay && !engine.isRecording
             toggled: engine.isPlaying
+            visible: !engine.isPlaying
             onPressed: {
-                if(engine.isPlaying) {
-                    engine.stop()
-                } else {
-                    engine.play()
-                }
+                engine.play()
+            }
+        }
+        Button {
+            id: stopButton
+            image: "gfx/stop.png"
+            imagePressed: "gfx/stop_pressed.png"
+            visible: !playButton.visible
+            onPressed: {
+                engine.stop()
             }
         }
     }
