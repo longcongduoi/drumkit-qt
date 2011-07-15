@@ -9,7 +9,7 @@ Item {
     MouseArea {
         id: ma
         anchors.fill: parent;
-        onClicked: Drums.play(sample)
+        onClicked: engine.playSample(sample)
     }
 
     Image {

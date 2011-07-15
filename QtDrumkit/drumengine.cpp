@@ -1,55 +1,43 @@
 #include <QtCore/QDebug>
+#include <QStringList>
 #include "drumengine.h"
 
 using namespace GE;
 
 DrumEngine::DrumEngine(QObject *parent) 
-    : QObject(parent)
+    : QObject(parent),
+      m_state(StateStop)
 {
 
     m_audioMixer = new AudioMixer(this);
     m_audioOut = new AudioOut(m_audioMixer, this);
 
-    for(int i=0; i<1; i++) {
-	AudioBufferPlayInstance* player = new AudioBufferPlayInstance;
- 	player->setDestroyWhenFinished(false);
-	m_players.append(player);
-	m_audioMixer->addAudioSource(player);
-    }
-//     m_audioMixer->setAbsoluteVolume(3.0f / m_players.size());
+    //     m_audioMixer->setAbsoluteVolume(3.0f / m_players.size());
 
     m_audioMixer->setAbsoluteVolume(3.0f / 10);
-
-      m_cowbell = AudioBuffer::loadWav(":/samples/cowbell.wav", this);
-    m_crash = AudioBuffer::loadWav(":/samples/crash.wav", this);
-    m_hihat1 = AudioBuffer::loadWav(":/samples/hihat1.wav", this);
-    m_hihat2 = AudioBuffer::loadWav(":/samples/hihat2.wav", this);
-    m_kick = AudioBuffer::loadWav(":/samples/kick.wav", this);
-    m_ride1 = AudioBuffer::loadWav(":/samples/ride1.wav", this);
-    m_ride2 = AudioBuffer::loadWav(":/samples/ride2.wav", this);
-    m_snare = AudioBuffer::loadWav(":/samples/snare.wav", this);
-    m_splash = AudioBuffer::loadWav(":/samples/splash.wav", this);
-    m_tom1 = AudioBuffer::loadWav(":/samples/tom1.wav", this);
-    m_tom2 = AudioBuffer::loadWav(":/samples/tom2.wav", this);
-    m_tom3 = AudioBuffer::loadWav(":/samples/tom3.wav", this);
-    
+    QStringList samples;
+    samples << "cowbell" << "crash" << "hihat1" << "hihat2" 
+	    << "kick" << "ride1" << "ride2" << "snare" 
+	    << "splash" << "tom1" << "tom2" << "tom3";
+    initSamples(samples);
 }
 
 
 DrumEngine::~DrumEngine()
 {
-//     foreach (AudioBufferPlayInstance* player, m_players) {
-// 	m_audioMixer->removeAudioSource(player);
-// 	delete player;
-//     }
+}
+
+void DrumEngine::initSamples(QStringList names) {
+    foreach(QString name, names) {
+	AudioBuffer* buffer = AudioBuffer::loadWav(":/samples/"+name+".wav", this);
+	m_samples[name] = buffer;
+    }
 }
 
 void DrumEngine::play(AudioBuffer* buffer) {
     AudioBufferPlayInstance* inst = buffer->playWithMixer(*m_audioMixer);
     if(inst) {
-        qDebug() << "isPlaying:" << inst->isPlaying() << "isfinished:" << inst->isFinished();
-    } else {
-        qDebug() << "Play failed: no instance";
+        qWarning() << "playWithMixer failed";
     }
     //qDebug() << "Mixer source count:" << m_audioMixer->audioSourceCount();
 
@@ -70,65 +58,62 @@ void DrumEngine::play(AudioBuffer* buffer) {
 //     }
 }
 
-void DrumEngine::playCowbell()
+void DrumEngine::playSample(QString name)
 {
-    play(m_cowbell);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playCrash()
-{
-    play(m_crash);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playHihat1()
-{
-    play(m_hihat1);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playHihat2()
-{
-    play(m_hihat2);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playKick()
-{
-    play(m_kick);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playRide1()
-{
-    play(m_ride1);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playRide2()
-{
-    play(m_ride2);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playSnare()
-{
-    play(m_snare);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playSplash()
-{
-    play(m_splash);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playTom1()
-{
-    play(m_tom1);
-    qDebug() << __PRETTY_FUNCTION__;
-}
-void DrumEngine::playTom2()
-{
-    play(m_tom2);
-    qDebug() << __PRETTY_FUNCTION__;
+    qDebug() << "playSample" << name;
+    play(m_samples[name]);
 }
 
-void DrumEngine::playTom3()
+void DrumEngine::play()
 {
-    play(m_tom3);
     qDebug() << __PRETTY_FUNCTION__;
+    m_state = StatePlayback;
+    updateState();
 }
 
+void DrumEngine::record()
+
+{
+    qDebug() << __PRETTY_FUNCTION__;
+    m_state = StateRecord;
+    updateState();
+}
+
+void DrumEngine::updateState() 
+{
+    emit canRecordChanged();
+    emit canPlayChanged();
+    emit isPlayingChanged();
+    emit isRecordingChanged();
+}
+
+void DrumEngine::stop()
+{
+    qDebug() << __PRETTY_FUNCTION__;
+    m_state = StateStop;
+    updateState();
+}
+
+bool DrumEngine::isPlaying() 
+{
+    qDebug() << __PRETTY_FUNCTION__;
+    return m_state == StatePlayback;
+}
+
+bool DrumEngine::isRecording() 
+{
+    qDebug() << __PRETTY_FUNCTION__;
+    return m_state == StateRecord;
+}
+
+bool DrumEngine::canPlay() 
+{
+    qDebug() << __PRETTY_FUNCTION__;
+    return false;
+}
+
+bool DrumEngine::canRecord() 
+{
+    qDebug() << __PRETTY_FUNCTION__;
+    return m_state == StateStop || m_state == StateRecord;
+}

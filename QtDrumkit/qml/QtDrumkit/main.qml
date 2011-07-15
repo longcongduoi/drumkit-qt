@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import DrumEngine 1.0
 
 Item {
     width: 854
@@ -9,26 +10,58 @@ Item {
     
     }
 
-    Rectangle {
-        anchors.top:  parent.top
-        anchors.right:  parent.right
-        width: 80
-        height: 80
-        radius: width/2
-        Text {
-            anchors.centerIn: parent
-            text: qsTr("X");
-            font.pixelSize: 32
-            font.bold: true
-        }
+    DrumEngine {
+        id: engine
+    }
 
-        MouseArea {
-            anchors.fill: parent
+    Button {
+        id: infoButton
+        anchors.top:  parent.top
+        anchors.left:  parent.left
+        image: "gfx/info.png"
+        imagePressed: "gfx/info_pressed.png"
+    }
+
+    Row {
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        Button {
+            id: recButton
+            image: "gfx/record.png"
+            imagePressed: "gfx/record_pressed.png"
+            enabled: engine.canRecord && !engine.isPlaying
+            toggled: engine.isRecording
             onPressed: {
-                Qt.quit();
+                if(engine.isRecording) {
+                    engine.stop()
+                } else {
+                    engine.record()
+                }
             }
         }
+        Button {
+            id: playButton
+            image: "gfx/play.png"
+            imagePressed: "gfx/play_pressed.png"
+            enabled: engine.canPlay && !engine.isRecording
+            toggled: engine.isPlaying
+            onPressed: {
+                if(engine.isPlaying) {
+                    engine.stop()
+                } else {
+                    engine.play()
+                }
+            }
+        }
+    }
 
+    Button {
+        id: exitButton
+        anchors.top:  parent.top
+        anchors.right:  parent.right
+        image: "gfx/exit.png"
+        imagePressed: "gfx/exit_pressed.png"
+        onPressed: Qt.quit()
     }
 
     // Top row pads from left to right

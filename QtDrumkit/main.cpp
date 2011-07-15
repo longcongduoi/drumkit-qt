@@ -1,57 +1,27 @@
 #include <QDebug>
 #include <QtGui/QApplication>
-#include <QDeclarativeContext>
 #include <QGLWidget>
+#include <QtDeclarative>
+
 #include "qmlapplicationviewer.h"
 #include "drumengine.h"
 
-//#include <QGraphicsEllipseItem>
-//#include <QGraphicsScene>
-//#include <QGraphicsView>
-
-//class Item : public QGraphicsItem
-//{
-//public:
-//    Item(DrumEngine& engine) : e(engine) {}
-
-//    QRectF boundingRect() const
-//    {
-//	qreal penWidth = 1;
-//	return QRectF(-100 - penWidth / 2, -100 - penWidth / 2,
-//		      200 + penWidth, 200 + penWidth);
-//    }
-
-//    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-//	       QWidget *widget)
-//    {
-//	painter->drawRoundedRect(-100, -100, 200, 200, 5, 5);
-//    }
-
-
-//    void mousePressEvent(QGraphicsSceneMouseEvent * event ) {
-//	e.playSnare();
-//	event->ignore();
-//	qDebug() << "mousePress";
-//    }
-
-//    void keyPressEvent(QKeyEvent * event ) {
-//	e.playCowbell();
-//	qDebug() << "keyPress";
-//    }
-//    DrumEngine& e;
-//};
 
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    DrumEngine drumEngine;
+    //DrumEngine drumEngine;
+
+    qmlRegisterType<DrumEngine>("DrumEngine", 1,0, "DrumEngine");
 
     QmlApplicationViewer viewer;
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockLandscape);
     viewer.setMainQmlFile(QLatin1String("qml/QtDrumkit/main.qml"));
-    QDeclarativeContext* ctx = viewer.rootContext();
-    ctx->setContextProperty("DrumEngine", &drumEngine);
+//    QDeclarativeContext* ctx = viewer.rootContext();
+//    ctx->setContextProperty("DrumEngine", &drumEngine);
+
+
 
 // #if defined(Q_WS_MAEMO_5) || defined(Q_OS_SYMBIAN) || defined(Q_WS_HARMATTAN)
 //     // Mobile screen dimensions
@@ -79,7 +49,8 @@ int main(int argc, char *argv[])
 #endif
 
 #if defined(Q_WS_MAEMO_6) || defined(Q_OS_SYMBIAN)
-    viewer.showFullScreen();
+//    viewer.showFullScreen();
+    viewer.show();
 #else
     viewer.show();
 #endif

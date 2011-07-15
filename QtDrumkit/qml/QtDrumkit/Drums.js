@@ -3,10 +3,10 @@ function play(sample) {
     switch(sample)
     {
     case "cowbell":
-        DrumEngine.playCowbell();
+        drumEngine.playCowbell();
         break;
     case "crash":
-        DrumEngine.playCrash();
+        drumEngine.playCrash();
         break;
     case "hihat1":
         DrumEngine.playHihat1();
