@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
 #endif
 
 #if defined(Q_WS_MAEMO_6) || defined(Q_OS_SYMBIAN)
-//    viewer.showFullScreen();
-    viewer.show();
+    viewer.showFullScreen();
+//    viewer.show();
 #else
     viewer.show();
 #endif
