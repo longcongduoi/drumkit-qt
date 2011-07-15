@@ -1,15 +1,17 @@
 import QtQuick 1.0
 
-Rectangle {
+Item {
     width: 854
     height: 480
 
-    color: "darkgray"
+    Image {
+        source: "gfx/drumpads.png"
+    
+    }
 
     Rectangle {
-        id: rectangle1
-        x: 550
-        y: 9
+        anchors.top:  parent.top
+        anchors.right:  parent.right
         width: 80
         height: 80
         radius: width/2
@@ -29,121 +31,55 @@ Rectangle {
 
     }
 
-    Rectangle {
-        id: rectangle2
-        x: 39
-        y: 86
-        width: 100
-        height: 100
-        radius: width/2
-        color: "#ffffff"
-        MouseArea {
-            anchors.fill: parent
-            onPressed: {
-                DrumEngine.playHihat1();
-            }
-        }
+    // Top row pads from left to right
+    Pad {
+        id: pad1
+        x: 148; y: 60
+        width: 180; height: 180
+        sample: "crash"
     }
 
-    Rectangle {
-        id: rectangle3
-        x: 161
-        y: 27
-        width: 100
-        height: 100
-        radius: width/2
-        color: "#ffffff"
-        MouseArea {
-            anchors.fill: parent
-            onPressed: {
-                DrumEngine.playHihat2();
-            }
-        }
-
+    Pad {
+        id: pad2
+        x: 340; y: 118
+        width: 200; height: 200
+        sample: "tom1"
     }
 
-    Rectangle {
-        id: rectangle4
-        x: 291
-        y: 27
-        width: 100
-        height: 100
-        radius: width/2
-        color: "#ffffff"
-        MouseArea {
-            anchors.fill: parent
-            onPressed: {
-                DrumEngine.playRide1();
-            }
-        }
-
+    Pad {
+        id: pad3
+        x: 550; y: 54
+        width: 180; height: 180
+        sample: "tom2"
     }
 
-    Rectangle {
-        id: rectangle5
-        x: 416
-        y: 86
-        width: 100
-        height: 100
-        radius: width/2
-        color: "#ffffff"
-        MouseArea {
-            anchors.fill: parent
-            onPressed: {
-                DrumEngine.playKick();
-            }
-        }
-
+    // Bottom row
+    Pad {
+        id: pad4
+        x: 30; y: 240
+        width: 224; height: 224
+        sample: "snare"
     }
 
-    Rectangle {
-        id: rectangle6
-        x: 75
-        y: 212
-        width: 100
-        height: 100
-        radius: width/2
-        color: "#ffffff"
-        MouseArea {
-            anchors.fill: parent
-            onPressed: {
-                DrumEngine.playSnare();
-            }
-        }
-
+    Pad {
+        id: pad5
+        x: 278; y: 318
+        width: 152; height: 152
+        sample: "hihat1"
     }
 
-    Rectangle {
-        id: rectangle7
-        x: 390
-        y: 212
-        width: 100
-        height: 100
-        radius: width/2
-        color: "#ffffff"
-        MouseArea {
-            anchors.fill: parent
-            onPressed: {
-                DrumEngine.playTom1();
-            }
-        }
-
+    Pad {
+        id: pad6
+        x: 466; y: 320
+        width: 146; height: 146
+        sample: "ride1"
     }
 
-    Rectangle {
-        id: rectangle8
-        x: 205
-        y: 165
-        width: 164
-        height: 147
-        color: "#ffffff"
-        radius: width/2
-        MouseArea {
-            anchors.fill: parent
-            onPressed: {
-                DrumEngine.playCowbell();
-            }
-        }
-
+    Pad {
+        id: pad7
+        x: 630; y: 234
+        width: 204; height: 204
+        sample: "kick"
     }
+
 }

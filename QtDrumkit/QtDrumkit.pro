@@ -42,7 +42,7 @@ SOURCES += main.cpp
 SOURCES += drumengine.cpp
 HEADERS += drumengine.h
 
-RESOURCES += samples.qrc graphics.qrc
+RESOURCES += samples.qrc
 
 INCLUDEPATH += QtGameEnabler/src
 include(QtGameEnabler/qtgameenabler.pri)
