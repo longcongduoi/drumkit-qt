@@ -7,20 +7,26 @@ DrumEngine::DrumEngine(QObject *parent)
     : QObject(parent)
 {
 
-    m_audioMixer = new AudioMixer(this);
-    m_audioOut = new AudioOut(m_audioMixer, this);
+    m_audioOut = new AudioOut(&m_audioMixer, this);
 
-    for(int i=0; i<1; i++) {
-	AudioBufferPlayInstance* player = new AudioBufferPlayInstance;
- 	player->setDestroyWhenFinished(false);
-	m_players.append(player);
-	m_audioMixer->addAudioSource(player);
-    }
-//     m_audioMixer->setAbsoluteVolume(3.0f / m_players.size());
+#ifdef Q_OS_SYMBIAN
+    m_audioPullTimer.setInterval(5);
+    connect(&m_audioPullTimer, SIGNAL(timeout()), m_audioOut, SLOT(tick()));
+    m_audioPullTimer.start();
+#endif
 
-    m_audioMixer->setAbsoluteVolume(3.0f / 10);
+//     for(int i=0; i<1; i++) {
+// 	AudioBufferPlayInstance* player = new AudioBufferPlayInstance;
+//  	player->setDestroyWhenFinished(false);
+// 	m_players.append(player);
+// 	m_audioMixer->addAudioSource(player);
+//     }
+// //     m_audioMixer->setAbsoluteVolume(3.0f / m_players.size());
 
-      m_cowbell = AudioBuffer::loadWav(":/samples/cowbell.wav", this);
+//     m_audioMixer->setAbsoluteVolume(3.0f / 10);
+    m_audioMixer.setGeneralVolume(0.1f);
+    
+    m_cowbell = AudioBuffer::loadWav(":/samples/cowbell.wav", this);
     m_crash = AudioBuffer::loadWav(":/samples/crash.wav", this);
     m_hihat1 = AudioBuffer::loadWav(":/samples/hihat1.wav", this);
     m_hihat2 = AudioBuffer::loadWav(":/samples/hihat2.wav", this);
@@ -38,6 +44,10 @@ DrumEngine::DrumEngine(QObject *parent)
 
 DrumEngine::~DrumEngine()
 {
+#ifdef Q_OS_SYMBIAN
+    m_audioPullTimer.stop();
+#endif
+
 //     foreach (AudioBufferPlayInstance* player, m_players) {
 // 	m_audioMixer->removeAudioSource(player);
 // 	delete player;
@@ -45,13 +55,13 @@ DrumEngine::~DrumEngine()
 }
 
 void DrumEngine::play(AudioBuffer* buffer) {
-    AudioBufferPlayInstance* inst = buffer->playWithMixer(*m_audioMixer);
+    AudioBufferPlayInstance* inst = buffer->playWithMixer(m_audioMixer);
     if(inst) {
         qDebug() << "isPlaying:" << inst->isPlaying() << "isfinished:" << inst->isFinished();
     } else {
         qDebug() << "Play failed: no instance";
     }
-    qDebug() << "Mixer source count:" << m_audioMixer->audioSourceCount();
+    qDebug() << "Mixer source count:" << m_audioMixer.audioSourceCount();
 
 //     AudioBufferPlayInstance* player = 0;
 //     int i = 0;

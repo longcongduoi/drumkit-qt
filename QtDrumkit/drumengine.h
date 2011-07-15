@@ -2,6 +2,7 @@
 #define DRUMENGINE_H
 
 #include <QObject>
+#include <QTimer>
 
 #include "GEAudioOut.h"
 #include "GEAudioMixer.h"
@@ -34,7 +35,7 @@ private:
     void play(GE::AudioBuffer* buffer);
 
     GE::AudioOut* m_audioOut;
-    GE::AudioMixer* m_audioMixer;
+    GE::AudioMixer m_audioMixer;
     QList<GE::AudioBufferPlayInstance*> m_players;
     GE::AudioBuffer* m_cowbell;
     GE::AudioBuffer* m_crash;
@@ -48,6 +49,10 @@ private:
     GE::AudioBuffer* m_tom1;
     GE::AudioBuffer* m_tom2;
     GE::AudioBuffer* m_tom3;
+
+#ifdef Q_OS_SYMBIAN
+    QTimer m_audioPullTimer; // Used to tick the audio engine
+#endif
 };
 
 #endif // DRUMENGINE_H
