@@ -23,6 +23,20 @@ symbian:TARGET.UID3 = 0xE19608FC
 # CONFIG += mobility
 # MOBILITY +=
 
+symbian {
+   message(Symbian)
+}
+unix:!symbian {
+   maemo5 {
+      error(Maemo5 not supported)
+   } 
+   else {
+      message(Harmattan/Unix desktop)
+      DEFINES += Q_WS_MAEMO_6
+   }
+}
+
+
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp 
 SOURCES += drumengine.cpp
