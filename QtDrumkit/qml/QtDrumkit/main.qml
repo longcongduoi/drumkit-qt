@@ -25,20 +25,31 @@ Item {
     Row {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
+
         Button {
             id: recButton
             image: "gfx/record.png"
             imagePressed: "gfx/record_pressed.png"
             enabled: engine.canRecord && !engine.isPlaying
             toggled: engine.isRecording
+            visible: !engine.isRecording
             onPressed: {
-                if(engine.isRecording) {
-                    engine.stop()
-                } else {
-                    engine.record()
-                }
+                engine.record()
             }
         }
+
+        AnimButton {
+            animation: "gfx/recording.png"
+            imagePressed: "gfx/record_pressed.png"
+            frameCount: 20
+            width: 103
+            height: 103
+            visible: !recButton.visible
+            onPressed: {
+                engine.stop()
+            }
+        }
+
         Button {
             id: playButton
             image: "gfx/play.png"
