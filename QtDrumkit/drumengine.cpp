@@ -51,7 +51,7 @@ void DrumEngine::play(AudioBuffer* buffer) {
     } else {
         qDebug() << "Play failed: no instance";
     }
-    qDebug() << "Mixer source count:" << m_audioMixer->audioSourceCount();
+    //qDebug() << "Mixer source count:" << m_audioMixer->audioSourceCount();
 
 //     AudioBufferPlayInstance* player = 0;
 //     int i = 0;

@@ -1,45 +1,45 @@
 #include <QDebug>
 #include <QtGui/QApplication>
 #include <QDeclarativeContext>
+#include <QGLWidget>
 #include "qmlapplicationviewer.h"
 #include "drumengine.h"
 
+//#include <QGraphicsEllipseItem>
+//#include <QGraphicsScene>
+//#include <QGraphicsView>
 
-#include <QGraphicsEllipseItem>
-#include <QGraphicsScene>
-#include <QGraphicsView>
+//class Item : public QGraphicsItem
+//{
+//public:
+//    Item(DrumEngine& engine) : e(engine) {}
 
-class Item : public QGraphicsItem
-{
-public:
-    Item(DrumEngine& engine) : e(engine) {}
+//    QRectF boundingRect() const
+//    {
+//	qreal penWidth = 1;
+//	return QRectF(-100 - penWidth / 2, -100 - penWidth / 2,
+//		      200 + penWidth, 200 + penWidth);
+//    }
 
-    QRectF boundingRect() const
-    {
-	qreal penWidth = 1;
-	return QRectF(-100 - penWidth / 2, -100 - penWidth / 2,
-		      200 + penWidth, 200 + penWidth);
-    }
-
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-	       QWidget *widget)
-    {
-	painter->drawRoundedRect(-100, -100, 200, 200, 5, 5);
-    }
+//    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+//	       QWidget *widget)
+//    {
+//	painter->drawRoundedRect(-100, -100, 200, 200, 5, 5);
+//    }
 
 
-    void mousePressEvent(QGraphicsSceneMouseEvent * event ) {
-	e.playSnare();
-	event->ignore();
-	qDebug() << "mousePress";
-    }
+//    void mousePressEvent(QGraphicsSceneMouseEvent * event ) {
+//	e.playSnare();
+//	event->ignore();
+//	qDebug() << "mousePress";
+//    }
 
-    void keyPressEvent(QKeyEvent * event ) {
-	e.playCowbell();
-	qDebug() << "keyPress";
-    }
-    DrumEngine& e;
-};
+//    void keyPressEvent(QKeyEvent * event ) {
+//	e.playCowbell();
+//	qDebug() << "keyPress";
+//    }
+//    DrumEngine& e;
+//};
 
 
 int main(int argc, char *argv[])
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 //     context->setContextProperty("screenHeight", screenRect.height());
 
     // For N900 and Harmattan set OpenGL rendering
-#if defined(Q_WS_MAEMO_5) || defined(Q_WS_HARMATTAN)
+#if defined(Q_WS_MAEMO_5) || defined(Q_WS_MAEMO_6)
     QGLFormat fmt = QGLFormat::defaultFormat();
     fmt.setDirectRendering(true);
     fmt.setDoubleBuffer(true);
@@ -78,20 +78,11 @@ int main(int argc, char *argv[])
     viewer.setViewport(glWidget);
 #endif
 
-    viewer.showExpanded();
-
-
-
-//     QGraphicsScene scene;
-//     scene.setSceneRect( -100.0, -100.0, 200.0, 200.0 );
-//     Item* i = new Item(drumEngine);
-//     i->setFlags( QGraphicsItem::ItemIsFocusable );
-//     i->setX(0);
-//     i->setY(0);
-//     scene.addItem(i);
-//     i->grabKeyboard();
-//     QGraphicsView view( &scene );
-//     view.showFullScreen();
+#if defined(Q_WS_MAEMO_6) || defined(Q_OS_SYMBIAN)
+    viewer.showFullScreen();
+#else
+    viewer.show();
+#endif
 
     return app.exec();
 }
