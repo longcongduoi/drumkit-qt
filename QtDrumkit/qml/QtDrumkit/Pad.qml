@@ -1,15 +1,13 @@
 import QtQuick 1.0
 
-import "Drums.js" as Drums
-
 Item {
 
     property string sample
 
     MouseArea {
         id: ma
-        anchors.fill: parent;
-        onClicked: engine.playSample(sample)
+        anchors.fill: parent
+        onPressed: engine.playSample(sample)
     }
 
     Image {

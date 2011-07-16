@@ -6,7 +6,6 @@ Item {
     property bool enabled: true
     property bool toggled: false
     signal pressed
-    signal released
 
     width: childrenRect.width
     height: childrenRect.height

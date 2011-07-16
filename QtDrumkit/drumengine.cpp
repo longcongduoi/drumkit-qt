@@ -14,11 +14,15 @@ DrumEngine::DrumEngine(QObject *parent)
     m_audioOut = new AudioOut(&m_audioMixer, this);
 
     m_audioMixer.setAbsoluteVolume(3.0f / 10);
+
     QStringList samples;
     samples << "cowbell" << "crash" << "hihat1" << "hihat2" 
 	    << "kick" << "ride1" << "ride2" << "snare" 
 	    << "splash" << "tom1" << "tom2" << "tom3";
-    initSamples(samples);
+
+    foreach(QString name, samples) {
+        m_samples[name] = AudioBuffer::loadWav(":/samples/"+name+".wav", this);
+    }
 
 #ifdef Q_OS_SYMBIAN
     m_audioPullTimer.setInterval(5);
@@ -33,13 +37,6 @@ DrumEngine::~DrumEngine()
 #ifdef Q_OS_SYMBIAN
     m_audioPullTimer.stop();
 #endif
-}
-
-void DrumEngine::initSamples(QStringList names) {
-    foreach(QString name, names) {
-	AudioBuffer* buffer = AudioBuffer::loadWav(":/samples/"+name+".wav", this);
-	m_samples[name] = buffer;
-    }
 }
 
 void DrumEngine::play(AudioBuffer* buffer) {
@@ -68,7 +65,7 @@ void DrumEngine::play(AudioBuffer* buffer) {
 
 void DrumEngine::playSample(QString name)
 {
-    qDebug() << "playSample" << name;
+    play(m_samples[name]);
 
     if(m_state == StateRecord) {
 	m_drumTrack.append(qMakePair(QTime::currentTime(), name));
@@ -76,8 +73,7 @@ void DrumEngine::playSample(QString name)
 	    m_drumTrackStartTime = QTime::currentTime();
 	}
     }
-
-    play(m_samples[name]);
+    qDebug() << "playSample" << name;
 }
 
 void DrumEngine::play()

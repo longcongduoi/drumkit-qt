@@ -50,11 +50,9 @@ public slots:
 private:
     enum {
         StateStop = 0,
-
         StatePlayback,
         StateRecord
     } m_state;
-
 
 public:
     bool canPlay();
@@ -67,7 +65,6 @@ private slots:
 
 private:
     void play(GE::AudioBuffer* buffer);
-    void initSamples(QStringList names);
     void updateState();
 
     GE::AudioOut* m_audioOut;
