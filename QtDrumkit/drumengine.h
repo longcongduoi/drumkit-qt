@@ -7,10 +7,7 @@
 #include <QTime>
 #include <QTimer>
 
-#include "GEAudioOut.h"
-#include "GEAudioMixer.h"
-#include "GEAudioBuffer.h"
-#include "GEAudioBufferPlayInstance.h"
+class SamplePlayer;
 
 class DrumEngine : public QObject
 {
@@ -19,21 +16,10 @@ class DrumEngine : public QObject
     explicit DrumEngine(QObject *parent = 0);
     virtual ~DrumEngine();
 
-    Q_PROPERTY(bool canPlay
-	       READ canPlay
-	       NOTIFY canPlayChanged);
-
-    Q_PROPERTY(bool canRecord
-	       READ canRecord
-	       NOTIFY canRecordChanged);
-
-    Q_PROPERTY(bool isPlaying
-	       READ isPlaying
-	       NOTIFY isPlayingChanged);
-
-    Q_PROPERTY(bool isRecording
-	       READ isRecording
-	       NOTIFY isRecordingChanged);
+    Q_PROPERTY(bool canPlay READ canPlay NOTIFY canPlayChanged);
+    Q_PROPERTY(bool canRecord READ canRecord NOTIFY canRecordChanged);
+    Q_PROPERTY(bool isPlaying READ isPlaying NOTIFY isPlayingChanged);
+    Q_PROPERTY(bool isRecording READ isRecording NOTIFY isRecordingChanged);
 signals:
     void isPlayingChanged();
     void isRecordingChanged();
@@ -64,12 +50,7 @@ private slots:
     void playbackTimerEvent();
 
 private:
-    void play(GE::AudioBuffer* buffer);
     void updateState();
-
-    GE::AudioOut* m_audioOut;
-    GE::AudioMixer m_audioMixer;
-    QMap<QString, GE::AudioBuffer*> m_samples;
 
     QList<QPair<QTime, QString> > m_drumTrack;
     QTime m_drumTrackStartTime;
@@ -78,9 +59,7 @@ private:
     QTime m_playbackStartTime;
     int m_playbackPosition;
 
-#ifdef Q_OS_SYMBIAN
-    QTimer m_audioPullTimer; // Used to tick the audio engine
-#endif
+    SamplePlayer* m_samplePlayer;
 };
 
 #endif // DRUMENGINE_H

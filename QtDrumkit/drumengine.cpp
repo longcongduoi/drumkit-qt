@@ -1,6 +1,6 @@
 #include <QtCore/QDebug>
-#include <QStringList>
 #include "drumengine.h"
+#include "sampleplayer.h"
 
 using namespace GE;
 
@@ -11,61 +11,16 @@ DrumEngine::DrumEngine(QObject *parent)
     connect(&m_playbackTimer, SIGNAL(timeout()),
 	    this, SLOT(playbackTimerEvent()));
 
-    m_audioOut = new AudioOut(&m_audioMixer, this);
-
-    m_audioMixer.setAbsoluteVolume(3.0f / 10);
-
-    QStringList samples;
-    samples << "cowbell" << "crash" << "hihat1" << "hihat2" 
-	    << "kick" << "ride1" << "ride2" << "snare" 
-	    << "splash" << "tom1" << "tom2" << "tom3";
-
-    foreach(QString name, samples) {
-        m_samples[name] = AudioBuffer::loadWav(":/samples/"+name+".wav", this);
-    }
-
-#ifdef Q_OS_SYMBIAN
-    m_audioPullTimer.setInterval(5);
-    connect(&m_audioPullTimer, SIGNAL(timeout()), m_audioOut, SLOT(tick()));
-    m_audioPullTimer.start();
-#endif
+    m_samplePlayer = new SamplePlayer(this);
 }
-
 
 DrumEngine::~DrumEngine()
 {
-#ifdef Q_OS_SYMBIAN
-    m_audioPullTimer.stop();
-#endif
-}
-
-void DrumEngine::play(AudioBuffer* buffer) {
-    AudioBufferPlayInstance* inst = buffer->playWithMixer(m_audioMixer);
-    if(inst == 0) {
-        qWarning() << "playWithMixer failed";
-    }
-    //qDebug() << "Mixer source count:" << m_audioMixer->audioSourceCount();
-
-//     AudioBufferPlayInstance* player = 0;
-//     int i = 0;
-//     foreach(AudioBufferPlayInstance* p, m_players) {
-// 	if(!p->isPlaying()) {
-// 	    player = p;
-// 	    break;
-// 	}
-// 	i++;
-//     }
-//     if(player) {
-// 	player->playBuffer(buffer);
-// 	qDebug() << "Player" << i;
-//     } else {
-// 	qDebug() << "No available players";
-//     }
 }
 
 void DrumEngine::playSample(QString name)
 {
-    play(m_samples[name]);
+    m_samplePlayer->playSample(name);
 
     if(m_state == StateRecord) {
 	m_drumTrack.append(qMakePair(QTime::currentTime(), name));

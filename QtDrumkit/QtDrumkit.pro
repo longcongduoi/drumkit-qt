@@ -40,7 +40,9 @@ unix:!symbian {
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp 
 SOURCES += drumengine.cpp
+SOURCES += sampleplayer.cpp
 HEADERS += drumengine.h
+HEADERS += sampleplayer.h
 
 RESOURCES += samples.qrc
 
