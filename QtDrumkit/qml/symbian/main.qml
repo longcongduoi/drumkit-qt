@@ -2,12 +2,11 @@ import QtQuick 1.0
 import DrumEngine 1.0
 
 Item {
-    width: 854
-    height: 480
+    width: 640
+    height: 360
 
     Image {
-        source: "gfx/drumpads.png"
-    
+        source: "gfx/background.png"
     }
 
     DrumEngine {
@@ -42,8 +41,8 @@ Item {
             animation: "gfx/recording.png"
             imagePressed: "gfx/record_pressed.png"
             frameCount: 20
-            width: 103
-            height: 103
+            width: 77
+            height: 77
             visible: !recButton.visible
             onPressed: {
                 engine.stop()
@@ -84,51 +83,51 @@ Item {
     // Top row pads from left to right
     Pad {
         id: pad1
-        x: 148; y: 60
-        width: 180; height: 180
+        x: 148*0.75; y: 60*0.75
+        width: 180*0.75; height: 180*0.75
         sample: "crash"
     }
 
     Pad {
         id: pad2
-        x: 340; y: 118
-        width: 200; height: 200
+        x: 340*0.75; y: 118*0.75
+        width: 200*0.75; height: 200*0.75
         sample: "tom1"
     }
 
     Pad {
         id: pad3
-        x: 550; y: 54
-        width: 180; height: 180
+        x: 550*0.75; y: 54*0.75
+        width: 180*0.75; height: 180*0.75
         sample: "tom2"
     }
 
     // Bottom row
     Pad {
         id: pad4
-        x: 30; y: 240
-        width: 224; height: 224
+        x: 30*0.75; y: 240*0.75
+        width: 224*0.75; height: 224*0.75
         sample: "snare"
     }
 
     Pad {
         id: pad5
-        x: 278; y: 318
-        width: 152; height: 152
+        x: 278*0.75; y: 318*0.75
+        width: 152*0.75; height: 152*0.75
         sample: "hihat1"
     }
 
     Pad {
         id: pad6
-        x: 466; y: 320
-        width: 146; height: 146
+        x: 466*0.75; y: 320*0.75
+        width: 146*0.75; height: 146*0.75
         sample: "ride1"
     }
 
     Pad {
         id: pad7
-        x: 630; y: 234
-        width: 204; height: 204
+        x: 630*0.75; y: 234*0.75
+        width: 204*0.75; height: 204*0.75
         sample: "kick"
     }
 
