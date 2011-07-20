@@ -11,16 +11,17 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    //DrumEngine drumEngine;
 
     qmlRegisterType<DrumEngine>("DrumEngine", 1,0, "DrumEngine");
 
     QmlApplicationViewer viewer;
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockLandscape);
-    viewer.setMainQmlFile(QLatin1String("qml/QtDrumkit/main.qml"));
-//    QDeclarativeContext* ctx = viewer.rootContext();
-//    ctx->setContextProperty("DrumEngine", &drumEngine);
-
+    //viewer.setMainQmlFile(QLatin1String("qml/QtDrumkit/main.qml"));
+#ifdef Q_OS_SYMBIAN
+    viewer.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
+#else
+    viewer.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
+#endif
 
 
 // #if defined(Q_WS_MAEMO_5) || defined(Q_OS_SYMBIAN) || defined(Q_WS_HARMATTAN)

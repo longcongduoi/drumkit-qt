@@ -40,7 +40,7 @@ Item {
         AnimButton {
             animation: "gfx/recording.png"
             imagePressed: "gfx/record_pressed.png"
-            frameCount: 20
+            frameCount: 18
             width: 77
             height: 77
             visible: !recButton.visible

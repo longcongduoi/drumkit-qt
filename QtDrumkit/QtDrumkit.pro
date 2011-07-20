@@ -1,7 +1,17 @@
 # Add more folders to ship with the application, here
-folder_01.source = qml/QtDrumkit
-folder_01.target = qml
-DEPLOYMENTFOLDERS = folder_01
+
+symbian {
+   platform_qml.source = qml/symbian
+   platform_qml.target = qml
+   QML_IMPORT_PATH = qml/symbian
+} else {
+   platform_qml.source = qml/harmattan
+   platform_qml.target = qml
+   QML_IMPORT_PATH = qml/harmattan
+}
+
+DEPLOYMENTFOLDERS = platform_qml
+
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -56,6 +66,13 @@ RESOURCES += samples.qrc
 
 INCLUDEPATH += QtGameEnabler/src
 include(QtGameEnabler/qtgameenabler.pri)
+
+# Put generated temp-files under tmp
+MOC_DIR = tmp
+OBJECTS_DIR = tmp
+RCC_DIR = tmp
+UI_DIR = tmp
+
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
