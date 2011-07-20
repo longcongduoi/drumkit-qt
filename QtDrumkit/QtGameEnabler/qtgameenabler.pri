@@ -9,7 +9,8 @@ SOURCES += \
     $$PWD/src/GEAudioBufferPlayInstance.cpp \
     $$PWD/src/GEAudioMixer.cpp \
     $$PWD/src/GEAudioOut.cpp \
-    $$PWD/src/GEInterfaces.cpp \
+    $$PWD/src/GEInterfaces.cpp
+
 
 HEADERS  += \
     $$PWD/src/GEAudioBuffer.h \
@@ -18,4 +19,3 @@ HEADERS  += \
     $$PWD/src/GEAudioOut.h \
     $$PWD/src/GEInterfaces.h \
     $$PWD/src/trace.h \
-

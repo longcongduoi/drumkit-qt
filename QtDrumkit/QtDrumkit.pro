@@ -26,6 +26,8 @@ symbian:TARGET.UID3 = 0xE19608FC
 symbian {
    message(Symbian)
 }
+
+
 unix:!symbian {
    maemo5 {
       error(Maemo5 not supported)
@@ -34,6 +36,13 @@ unix:!symbian {
       message(Harmattan/Unix desktop)
       DEFINES += Q_WS_MAEMO_6
    }
+
+   CONFIG += link_pkgconfig
+   PKGCONFIG += libpulse
+   DEFINES += PULSE
+
+   SOURCES += audiooutpulse.cpp
+   HEADERS += sampleplayer.h
 }
 
 
@@ -42,7 +51,6 @@ SOURCES += main.cpp
 SOURCES += drumengine.cpp
 SOURCES += sampleplayer.cpp
 HEADERS += drumengine.h
-HEADERS += sampleplayer.h
 
 RESOURCES += samples.qrc
 

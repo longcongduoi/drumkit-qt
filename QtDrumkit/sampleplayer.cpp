@@ -2,12 +2,19 @@
 #include <QStringList>
 #include "sampleplayer.h"
 
+#ifndef Q_OS_SYMBIAN
+#include "audiooutpulse.h"
+#endif
+
 using namespace GE;
 
 SamplePlayer::SamplePlayer(QObject *parent) 
-    : QObject(parent)
+    : QThread(parent)
 {
+#ifndef PULSE
     m_audioOut = new AudioOut(&m_audioMixer, this);
+#endif
+
     m_audioMixer.setAbsoluteVolume(3.0f / 10);
 
     QStringList samples;
@@ -24,6 +31,10 @@ SamplePlayer::SamplePlayer(QObject *parent)
     connect(&m_audioPullTimer, SIGNAL(timeout()), m_audioOut, SLOT(tick()));
     m_audioPullTimer.start();
 #endif
+
+#ifdef PULSE
+    start();
+#endif
 }
 
 
@@ -31,6 +42,11 @@ SamplePlayer::~SamplePlayer()
 {
 #ifdef Q_OS_SYMBIAN
     m_audioPullTimer.stop();
+#endif
+
+#ifdef PULSE
+    pulseOutDeinit();
+    wait();
 #endif
 }
 
@@ -47,4 +63,13 @@ void SamplePlayer::playSample(QString name)
 {
     play(m_samples[name]);
 }
+
+
+void SamplePlayer::run()
+{
+#ifdef PULSE
+    pulseOutInitialize(&m_audioMixer);
+#endif
+}
+
 
