@@ -52,7 +52,7 @@ unix:!symbian {
    DEFINES += PULSE
 
    SOURCES += audiooutpulse.cpp
-   HEADERS += sampleplayer.h
+   HEADERS += audiooutpulse.h
 }
 
 
@@ -61,6 +61,7 @@ SOURCES += main.cpp
 SOURCES += drumengine.cpp
 SOURCES += sampleplayer.cpp
 HEADERS += drumengine.h
+HEADERS += sampleplayer.h
 
 RESOURCES += samples.qrc
 
