@@ -6,6 +6,7 @@ Item {
     property bool enabled: true
     property bool toggled: false
     signal pressed
+    signal released
 
     width: childrenRect.width
     height: childrenRect.height
@@ -20,8 +21,7 @@ Item {
         id: ma
         anchors.fill: img
         enabled: parent.enabled
-        onReleased: {
-            parent.pressed()
-        }
+        onPressed: parent.pressed()
+        onReleased: parent.released()
     }
 }

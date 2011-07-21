@@ -19,6 +19,7 @@ Item {
         anchors.left:  parent.left
         image: "gfx/info.png"
         imagePressed: "gfx/info_pressed.png"
+        onPressed: info.show = true
     }
 
     Row {
@@ -32,9 +33,7 @@ Item {
             enabled: engine.canRecord && !engine.isPlaying
             toggled: engine.isRecording
             visible: !engine.isRecording
-            onPressed: {
-                engine.record()
-            }
+            onReleased: engine.record()
         }
 
         AnimButton {
@@ -44,9 +43,7 @@ Item {
             width: 77
             height: 77
             visible: !recButton.visible
-            onPressed: {
-                engine.stop()
-            }
+            onReleased: engine.stop()
         }
 
         Button {
@@ -56,18 +53,14 @@ Item {
             enabled: engine.canPlay && !engine.isRecording
             toggled: engine.isPlaying
             visible: !engine.isPlaying
-            onPressed: {
-                engine.play()
-            }
+            onReleased: engine.play()
         }
         Button {
             id: stopButton
             image: "gfx/stop.png"
             imagePressed: "gfx/stop_pressed.png"
             visible: !playButton.visible
-            onPressed: {
-                engine.stop()
-            }
+            onReleased: engine.stop()
         }
     }
 
@@ -77,7 +70,7 @@ Item {
         anchors.right:  parent.right
         image: "gfx/exit.png"
         imagePressed: "gfx/exit_pressed.png"
-        onPressed: Qt.quit()
+        onReleased: Qt.quit()
     }
 
     // Top row pads from left to right
@@ -131,4 +124,17 @@ Item {
         sample: "kick"
     }
 
+    // Instrument selector is last so it will get mouse events first when shown.
+    InstrumentSelector {
+        id: selector
+        anchors.fill:  parent
+        radius: parent.height * 0.4
+        show: false
+        onSelected: show = false
+    }
+
+    Info {
+        id: info
+        anchors.fill: parent
+    }
 }
