@@ -7,7 +7,7 @@ Item {
     property int frameCount
     property int currentFrame: 0
     clip: true
-    signal pressed
+    signal released
 
     Timer {
         interval: 50
@@ -35,8 +35,6 @@ Item {
         id: ma
         anchors.fill: parent
         enabled: parent.enabled
-        onReleased: {
-            parent.pressed()
-        }
+        onReleased: parent.released()
     }
 }

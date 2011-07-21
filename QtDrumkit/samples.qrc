@@ -1,6 +1,5 @@
-<!DOCTYPE RCC>
-<RCC version="1.0">
- <qresource prefix="/">
+<RCC>
+    <qresource prefix="/">
         <file>samples/cowbell.wav</file>
         <file>samples/crash.wav</file>
         <file>samples/hihat1.wav</file>
@@ -13,6 +12,5 @@
         <file>samples/tom1.wav</file>
         <file>samples/tom2.wav</file>
         <file>samples/tom3.wav</file>
-        <file>samples/chirp.wav</file>
     </qresource>
 </RCC>
