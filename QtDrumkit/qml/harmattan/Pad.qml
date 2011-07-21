@@ -11,6 +11,8 @@ Item {
         onPressed: engine.playSample(sample)
         onPressAndHold: {
             selectMode = true
+            selector.originX = parent.x + parent.width/2
+            selector.originY = parent.y + parent.height/2
             selector.show = true
         }
     }

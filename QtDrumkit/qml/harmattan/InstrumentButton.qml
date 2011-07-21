@@ -4,7 +4,7 @@ Item {
     property string sample
     property string image
     property string imagePressed
-    signal clicked
+    signal pressed
 
     id: container
 
@@ -12,16 +12,16 @@ Item {
         anchors.centerIn: parent
         id: img
         source: container.focus ? parent.imagePressed : parent.image
-
+        scale: 2
     }
 
     MouseArea {
         id: ma
         anchors.fill: img
         enabled: parent.enabled
-        onClicked: {
+        onPressed: {
             container.focus = true
-            parent.clicked()
+            parent.pressed()
             engine.playSample(sample)
         }
     }
