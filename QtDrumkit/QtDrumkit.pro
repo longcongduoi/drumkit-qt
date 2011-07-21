@@ -33,18 +33,27 @@ symbian:TARGET.UID3 = 0xE19608FC
 # CONFIG += mobility
 # MOBILITY +=
 
-symbian {
-   message(Symbian)
-}
 
+# Harmattan check trickery
+exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"):!contains(MEEGO_EDITION,harmattan): {
+  MEEGO_VERSION_MAJOR     = 1
+  MEEGO_VERSION_MINOR     = 2
+  MEEGO_VERSION_PATCH     = 0
+  MEEGO_EDITION           = harmattan
+  DEFINES += MEEGO_EDITION_HARMATTAN
+  CONFIG += maemo6
+}
 
 unix:!symbian {
    maemo5 {
       error(Maemo5 not supported)
    } 
-   else {
-      message(Harmattan/Unix desktop)
-      DEFINES += Q_WS_MAEMO_6
+
+   maemo6 {
+     message(Harmattan)
+     DEFINES += Q_WS_MAEMO_6
+   } else {
+     message(Desktop)
    }
 
    CONFIG += link_pkgconfig
@@ -55,6 +64,9 @@ unix:!symbian {
    HEADERS += audiooutpulse.h
 }
 
+symbian {
+   message(Symbian)
+}
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp 
