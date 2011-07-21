@@ -136,5 +136,6 @@ Item {
     Info {
         id: info
         anchors.fill: parent
+	show: true
     }
 }
