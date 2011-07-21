@@ -7,7 +7,6 @@ Item {
 
     Image {
         source: "gfx/background.png"
-    
     }
 
     DrumEngine {
@@ -20,6 +19,7 @@ Item {
         anchors.left:  parent.left
         image: "gfx/info.png"
         imagePressed: "gfx/info_pressed.png"
+        onPressed: info.show = true
     }
 
     Row {
@@ -130,9 +130,11 @@ Item {
         anchors.fill:  parent
         radius: parent.height * 0.4
         show: false
-        onSelected: {
-            show = false
-            console.log(selector.selectedSample)
-        }
+        onSelected: show = false
+    }
+
+    Info {
+        id: info
+        anchors.fill: parent
     }
 }
