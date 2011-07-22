@@ -32,11 +32,10 @@ Item {
     }
 
     Button {
-        image: "gfx/selector/tap.png"
-        imagePressed: "gfx/selector/tap.png"
+        image: "gfx/selector/close.png"
+        imagePressed: "gfx/selector/close.png"
         anchors.centerIn: parent
         onPressed: parent.selected()
-        scale: 2
     }
 
     FocusScope {

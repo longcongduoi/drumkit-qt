@@ -12,7 +12,6 @@ Item {
         anchors.centerIn: parent
         id: img
         source: container.focus ? parent.imagePressed : parent.image
-        scale: 2
     }
 
     MouseArea {
