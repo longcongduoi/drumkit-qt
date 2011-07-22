@@ -173,8 +173,10 @@ void AudioOut::tick()
     if (samplesToWrite > m_sendBufferSize)
         samplesToWrite = m_sendBufferSize;
 
+    memset(m_sendBuffer, 0, m_sendBufferSize);
     int mixedSamples = m_source->pullAudio(m_sendBuffer, samplesToWrite);
-    m_outTarget->write((char*)m_sendBuffer, mixedSamples * 2);
+//    m_outTarget->write((char*)m_sendBuffer, mixedSamples * 2);
+    m_outTarget->write((char*)m_sendBuffer, samplesToWrite * 2);
 }
 
 
