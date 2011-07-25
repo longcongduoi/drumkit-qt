@@ -10,11 +10,15 @@ Item {
         anchors.fill: parent
         onPressed: engine.playSample(sample)
         onPressAndHold: {
-            selectMode = true
-            // Selector should originate from this pad.
-            selector.originX = parent.x + parent.width/2
-            selector.originY = parent.y + parent.height/2
-            selector.show = true
+            // Disable instrument selection if engine
+            // is doing playback or recording.
+            if(!engine.isPlaying && !engine.isRecording) {
+               selectMode = true
+               // Selector should originate from this pad coordinates.
+               selector.originX = parent.x + parent.width/2
+               selector.originY = parent.y + parent.height/2
+               selector.show = true
+            }
         }
     }
 
@@ -27,6 +31,7 @@ Item {
     Connections {
         target: selector
         onSelected: {
+            // Check if thes selector signal was targeted to this pad.
             if(selectMode && selector.selectedSample) {
                 console.log("Changing " + sample + " to " + selector.selectedSample)
                 sample = selector.selectedSample
