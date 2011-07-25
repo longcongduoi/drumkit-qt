@@ -11,6 +11,7 @@ Item {
         onPressed: engine.playSample(sample)
         onPressAndHold: {
             selectMode = true
+            // Selector should originate from this pad.
             selector.originX = parent.x + parent.width/2
             selector.originY = parent.y + parent.height/2
             selector.show = true
@@ -26,7 +27,7 @@ Item {
     Connections {
         target: selector
         onSelected: {
-            if(selectMode) {
+            if(selectMode && selector.selectedSample) {
                 console.log("Changing " + sample + " to " + selector.selectedSample)
                 sample = selector.selectedSample
                 selectMode = false

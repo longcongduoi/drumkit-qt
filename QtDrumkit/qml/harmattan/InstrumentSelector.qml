@@ -40,9 +40,14 @@ Item {
 
     FocusScope {
         id: buttons
+
+        property int centerX
+        property int centerY
+        transform: [ Translate { x:buttons.centerX; y:buttons.centerY }, 
+                     Rotation  { id:rotation; origin.x:buttons.centerX; origin.y:buttons.centerY} ]
+
         InstrumentButton {
             id: button1
-            x: originX; y: originY
             image: "gfx/selector/cowbell.png"
             imagePressed: "gfx/selector/cowbell_highlight.png"
             sample: "cowbell"
@@ -50,7 +55,6 @@ Item {
         }
         InstrumentButton {
             id: button2
-            x: originX; y: originY
             image: "gfx/selector/crash.png"
             imagePressed: "gfx/selector/crash_highlight.png"
             sample: "crash"
@@ -58,7 +62,6 @@ Item {
         }
         InstrumentButton {
             id: button3
-            x: originX; y: originY
             image: "gfx/selector/hihat1.png"
             imagePressed: "gfx/selector/hihat1_highlight.png"
             sample: "hihat1"
@@ -66,7 +69,6 @@ Item {
         }
         InstrumentButton {
             id: button4
-            x: originX; y: originY
             image: "gfx/selector/hihat2.png"
             imagePressed: "gfx/selector/hihat2_highlight.png"
             sample: "hihat2"
@@ -74,7 +76,6 @@ Item {
         }
         InstrumentButton {
             id: button5
-            x: originX; y: originY
             image: "gfx/selector/kick.png"
             imagePressed: "gfx/selector/kick_highlight.png"
             sample: "kick"
@@ -82,7 +83,6 @@ Item {
         }
         InstrumentButton {
             id: button6
-            x: originX; y: originY
             image: "gfx/selector/ride1.png"
             imagePressed: "gfx/selector/ride1_highlight.png"
             sample: "ride1"
@@ -90,7 +90,6 @@ Item {
         }
         InstrumentButton {
             id: button7
-            x: originX; y: originY
             image: "gfx/selector/ride2.png"
             imagePressed: "gfx/selector/ride2_highlight.png"
             sample: "ride2"
@@ -98,7 +97,6 @@ Item {
         }
         InstrumentButton {
             id: button8
-            x: originX; y: originY
             image: "gfx/selector/snare.png"
             imagePressed: "gfx/selector/snare_highlight.png"
             sample: "snare"
@@ -106,7 +104,6 @@ Item {
         }
         InstrumentButton {
             id: button9
-            x: originX; y: originY
             image: "gfx/selector/splash.png"
             imagePressed: "gfx/selector/splash_highlight.png"
             sample: "splash"
@@ -114,7 +111,6 @@ Item {
         }
         InstrumentButton {
             id: button10
-            x: originX; y: originY
             image: "gfx/selector/tom1.png"
             imagePressed: "gfx/selector/tom1_highlight.png"
             sample: "tom1"
@@ -122,7 +118,6 @@ Item {
         }
         InstrumentButton {
             id: button11
-            x: originX; y: originY
             image: "gfx/selector/tom2.png"
             imagePressed: "gfx/selector/tom2_highlight.png"
             sample: "tom2"
@@ -130,7 +125,6 @@ Item {
         }
         InstrumentButton {
             id: button12
-            x: originX; y: originY
             image: "gfx/selector/tom3.png"
             imagePressed: "gfx/selector/tom3_highlight.png"
             sample: "tom3"
@@ -142,21 +136,25 @@ Item {
     states: [
         State {
             name: "start"
-            PropertyChanges { target: button1; x: originX; y: originY }
-            PropertyChanges { target: button2; x: originX; y: originY }
-            PropertyChanges { target: button3; x: originX; y: originY }
-            PropertyChanges { target: button4; x: originX; y: originY }
-            PropertyChanges { target: button5; x: originX; y: originY }
-            PropertyChanges { target: button6; x: originX; y: originY }
-            PropertyChanges { target: button7; x: originX; y: originY }
-            PropertyChanges { target: button8; x: originX; y: originY }
-            PropertyChanges { target: button9; x: originX; y: originY }
-            PropertyChanges { target: button10; x: originX; y: originY }
-            PropertyChanges { target: button11; x: originX; y: originY }
-            PropertyChanges { target: button12; x: originX; y: originY }
+            PropertyChanges { target: buttons; centerX: originX; centerY: originY }
+            PropertyChanges { target: rotation; angle: 180 }
+            PropertyChanges { target: button1; x: 0; y: 0 }
+            PropertyChanges { target: button2; x: 0; y: 0 }
+            PropertyChanges { target: button3; x: 0; y: 0 }
+            PropertyChanges { target: button4; x: 0; y: 0 }
+            PropertyChanges { target: button5; x: 0; y: 0 }
+            PropertyChanges { target: button6; x: 0; y: 0 }
+            PropertyChanges { target: button7; x: 0; y: 0 }
+            PropertyChanges { target: button8; x: 0; y: 0 }
+            PropertyChanges { target: button9; x: 0; y: 0 }
+            PropertyChanges { target: button10; x: 0; y: 0 }
+            PropertyChanges { target: button11; x: 0; y: 0 }
+            PropertyChanges { target: button12; x: 0; y: 0 }
         },
         State {
             name: "end"
+            PropertyChanges { target: buttons; centerX: container.width/2; centerY: container.height/2 }
+            PropertyChanges { target: rotation; angle: 0 }
             PropertyChanges { target: button1; x: xPos(360/12*0); y: yPos(360/12*0) }
             PropertyChanges { target: button2; x: xPos(360/12*1); y: yPos(360/12*1) }
             PropertyChanges { target: button3; x: xPos(360/12*2); y: yPos(360/12*2) }
@@ -173,6 +171,8 @@ Item {
     ]
 
     transitions: Transition {
+        PropertyAnimation { duration: 700; target: buttons; properties: "centerX,centerY"; easing {type: Easing.OutQuad} }
+        PropertyAnimation { duration: 700; target: rotation; properties: "angle"; easing {type: Easing.OutQuad} }
         PropertyAnimation { duration: 700; target: button1; properties: "x,y"; easing {type: Easing.OutQuad} }
         PropertyAnimation { duration: 700; target: button2; properties: "x,y"; easing {type: Easing.OutQuad} }
         PropertyAnimation { duration: 700; target: button3; properties: "x,y"; easing {type: Easing.OutQuad} }
@@ -188,9 +188,9 @@ Item {
     }
 
     function xPos(angle) {
-        return width/2 + Math.cos(2*Math.PI/360*angle) * radius
+        return Math.cos(2*Math.PI/360*angle) * radius
     }
     function yPos(angle) {
-        return height/2 + Math.sin(2*Math.PI/360*angle) * radius
+        return Math.sin(2*Math.PI/360*angle) * radius
     }
 }
