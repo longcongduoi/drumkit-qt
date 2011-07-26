@@ -62,23 +62,23 @@ Item {
         }
         InstrumentButton {
             id: button3
+            image: "gfx/selector/splash.png"
+            imagePressed: "gfx/selector/splash_highlight.png"
+            sample: "splash"
+            onPressed: container.selectedSample = sample
+        }
+        InstrumentButton {
+            id: button4
             image: "gfx/selector/hihat1.png"
             imagePressed: "gfx/selector/hihat1_highlight.png"
             sample: "hihat1"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
-            id: button4
+            id: button5
             image: "gfx/selector/hihat2.png"
             imagePressed: "gfx/selector/hihat2_highlight.png"
             sample: "hihat2"
-            onPressed: container.selectedSample = sample
-        }
-        InstrumentButton {
-            id: button5
-            image: "gfx/selector/kick.png"
-            imagePressed: "gfx/selector/kick_highlight.png"
-            sample: "kick"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
@@ -97,16 +97,16 @@ Item {
         }
         InstrumentButton {
             id: button8
-            image: "gfx/selector/snare.png"
-            imagePressed: "gfx/selector/snare_highlight.png"
-            sample: "snare"
+            image: "gfx/selector/kick.png"
+            imagePressed: "gfx/selector/kick_highlight.png"
+            sample: "kick"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button9
-            image: "gfx/selector/splash.png"
-            imagePressed: "gfx/selector/splash_highlight.png"
-            sample: "splash"
+            image: "gfx/selector/snare.png"
+            imagePressed: "gfx/selector/snare_highlight.png"
+            sample: "snare"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
