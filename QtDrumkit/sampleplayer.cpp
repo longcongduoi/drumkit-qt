@@ -17,6 +17,7 @@ SamplePlayer::SamplePlayer(QObject *parent)
 
     m_audioMixer.setAbsoluteVolume(3.0f / 10);
 
+    // Prepare the sample map and generate preloaded buffers.
     QStringList samples;
     samples << "cowbell" << "crash" << "hihat1" << "hihat2" 
 	    << "kick" << "ride1" << "ride2" << "snare" 
@@ -27,12 +28,14 @@ SamplePlayer::SamplePlayer(QObject *parent)
     }
 
 #ifdef Q_OS_SYMBIAN
+    // On Symbian, a timer is required to drive the audio output.
     m_audioPullTimer.setInterval(5);
     connect(&m_audioPullTimer, SIGNAL(timeout()), m_audioOut, SLOT(tick()));
     m_audioPullTimer.start();
 #endif
 
 #ifdef PULSE
+    // If using Pulse Audio, start the thread.
     start();
 #endif
 }
@@ -45,6 +48,7 @@ SamplePlayer::~SamplePlayer()
 #endif
 
 #ifdef PULSE
+    // Stop Pulse Audio wait for the thread to exit.
     pulseOutDeinit();
     wait();
 #endif
@@ -52,6 +56,7 @@ SamplePlayer::~SamplePlayer()
 
 void SamplePlayer::play(AudioBuffer* buffer) 
 {
+    // Play the AudioBuffer using mixer.
     Q_ASSERT(buffer);
     AudioBufferPlayInstance* inst = buffer->playWithMixer(m_audioMixer);   
     if(inst == 0) {
@@ -61,6 +66,7 @@ void SamplePlayer::play(AudioBuffer* buffer)
 
 void SamplePlayer::playSample(QString name)
 {
+    // Fetch the buffer corresponding to the name and play it.
     play(m_samples[name]);
 }
 
@@ -68,6 +74,8 @@ void SamplePlayer::playSample(QString name)
 void SamplePlayer::run()
 {
 #ifdef PULSE
+    // The thread initializes Pulse Audio and sits in a loop processing
+    // audio.
     pulseOutInitialize(&m_audioMixer);
 #endif
 }

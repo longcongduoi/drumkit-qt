@@ -1,3 +1,6 @@
+// This code is largely based on SampleAsyncPlayback example
+// http://www.pulseaudio.org/wiki/SampleAsyncPlayback
+
 #include <stdio.h>
 #include <pulse/pulseaudio.h>
 #include "GEInterfaces.h"
@@ -35,6 +38,8 @@ static void pa_state_cb(pa_context *c, void *userdata) {
     }
 }
 
+// This callback is called when more data is required for playback.
+// Data is retrieved from GE::AudioSource, which is the mixer.
 static void stream_request_cb(pa_stream *s, size_t length, void *userdata) {
 
     AudioSource* source = (AudioSource*)userdata;
@@ -44,11 +49,13 @@ static void stream_request_cb(pa_stream *s, size_t length, void *userdata) {
     }
     memset(buffer, 0, length*sizeof(short));
     source->pullAudio(buffer, length/2);
-    // Write all the requested (empty) bytes even though source might not 
-    // have provided anything.
+
+    // Write all the requested bytes. If sample has ended, the
+    // rest are empty bytes.
     pa_stream_write(s, buffer, length, NULL, 0LL, PA_SEEK_RELATIVE);
 }
 
+// Initializes Pulse Audio and starts the mainloop.
 int pulseOutInitialize(AudioSource* audioSource) {
     pa_mainloop *pa_ml;
     pa_mainloop_api *pa_mlapi;
@@ -84,9 +91,11 @@ int pulseOutInitialize(AudioSource* audioSource) {
 	goto exit;
     }
 
+    // Sample format:
     ss.rate = 22050;
     ss.channels = 2;
     ss.format = PA_SAMPLE_S16LE;
+
     playstream = pa_stream_new(pa_ctx, "Playback", &ss, NULL);
     if (!playstream) {
 	printf("pa_stream_new failed\n");
@@ -114,9 +123,7 @@ int pulseOutInitialize(AudioSource* audioSource) {
 
     retval = 0; // everything ok
 
-    // Iterate the main loop and go again.  The second argument is whether
-    // or not the iteration should block until something is ready to be
-    // done.  Set it to zero for non-blocking.
+    // Iterate the main loop until exit flag is set.
     while (!exitFlag) {
 	pa_mainloop_iterate(pa_ml, 1, NULL);
     }
@@ -130,7 +137,7 @@ exit:
     return retval;
 }
 
-
+// Deinitialize by setting the flag that stops the mainloop.
 void pulseOutDeinit() {
     exitFlag = true;
 }
