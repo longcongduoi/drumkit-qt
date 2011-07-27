@@ -1,5 +1,4 @@
 # Add more folders to ship with the application, here
-
 common_qml.source = qml/common
 common_qml.target = qml
 
@@ -58,10 +57,10 @@ unix:!symbian {
      message(Desktop)
    }
 
+   # Use Pulse Audio on Linux
    CONFIG += link_pkgconfig
    PKGCONFIG += libpulse
    DEFINES += PULSE
-
    SOURCES += audiooutpulse.cpp
    HEADERS += audiooutpulse.h
 }
@@ -87,7 +86,6 @@ MOC_DIR = tmp
 OBJECTS_DIR = tmp
 RCC_DIR = tmp
 UI_DIR = tmp
-
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)

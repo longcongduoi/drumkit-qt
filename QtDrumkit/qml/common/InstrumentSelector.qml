@@ -1,15 +1,34 @@
 import QtQuick 1.0
 
+// Instrument selector component.
+// Arranges InstrumentButtons on a circle and performs transitions.
 Item {
-    property bool show: false
-    property int radius: 100
-    property string selectedSample
-    signal selected
+    id: container
 
+    // Set to true to show.
+    property bool show: false
+
+    // Radius of the instrument selection circle
+    property int radius: 100
+
+    // The selected sample is stored here.
+    property string selectedSample
+
+    // The starting coordinate for the selector. This is set from each Pad.
     property int originX: width/2
     property int originY: height/2
 
-    id: container
+    // Emitted when a sample has been selected.
+    signal selected
+
+    // Helper functions to calculate (x,y) for a given angle and radius.
+    function xPos(angle) {
+        return Math.cos(2*Math.PI/360*angle) * radius
+    }
+
+    function yPos(angle) {
+        return Math.sin(2*Math.PI/360*angle) * radius
+    }
 
     state: show ? "end" : "start"
     opacity: show ? 1.0 : 0
@@ -18,19 +37,20 @@ Item {
         PropertyAnimation { duration: 700; easing {type: Easing.OutQuad} }
     }
 
-    // Dim background
+    // Dim background.
     Rectangle {
         anchors.fill: parent
         color: "black"
         opacity: 0.5
     }
 
-    // Prevent mouse events
+    // Block mouse events.
     MouseArea
     {
         anchors.fill: parent
     }
 
+    // Close button is in the middle.
     Button {
         image: "selector/close.png"
         imagePressed: "selector/close.png"
@@ -38,13 +58,19 @@ Item {
         onPressed: parent.selected()
     }
 
+    // InstrumenButtons within a FocusScope so that only one gets
+    // a selection highlight.
     FocusScope {
         id: buttons
 
+        // The center of the InstrumentButton circle is animated.
+        // The buttons are positioned around the origo. Translation
+        // and rotation around the circle center are required.
+
         property int centerX
         property int centerY
-        transform: [ Translate { x:buttons.centerX; y:buttons.centerY }, 
-                     Rotation  { id:rotation; origin.x:buttons.centerX; origin.y:buttons.centerY} ]
+        transform: [ Translate { x: buttons.centerX; y: buttons.centerY },
+                     Rotation  { id: rotation; origin.x: buttons.centerX; origin.y: buttons.centerY} ]
 
         InstrumentButton {
             id: button1
@@ -133,6 +159,10 @@ Item {
 
     }
 
+    // Initial state:
+    // Center of the button circle is at specified originX and originY.
+    // All buttons are in the middle of the circle at (0,0).
+    // Initial rotation is at 180 degrees.
     states: [
         State {
             name: "start"
@@ -151,6 +181,9 @@ Item {
             PropertyChanges { target: button11; x: 0; y: 0 }
             PropertyChanges { target: button12; x: 0; y: 0 }
         },
+        // End state:
+        // Center of the button circle is at the middle of the screen.
+        // All buttons are positioned on the circle, divided equally.
         State {
             name: "end"
             PropertyChanges { target: buttons; centerX: container.width/2; centerY: container.height/2 }
@@ -185,12 +218,5 @@ Item {
         PropertyAnimation { duration: 700; target: button10; properties: "x,y"; easing {type: Easing.OutQuad} }
         PropertyAnimation { duration: 700; target: button11; properties: "x,y"; easing {type: Easing.OutQuad} }
         PropertyAnimation { duration: 700; target: button12; properties: "x,y"; easing {type: Easing.OutQuad} }
-    }
-
-    function xPos(angle) {
-        return Math.cos(2*Math.PI/360*angle) * radius
-    }
-    function yPos(angle) {
-        return Math.sin(2*Math.PI/360*angle) * radius
     }
 }

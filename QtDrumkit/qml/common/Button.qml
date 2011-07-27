@@ -1,10 +1,12 @@
 import QtQuick 1.0
 
+// A togglable button that can be enabled or disabled.
 Item {
     property string image;
     property string imagePressed
     property bool enabled: true
     property bool toggled: false
+
     signal pressed
     signal released
 

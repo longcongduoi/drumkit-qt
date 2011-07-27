@@ -3,18 +3,24 @@ import DrumEngine 1.0
 
 import "../common"
 
+// Main screen for Symbian^3 devices with 640x360 resolution, 
+// eg. N8, E7.
 Item {
+    // This property is used to find the graphics in all components.
+    property string gfxPath:  "../symbian/gfx/"
+
     width: 640
     height: 360
 
-    property string gfxPath:  "../symbian/gfx/"
+    // DrumEngine instance for sample playing and drum track recording and playback.
+    DrumEngine {
+        id: engine
+    }
+
+    // UI components
 
     Image {
         source: gfxPath + "background.png"
-    }
-
-    DrumEngine {
-        id: engine
     }
 
     Button {
@@ -128,10 +134,9 @@ Item {
         sample: "kick"
     }
 
-    // Instrument selector is last so it will get mouse events first when shown.
     InstrumentSelector {
         id: selector
-        anchors.fill:  parent
+        anchors.fill: parent
         radius: parent.height * 0.4
         show: false
         onSelected: show = false

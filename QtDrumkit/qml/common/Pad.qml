@@ -1,8 +1,14 @@
 import QtQuick 1.0
 
+// Instrument pad component.
+// Plays a specified sample when clicked.
+// Opens the Instrument Selector on long tap, and reconfigures
+// the sample to be played accordingly.
 Item {
-
+    // Sample to be played by this pad.
     property string sample
+
+    // Set to true when this pad has opened the Instrument Selector.
     property bool selectMode: false
 
     MouseArea {
@@ -14,7 +20,8 @@ Item {
             // is doing playback or recording.
             if(!engine.isPlaying && !engine.isRecording) {
                selectMode = true
-               // Selector should originate from this pad coordinates.
+               // Show the Instrument Selector.
+               // Set the origin coordinates according to this pad.
                selector.originX = parent.x + parent.width/2
                selector.originY = parent.y + parent.height/2
                selector.show = true
@@ -28,6 +35,7 @@ Item {
         visible: ma.pressed
     }
 
+    // Instrument Selector signal connection to all pad instances.
     Connections {
         target: selector
         onSelected: {

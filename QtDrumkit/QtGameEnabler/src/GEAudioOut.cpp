@@ -175,7 +175,12 @@ void AudioOut::tick()
 
     memset(m_sendBuffer, 0, m_sendBufferSize);
     int mixedSamples = m_source->pullAudio(m_sendBuffer, samplesToWrite);
-//    m_outTarget->write((char*)m_sendBuffer, mixedSamples * 2);
+
+    // Original:
+    // m_outTarget->write((char*)m_sendBuffer, mixedSamples * 2);
+
+    // Consistent latency is achieved by always sending the required
+    // amount of bytes.
     m_outTarget->write((char*)m_sendBuffer, samplesToWrite * 2);
 }
 

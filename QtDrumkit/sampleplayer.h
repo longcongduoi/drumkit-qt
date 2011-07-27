@@ -10,6 +10,7 @@
 #include "GEAudioBuffer.h"
 #include "GEAudioBufferPlayInstance.h"
 
+// A class for playing samples.
 class SamplePlayer : public QThread
 {
     Q_OBJECT;

@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     QmlApplicationViewer viewer;
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockLandscape);
 
+    // Select the main.qml according to platform.
 #ifdef Q_OS_SYMBIAN
     viewer.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
 #else

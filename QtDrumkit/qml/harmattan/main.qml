@@ -3,18 +3,23 @@ import DrumEngine 1.0
 
 import "../common"
 
+// Main screen for Harmattan devices (Nokia N9, N950).
 Item {
+    // This property is used to find the graphics in all components.
+    property string gfxPath:  "../harmattan/gfx/"
+
     width: 854
     height: 480
 
-    property string gfxPath:  "../harmattan/gfx/"
+    // DrumEngine instance for sample playing and drum track recording and playback.
+    DrumEngine {
+        id: engine
+    }
+
+    // UI components
 
     Image {
         source: gfxPath + "background.png"
-    }
-
-    DrumEngine {
-        id: engine
     }
 
     Button {
@@ -128,10 +133,9 @@ Item {
         sample: "kick"
     }
 
-    // Instrument selector is last so it will get mouse events first when shown.
     InstrumentSelector {
         id: selector
-        anchors.fill:  parent
+        anchors.fill: parent
         radius: parent.height * 0.4
         show: false
         onSelected: show = false
@@ -140,6 +144,7 @@ Item {
     Info {
         id: info
         anchors.fill: parent
+        textPointSize: 18
         show: true
     }
 }

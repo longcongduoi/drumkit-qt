@@ -1,7 +1,6 @@
 CONFIG += mobility
 MOBILITY += multimedia
 
-#INCLUDEPATH += ./src 
 DEFINES -= GE_DEBUG
 
 SOURCES += \

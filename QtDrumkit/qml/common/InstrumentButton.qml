@@ -1,12 +1,16 @@
 import QtQuick 1.0
 
+// Button for selecting instruments.
+// When focused, displays a highlight.
+// When clicked, plays the corresponding instrument sample.
 Item {
+    id: container
+
     property string sample
     property string image
     property string imagePressed
-    signal pressed
 
-    id: container
+    signal pressed
 
     Image {
         anchors.centerIn: parent
@@ -17,7 +21,6 @@ Item {
     MouseArea {
         id: ma
         anchors.fill: img
-        enabled: parent.enabled
         onPressed: {
             container.focus = true
             parent.pressed()

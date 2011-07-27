@@ -1,5 +1,6 @@
 import QtQuick 1.0
 
+// Info text component.
 Item {
     property bool show: false
     property alias textPointSize: text.font.pointSize
@@ -10,7 +11,7 @@ Item {
         PropertyAnimation { duration: 700; easing {type: Easing.OutQuad} }
     }
 
-    // Dim background
+    // Dim background while showing info.
     Rectangle {
         anchors.fill: parent
         color: "black"
