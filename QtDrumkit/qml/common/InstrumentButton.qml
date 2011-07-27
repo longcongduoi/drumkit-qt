@@ -11,7 +11,7 @@ Item {
     Image {
         anchors.centerIn: parent
         id: img
-        source: container.focus ? parent.imagePressed : parent.image
+        source: container.focus ? gfxPath + parent.imagePressed : gfxPath + parent.image
     }
 
     MouseArea {

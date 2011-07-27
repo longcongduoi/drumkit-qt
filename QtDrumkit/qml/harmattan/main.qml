@@ -1,12 +1,16 @@
 import QtQuick 1.0
 import DrumEngine 1.0
 
+import "../common"
+
 Item {
     width: 854
     height: 480
 
+    property string gfxPath:  "../harmattan/gfx/"
+
     Image {
-        source: "gfx/background.png"
+        source: gfxPath + "background.png"
     }
 
     DrumEngine {
@@ -17,8 +21,8 @@ Item {
         id: infoButton
         anchors.top:  parent.top
         anchors.left:  parent.left
-        image: "gfx/info.png"
-        imagePressed: "gfx/info_pressed.png"
+        image: "info.png"
+        imagePressed: "info_pressed.png"
         onPressed: info.show = true
     }
 
@@ -28,8 +32,8 @@ Item {
 
         Button {
             id: recButton
-            image: "gfx/record.png"
-            imagePressed: "gfx/record_pressed.png"
+            image: "record.png"
+            imagePressed: "record_pressed.png"
             enabled: engine.canRecord && !engine.isPlaying
             toggled: engine.isRecording
             visible: !engine.isRecording
@@ -37,8 +41,8 @@ Item {
         }
 
         AnimButton {
-            animation: "gfx/recording.png"
-            imagePressed: "gfx/record_pressed.png"
+            animation: "recording.png"
+            imagePressed: "record_pressed.png"
             frameCount: 20
             width: 103
             height: 103
@@ -48,8 +52,8 @@ Item {
 
         Button {
             id: playButton
-            image: "gfx/play.png"
-            imagePressed: "gfx/play_pressed.png"
+            image: "play.png"
+            imagePressed: "play_pressed.png"
             enabled: engine.canPlay && !engine.isRecording
             toggled: engine.isPlaying
             visible: !engine.isPlaying
@@ -57,8 +61,8 @@ Item {
         }
         Button {
             id: stopButton
-            image: "gfx/stop.png"
-            imagePressed: "gfx/stop_pressed.png"
+            image: "stop.png"
+            imagePressed: "stop_pressed.png"
             visible: !playButton.visible
             onReleased: engine.stop()
         }
@@ -68,8 +72,8 @@ Item {
         id: exitButton
         anchors.top:  parent.top
         anchors.right:  parent.right
-        image: "gfx/exit.png"
-        imagePressed: "gfx/exit_pressed.png"
+        image: "exit.png"
+        imagePressed: "exit_pressed.png"
         onReleased: Qt.quit()
     }
 

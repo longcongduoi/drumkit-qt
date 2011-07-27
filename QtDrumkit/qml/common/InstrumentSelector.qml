@@ -32,8 +32,8 @@ Item {
     }
 
     Button {
-        image: "gfx/selector/close.png"
-        imagePressed: "gfx/selector/close.png"
+        image: "selector/close.png"
+        imagePressed: "selector/close.png"
         anchors.centerIn: parent
         onPressed: parent.selected()
     }
@@ -48,85 +48,85 @@ Item {
 
         InstrumentButton {
             id: button1
-            image: "gfx/selector/cowbell.png"
-            imagePressed: "gfx/selector/cowbell_highlight.png"
+            image: "selector/cowbell.png"
+            imagePressed: "selector/cowbell_highlight.png"
             sample: "cowbell"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button2
-            image: "gfx/selector/crash.png"
-            imagePressed: "gfx/selector/crash_highlight.png"
+            image: "selector/crash.png"
+            imagePressed: "selector/crash_highlight.png"
             sample: "crash"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button3
-            image: "gfx/selector/splash.png"
-            imagePressed: "gfx/selector/splash_highlight.png"
+            image: "selector/splash.png"
+            imagePressed: "selector/splash_highlight.png"
             sample: "splash"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button4
-            image: "gfx/selector/hihat1.png"
-            imagePressed: "gfx/selector/hihat1_highlight.png"
+            image: "selector/hihat1.png"
+            imagePressed: "selector/hihat1_highlight.png"
             sample: "hihat1"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button5
-            image: "gfx/selector/hihat2.png"
-            imagePressed: "gfx/selector/hihat2_highlight.png"
+            image: "selector/hihat2.png"
+            imagePressed: "selector/hihat2_highlight.png"
             sample: "hihat2"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button6
-            image: "gfx/selector/ride1.png"
-            imagePressed: "gfx/selector/ride1_highlight.png"
+            image: "selector/ride1.png"
+            imagePressed: "selector/ride1_highlight.png"
             sample: "ride1"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button7
-            image: "gfx/selector/ride2.png"
-            imagePressed: "gfx/selector/ride2_highlight.png"
+            image: "selector/ride2.png"
+            imagePressed: "selector/ride2_highlight.png"
             sample: "ride2"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button8
-            image: "gfx/selector/kick.png"
-            imagePressed: "gfx/selector/kick_highlight.png"
+            image: "selector/kick.png"
+            imagePressed: "selector/kick_highlight.png"
             sample: "kick"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button9
-            image: "gfx/selector/snare.png"
-            imagePressed: "gfx/selector/snare_highlight.png"
+            image: "selector/snare.png"
+            imagePressed: "selector/snare_highlight.png"
             sample: "snare"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button10
-            image: "gfx/selector/tom1.png"
-            imagePressed: "gfx/selector/tom1_highlight.png"
+            image: "selector/tom1.png"
+            imagePressed: "selector/tom1_highlight.png"
             sample: "tom1"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button11
-            image: "gfx/selector/tom2.png"
-            imagePressed: "gfx/selector/tom2_highlight.png"
+            image: "selector/tom2.png"
+            imagePressed: "selector/tom2_highlight.png"
             sample: "tom2"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
             id: button12
-            image: "gfx/selector/tom3.png"
-            imagePressed: "gfx/selector/tom3_highlight.png"
+            image: "selector/tom3.png"
+            imagePressed: "selector/tom3_highlight.png"
             sample: "tom3"
             onPressed: container.selectedSample = sample
         }

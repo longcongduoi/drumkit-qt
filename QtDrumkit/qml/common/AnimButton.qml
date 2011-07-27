@@ -20,14 +20,14 @@ Item {
     }
 
     Image {
-        source: animation
+        source: gfxPath + animation
         y: -parent.height * parent.currentFrame
         x: 0
         visible: !ma.pressed
     }
 
     Image {
-        source: imagePressed
+        source: gfxPath + imagePressed
         visible: ma.pressed
     }
 

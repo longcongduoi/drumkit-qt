@@ -23,13 +23,11 @@ int main(int argc, char *argv[])
 #endif
 
     // Enable OpenGL rendering
-//#if defined(Q_WS_MAEMO_5) || defined(Q_WS_MAEMO_6)
     QGLFormat fmt = QGLFormat::defaultFormat();
     fmt.setDirectRendering(true);
     fmt.setDoubleBuffer(true);
     QGLWidget *glWidget = new QGLWidget(fmt);
     viewer.setViewport(glWidget);
-//#endif
 
 #if defined(Q_WS_MAEMO_6) || defined(Q_OS_SYMBIAN)
     viewer.showFullScreen();

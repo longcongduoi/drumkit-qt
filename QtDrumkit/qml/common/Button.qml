@@ -14,7 +14,7 @@ Item {
 
     Image {
         id: img
-        source: parent.toggled || ma.pressed ? parent.imagePressed : parent.image
+        source: parent.toggled || ma.pressed ? gfxPath + imagePressed : gfxPath + image
     }
 
     MouseArea {

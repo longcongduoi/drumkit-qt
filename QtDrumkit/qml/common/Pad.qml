@@ -23,7 +23,7 @@ Item {
     }
 
     Image {
-        source: "gfx/splash.png"
+        source: gfxPath + "splash.png"
         anchors.centerIn: parent
         visible: ma.pressed
     }

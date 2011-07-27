@@ -1,5 +1,8 @@
 # Add more folders to ship with the application, here
 
+common_qml.source = qml/common
+common_qml.target = qml
+
 symbian {
    platform_qml.source = qml/symbian
    platform_qml.target = qml
@@ -10,11 +13,10 @@ symbian {
    QML_IMPORT_PATH = qml/harmattan
 }
 
-DEPLOYMENTFOLDERS = platform_qml
-
+DEPLOYMENTFOLDERS = platform_qml common_qml
 
 # Additional import path used to resolve QML modules in Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = qml/common
 
 symbian:TARGET.UID3 = 0xE19608FC
 
