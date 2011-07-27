@@ -10,7 +10,7 @@ Item {
     property string gfxPath:  "../symbian/gfx/"
 
     Image {
-        source: "gfx/background.png"
+        source: gfxPath + "background.png"
     }
 
     DrumEngine {
@@ -140,6 +140,7 @@ Item {
     Info {
         id: info
         anchors.fill: parent
+        textPointSize: 8
 	show: true
     }
 }

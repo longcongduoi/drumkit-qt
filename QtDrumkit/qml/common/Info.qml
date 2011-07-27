@@ -2,6 +2,7 @@ import QtQuick 1.0
 
 Item {
     property bool show: false
+    property alias textPointSize: text.font.pointSize
 
     opacity: show ? 1.0 : 0
 
@@ -22,6 +23,7 @@ Item {
     }
 
     Text {
+        id: text
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         color: "white"
