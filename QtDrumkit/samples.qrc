@@ -12,5 +12,6 @@
         <file>samples/tom1.wav</file>
         <file>samples/tom2.wav</file>
         <file>samples/tom3.wav</file>
+        <file>samples/china.wav</file>
     </qresource>
 </RCC>

@@ -21,7 +21,7 @@ SamplePlayer::SamplePlayer(QObject *parent)
     QStringList samples;
     samples << "cowbell" << "crash" << "hihat1" << "hihat2" 
 	    << "kick" << "ride1" << "ride2" << "snare" 
-	    << "splash" << "tom1" << "tom2" << "tom3";
+            << "splash" << "tom1" << "tom2" << "tom3" << "china";
 
     foreach(QString name, samples) {
         m_samples[name] = AudioBuffer::loadWav(":/samples/"+name+".wav", this);
