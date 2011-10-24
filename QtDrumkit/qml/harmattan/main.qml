@@ -18,9 +18,57 @@ Item {
 
     // UI components
 
-    Image {
-        source: gfxPath + "background.png"
+    Flipable {
+        id: flipable
+        anchors.fill:  parent
+
+        property bool flipped: false
+
+        front: Pads2d {}
+        back: Pads3d {
+            // Mirror the back side so that after flipping the orientation ends up straight.
+            transform: Rotation {
+                origin.x: flipable.width/2
+                origin.y: flipable.height/2
+                axis.x: 0; axis.y: 1; axis.z: 0
+                angle: 180
+            }
+        }
+
+        transform: Rotation {
+            id: rotation
+            origin.x: flipable.width/2
+            origin.y: flipable.height/2
+            axis.x: 0; axis.y: 1; axis.z: 0     // set axis.y to 1 to rotate around y-axis
+            angle: 0    // the default angle
+        }
+
+        states: State {
+            PropertyChanges { target: rotation; angle: 180 }
+            when: flipable.flipped
+        }
+
+        transitions: Transition {
+            PropertyAnimation { target: rotation; property: "angle"; duration: 1000; easing.type: Easing.OutBack }
+        }
     }
+
+
+    InstrumentSelector {
+        id: selector
+        anchors.fill: parent
+        radius: parent.height * 0.4
+        show: false
+        onSelected: show = false
+    }
+
+    Info {
+        id: info
+        anchors.fill: parent
+        textPointSize: 18
+        show: true
+    }
+
 
     Button {
         id: infoButton
@@ -30,6 +78,16 @@ Item {
         imagePressed: "info_pressed.png"
         onPressed: info.show = true
     }
+
+    Button {
+        id: padButton
+        anchors.top:  infoButton.bottom
+        anchors.left:  parent.left
+        image: flipable.flipped ? "pads.png" : "drumset.png"
+        imagePressed: flipable.flipped ? "pads_pressed.png" : "drumset_pressed.png"
+        onPressed: flipable.flipped = !flipable.flipped
+    }
+
 
     Row {
         anchors.top: parent.top
@@ -82,69 +140,15 @@ Item {
         onReleased: Qt.quit()
     }
 
-    // Top row pads from left to right
-    Pad {
-        id: pad1
-        x: 148; y: 60
-        width: 180; height: 180
-        sample: "crash"
-    }
+//    states: [
+//        State {
+//            name: "2d"
+//            PropertyChanges { target: myRect; color: "red" }
+//        },
+//        State {
+//            name: "3d"
+//            PropertyChanges { target: myRect; color: "red" }
+//        }
+//    ]
 
-    Pad {
-        id: pad2
-        x: 340; y: 118
-        width: 200; height: 200
-        sample: "tom1"
-    }
-
-    Pad {
-        id: pad3
-        x: 550; y: 54
-        width: 180; height: 180
-        sample: "tom2"
-    }
-
-    // Bottom row
-    Pad {
-        id: pad4
-        x: 30; y: 240
-        width: 224; height: 224
-        sample: "snare"
-    }
-
-    Pad {
-        id: pad5
-        x: 278; y: 318
-        width: 152; height: 152
-        sample: "hihat1"
-    }
-
-    Pad {
-        id: pad6
-        x: 466; y: 320
-        width: 146; height: 146
-        sample: "ride1"
-    }
-
-    Pad {
-        id: pad7
-        x: 630; y: 234
-        width: 204; height: 204
-        sample: "kick"
-    }
-
-    InstrumentSelector {
-        id: selector
-        anchors.fill: parent
-        radius: parent.height * 0.4
-        show: false
-        onSelected: show = false
-    }
-
-    Info {
-        id: info
-        anchors.fill: parent
-        textPointSize: 18
-        show: true
-    }
 }

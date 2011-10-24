@@ -11,10 +11,15 @@ Item {
     // Set to true when this pad has opened the Instrument Selector.
     property bool selectMode: false
 
+    signal clicked
+
     MouseArea {
         id: ma
         anchors.fill: parent
-        onPressed: engine.playSample(sample)
+        onPressed: {
+            parent.clicked()
+            engine.playSample(sample)
+        }
         onPressAndHold: {
             // Disable instrument selection if engine
             // is doing playback or recording.
