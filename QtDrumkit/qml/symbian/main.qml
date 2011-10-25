@@ -92,11 +92,17 @@ Item {
         AnimButton {
             animation: "recording.png"
             imagePressed: "record_pressed.png"
-            frameCount: 20
-            width: 103
-            height: 103
+            frameCount: 18
+            width: 77
+            height: 77
             visible: !recButton.visible
             onReleased: engine.stop()
+        }
+
+        // Some padding
+        Item {
+            height: 1
+            width: 60*0.75
         }
 
         Button {
