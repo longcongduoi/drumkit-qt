@@ -22,7 +22,7 @@ public slots:
 
     // Plays a sample, where name is one of:
     // cowbell, crash, hihat1, hihat2, kick, ride1, ride2, snare,
-    // splash, tom1, tom2, tom3
+    // splash, tom1, tom2, tom3, china.
     void playSample(QString name);
 
 private:
