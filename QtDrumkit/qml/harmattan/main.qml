@@ -39,8 +39,8 @@ Item {
             id: rotation
             origin.x: flipable.width/2
             origin.y: flipable.height/2
-            axis.x: 0; axis.y: 1; axis.z: 0     // set axis.y to 1 to rotate around y-axis
-            angle: 0    // the default angle
+            axis.x: 0; axis.y: 1; axis.z: 0
+            angle: 0
         }
 
         states: State {
@@ -139,16 +139,5 @@ Item {
         imagePressed: "exit_pressed.png"
         onReleased: Qt.quit()
     }
-
-//    states: [
-//        State {
-//            name: "2d"
-//            PropertyChanges { target: myRect; color: "red" }
-//        },
-//        State {
-//            name: "3d"
-//            PropertyChanges { target: myRect; color: "red" }
-//        }
-//    ]
 
 }
