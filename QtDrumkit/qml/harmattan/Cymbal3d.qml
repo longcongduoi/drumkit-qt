@@ -11,7 +11,7 @@ Item {
     property real targetAngle: 20
     property real rotateX: 0
     property real rotateY: 0
-    property real rotateZ: 1
+    property real rotateZ: 0
     property string sourceImage: gfxPath+"3d/china.png"
     property string sample: "crash"
 
