@@ -74,9 +74,9 @@ Item {
 
         InstrumentButton {
             id: button1
-            image: "selector/cowbell.png"
-            imagePressed: "selector/cowbell_highlight.png"
-            sample: "cowbell"
+            image: "selector/china.png"
+            imagePressed: "selector/china_highlight.png"
+            sample: "china"
             onPressed: container.selectedSample = sample
         }
         InstrumentButton {
@@ -156,6 +156,13 @@ Item {
             sample: "tom3"
             onPressed: container.selectedSample = sample
         }
+        InstrumentButton {
+            id: button13
+            image: "selector/cowbell.png"
+            imagePressed: "selector/cowbell_highlight.png"
+            sample: "cowbell"
+            onPressed: container.selectedSample = sample
+        }
 
     }
 
@@ -180,6 +187,7 @@ Item {
             PropertyChanges { target: button10; x: 0; y: 0 }
             PropertyChanges { target: button11; x: 0; y: 0 }
             PropertyChanges { target: button12; x: 0; y: 0 }
+            PropertyChanges { target: button13; x: 0; y: 0 }
         },
         // End state:
         // Center of the button circle is at the middle of the screen.
@@ -188,18 +196,19 @@ Item {
             name: "end"
             PropertyChanges { target: buttons; centerX: container.width/2; centerY: container.height/2 }
             PropertyChanges { target: rotation; angle: 0 }
-            PropertyChanges { target: button1; x: xPos(360/12*0); y: yPos(360/12*0) }
-            PropertyChanges { target: button2; x: xPos(360/12*1); y: yPos(360/12*1) }
-            PropertyChanges { target: button3; x: xPos(360/12*2); y: yPos(360/12*2) }
-            PropertyChanges { target: button4; x: xPos(360/12*3); y: yPos(360/12*3) }
-            PropertyChanges { target: button5; x: xPos(360/12*4); y: yPos(360/12*4) }
-            PropertyChanges { target: button6; x: xPos(360/12*5); y: yPos(360/12*5) }
-            PropertyChanges { target: button7; x: xPos(360/12*6); y: yPos(360/12*6) }
-            PropertyChanges { target: button8; x: xPos(360/12*7); y: yPos(360/12*7) }
-            PropertyChanges { target: button9; x: xPos(360/12*8); y: yPos(360/12*8) }
-            PropertyChanges { target: button10; x: xPos(360/12*9); y: yPos(360/12*9) }
-            PropertyChanges { target: button11; x: xPos(360/12*10); y: yPos(360/12*10) }
-            PropertyChanges { target: button12; x: xPos(360/12*11); y: yPos(360/12*11) }
+            PropertyChanges { target: button1; x: xPos(360/13*0); y: yPos(360/13*0) }
+            PropertyChanges { target: button2; x: xPos(360/13*1); y: yPos(360/13*1) }
+            PropertyChanges { target: button3; x: xPos(360/13*2); y: yPos(360/13*2) }
+            PropertyChanges { target: button4; x: xPos(360/13*3); y: yPos(360/13*3) }
+            PropertyChanges { target: button5; x: xPos(360/13*4); y: yPos(360/13*4) }
+            PropertyChanges { target: button6; x: xPos(360/13*5); y: yPos(360/13*5) }
+            PropertyChanges { target: button7; x: xPos(360/13*6); y: yPos(360/13*6) }
+            PropertyChanges { target: button8; x: xPos(360/13*7); y: yPos(360/13*7) }
+            PropertyChanges { target: button9; x: xPos(360/13*8); y: yPos(360/13*8) }
+            PropertyChanges { target: button10; x: xPos(360/13*9); y: yPos(360/13*9) }
+            PropertyChanges { target: button11; x: xPos(360/13*10); y: yPos(360/13*10) }
+            PropertyChanges { target: button12; x: xPos(360/13*11); y: yPos(360/13*11) }
+            PropertyChanges { target: button13; x: xPos(360/13*12); y: yPos(360/13*12) }
         }
     ]
 
@@ -218,5 +227,6 @@ Item {
         PropertyAnimation { duration: 700; target: button10; properties: "x,y"; easing {type: Easing.OutQuad} }
         PropertyAnimation { duration: 700; target: button11; properties: "x,y"; easing {type: Easing.OutQuad} }
         PropertyAnimation { duration: 700; target: button12; properties: "x,y"; easing {type: Easing.OutQuad} }
+        PropertyAnimation { duration: 700; target: button13; properties: "x,y"; easing {type: Easing.OutQuad} }
     }
 }
