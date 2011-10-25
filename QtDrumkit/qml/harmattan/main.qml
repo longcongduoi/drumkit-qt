@@ -97,6 +97,12 @@ Item {
             onReleased: engine.stop()
         }
 
+        // Padding between buttons
+        Item {
+            height: 1
+            width: 60
+        }
+
         Button {
             id: playButton
             image: "play.png"
@@ -106,6 +112,7 @@ Item {
             visible: !engine.isPlaying
             onReleased: engine.play()
         }
+
         Button {
             id: stopButton
             image: "stop.png"
