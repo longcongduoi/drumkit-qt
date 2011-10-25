@@ -121,7 +121,6 @@ Item {
         sample: "hihat2"
     }
 
-
     Cymbal3d {
         x: 614
         y: 350
@@ -131,8 +130,6 @@ Item {
         sourceImage: gfxPath+"3d/hihatclosed.png"
         sample: "hihat1"
     }
-
-
 
     Image {
         source: gfxPath + "3d/locks.png"

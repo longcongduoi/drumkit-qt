@@ -139,6 +139,4 @@ Item {
         textPointSize: 18
         show: true
     }
-
-
 }

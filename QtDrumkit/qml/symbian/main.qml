@@ -138,7 +138,7 @@ Item {
     Info {
         id: info
         anchors.fill: parent
-        textPointSize: 18
+        textPointSize: 8
         show: true
     }
 
