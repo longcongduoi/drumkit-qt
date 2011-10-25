@@ -17,6 +17,8 @@ DEPLOYMENTFOLDERS = platform_qml common_qml
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH = qml/common
 
+VERSION = 0.5
+
 symbian:TARGET.UID3 = 0xE19608FC
 
 # Smart Installer package's UID
