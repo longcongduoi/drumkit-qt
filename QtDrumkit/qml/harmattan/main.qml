@@ -54,22 +54,6 @@ Item {
     }
 
 
-    InstrumentSelector {
-        id: selector
-        anchors.fill: parent
-        radius: parent.height * 0.4
-        show: false
-        onSelected: show = false
-    }
-
-    Info {
-        id: info
-        anchors.fill: parent
-        textPointSize: 18
-        show: true
-    }
-
-
     Button {
         id: infoButton
         anchors.top:  parent.top
@@ -139,5 +123,22 @@ Item {
         imagePressed: "exit_pressed.png"
         onReleased: Qt.quit()
     }
+
+
+    InstrumentSelector {
+        id: selector
+        anchors.fill: parent
+        radius: parent.height * 0.4
+        show: false
+        onSelected: show = false
+    }
+
+    Info {
+        id: info
+        anchors.fill: parent
+        textPointSize: 18
+        show: true
+    }
+
 
 }
