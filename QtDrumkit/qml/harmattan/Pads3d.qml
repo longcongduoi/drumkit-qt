@@ -31,11 +31,31 @@ Item {
     Cymbal3d {
         x: 330
         y: 60
-        initialAngle: 40
+        initialAngle: 30
         targetAngle: 0
         rotateX: 1
         sourceImage: gfxPath+"3d/splash.png"
         sample: "splash"
+    }
+
+    Cymbal3d {
+        x: 480
+        y: 50
+        initialAngle: 0
+        targetAngle: -6
+        rotateZ: 1
+        sourceImage: gfxPath+"3d/ride2.png"
+        sample: "ride2"
+    }
+
+    Cymbal3d {
+        x: 565
+        y: 115
+        initialAngle: 0
+        targetAngle: -6
+        rotateZ: 1
+        sourceImage: gfxPath+"3d/ride1.png"
+        sample: "ride1"
     }
 
     Cymbal3d {
