@@ -4,16 +4,13 @@ import "../common"
 Item {
     id: cymbal
 
-    x: 135
-    y: 40
-
     property real initialAngle: 0
-    property real targetAngle: 20
+    property real targetAngle: 0
     property real rotateX: 0
     property real rotateY: 0
     property real rotateZ: 0
-    property string sourceImage: gfxPath+"3d/china.png"
-    property string sample: "crash"
+    property string sourceImage
+    property string sample
 
     function hit() {
         if(anim.running) {

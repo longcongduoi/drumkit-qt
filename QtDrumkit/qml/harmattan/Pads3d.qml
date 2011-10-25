@@ -8,6 +8,49 @@ Item {
         source: gfxPath + "3d/background.png"
     }
 
+    Pad3d {
+        x: 230
+        y: 150
+        sourceImage: gfxPath+"3d/tom1.png"
+        sample: "tom1"
+    }
+
+    Pad3d {
+        x: 365
+        y: 140
+        sourceImage: gfxPath+"3d/tom2.png"
+        sample: "tom2"
+    }
+
+    Pad3d {
+        x: 500
+        y: 240
+        sourceImage: gfxPath+"3d/tom3.png"
+        sample: "tom3"
+    }
+
+    Pad3d {
+        x: 10
+        y: 240
+        sourceImage: gfxPath+"3d/kick.png"
+        sample: "kick"
+    }
+
+    Pad3d {
+        x: 230
+        y: 300
+        sourceImage: gfxPath+"3d/snare.png"
+        sample: "snare"
+    }
+
+    Pad3d {
+        x: 430
+        y: 355
+        sourceImage: gfxPath+"3d/cowbell.png"
+        sample: "cowbell"
+    }
+
+
     Cymbal3d {
         x: 135
         y: 40
@@ -88,6 +131,7 @@ Item {
         sourceImage: gfxPath+"3d/hihatclosed.png"
         sample: "hihat1"
     }
+
 
 
     Image {
