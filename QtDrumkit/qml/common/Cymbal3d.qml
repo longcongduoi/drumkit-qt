@@ -29,8 +29,8 @@ Item {
         origin.y: img.y + img.height/2
         axis.x: cymbal.rotateX
         axis.y: cymbal.rotateY
-        axis.z: cymbal.rotateZ     // set axis.y to 1 to rotate around y-axis
-        angle: cymbal.initialAngle    // the default angle
+        axis.z: cymbal.rotateZ
+        angle: cymbal.initialAngle
     }
 
     SequentialAnimation {
@@ -55,6 +55,7 @@ Item {
     Pad {
         anchors.fill: img
         sample: parent.sample
+        showSplash: false
         onClicked: parent.hit()
     }
 }
