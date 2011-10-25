@@ -1,3 +1,4 @@
+
 import QtQuick 1.0
 import DrumEngine 1.0
 
@@ -19,9 +20,41 @@ Item {
 
     // UI components
 
-    Image {
-        source: gfxPath + "background.png"
+    Flipable {
+        id: flipable
+        anchors.fill:  parent
+
+        property bool flipped: false
+
+        front: Pads2d {}
+        back: Pads3d {
+            // Mirror the back side so that after flipping the orientation ends up straight.
+            transform: Rotation {
+                origin.x: flipable.width/2
+                origin.y: flipable.height/2
+                axis.x: 0; axis.y: 1; axis.z: 0
+                angle: 180
+            }
+        }
+
+        transform: Rotation {
+            id: rotation
+            origin.x: flipable.width/2
+            origin.y: flipable.height/2
+            axis.x: 0; axis.y: 1; axis.z: 0
+            angle: 0
+        }
+
+        states: State {
+            PropertyChanges { target: rotation; angle: 180 }
+            when: flipable.flipped
+        }
+
+        transitions: Transition {
+            PropertyAnimation { target: rotation; property: "angle"; duration: 1000; easing.type: Easing.OutBack }
+        }
     }
+
 
     Button {
         id: infoButton
@@ -31,6 +64,16 @@ Item {
         imagePressed: "info_pressed.png"
         onPressed: info.show = true
     }
+
+    Button {
+        id: padButton
+        anchors.top:  infoButton.bottom
+        anchors.left:  parent.left
+        image: flipable.flipped ? "pads.png" : "drumset.png"
+        imagePressed: flipable.flipped ? "pads_pressed.png" : "drumset_pressed.png"
+        onPressed: flipable.flipped = !flipable.flipped
+    }
+
 
     Row {
         anchors.top: parent.top
@@ -49,9 +92,9 @@ Item {
         AnimButton {
             animation: "recording.png"
             imagePressed: "record_pressed.png"
-            frameCount: 18
-            width: 77
-            height: 77
+            frameCount: 20
+            width: 103
+            height: 103
             visible: !recButton.visible
             onReleased: engine.stop()
         }
@@ -83,56 +126,6 @@ Item {
         onReleased: Qt.quit()
     }
 
-    // Top row pads from left to right
-    Pad {
-        id: pad1
-        x: 148*0.75; y: 60*0.75
-        width: 180*0.75; height: 180*0.75
-        sample: "crash"
-    }
-
-    Pad {
-        id: pad2
-        x: 340*0.75; y: 118*0.75
-        width: 200*0.75; height: 200*0.75
-        sample: "tom1"
-    }
-
-    Pad {
-        id: pad3
-        x: 550*0.75; y: 54*0.75
-        width: 180*0.75; height: 180*0.75
-        sample: "tom2"
-    }
-
-    // Bottom row
-    Pad {
-        id: pad4
-        x: 30*0.75; y: 240*0.75
-        width: 224*0.75; height: 224*0.75
-        sample: "snare"
-    }
-
-    Pad {
-        id: pad5
-        x: 278*0.75; y: 318*0.75
-        width: 152*0.75; height: 152*0.75
-        sample: "hihat1"
-    }
-
-    Pad {
-        id: pad6
-        x: 466*0.75; y: 320*0.75
-        width: 146*0.75; height: 146*0.75
-        sample: "ride1"
-    }
-
-    Pad {
-        id: pad7
-        x: 630*0.75; y: 234*0.75
-        width: 204*0.75; height: 204*0.75
-        sample: "kick"
-    }
 
     InstrumentSelector {
         id: selector
@@ -145,7 +138,10 @@ Item {
     Info {
         id: info
         anchors.fill: parent
-        textPointSize: 8
-	show: true
+        textPointSize: 18
+        show: true
     }
+
+
 }
+
