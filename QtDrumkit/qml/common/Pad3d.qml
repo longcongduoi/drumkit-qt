@@ -8,7 +8,7 @@ Item {
     Image {
         id: img
         source: parent.sourceImage
-        scale: pad.pressed ? 0.97 : 1.0
+        scale: pad.pressed ? 0.965 : 1.0
     }
 
     Pad {
