@@ -20,6 +20,8 @@ Item {
 
     // UI components
 
+    // This flipable contains the 2d and 3d drum pad views.
+
     Flipable {
         id: flipable
         anchors.fill:  parent
@@ -55,6 +57,7 @@ Item {
         }
     }
 
+    // Buttons
 
     Button {
         id: infoButton
@@ -74,54 +77,56 @@ Item {
         onPressed: flipable.flipped = !flipable.flipped
     }
 
+    // Play and recording related buttons are placed according to the background
+    // graphics, which is either the 2d or the 3d one.
 
-    Row {
-        anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        Button {
-            id: recButton
-            image: "record.png"
-            imagePressed: "record_pressed.png"
-            enabled: engine.canRecord && !engine.isPlaying
-            toggled: engine.isRecording
-            visible: !engine.isRecording
-            onReleased: engine.record()
-        }
-
-        AnimButton {
-            animation: "recording.png"
-            imagePressed: "record_pressed.png"
-            frameCount: 18
-            width: 77
-            height: 77
-            visible: !recButton.visible
-            onReleased: engine.stop()
-        }
-
-        // Some padding
-        Item {
-            height: 1
-            width: 60*0.75
-        }
-
-        Button {
-            id: playButton
-            image: "play.png"
-            imagePressed: "play_pressed.png"
-            enabled: engine.canPlay && !engine.isRecording
-            toggled: engine.isPlaying
-            visible: !engine.isPlaying
-            onReleased: engine.play()
-        }
-        Button {
-            id: stopButton
-            image: "stop.png"
-            imagePressed: "stop_pressed.png"
-            visible: !playButton.visible
-            onReleased: engine.stop()
-        }
+    Button {
+        anchors.top:  parent.top
+        x: flipable.flipped ? 270*0.75 : 310*0.75
+        id: recButton
+        image: "record.png"
+        imagePressed: "record_pressed.png"
+        enabled: engine.canRecord && !engine.isPlaying
+        toggled: engine.isRecording
+        visible: !engine.isRecording
+        onReleased: engine.record()
+        Behavior on x { SpringAnimation { spring: 2; damping: 0.2 } }
     }
+
+    AnimButton {
+        anchors.centerIn: recButton
+        animation: "recording.png"
+        imagePressed: "record_pressed.png"
+        frameCount: 18
+        width: 77
+        height: 77
+        visible: !recButton.visible
+        onReleased: engine.stop()
+        Behavior on x { SpringAnimation { spring: 2; damping: 0.2 } }
+    }
+
+    Button {
+        anchors.top:  parent.top
+        x: flipable.flipped ? 445*0.75 : 460*0.75
+        id: playButton
+        image: "play.png"
+        imagePressed: "play_pressed.png"
+        enabled: engine.canPlay && !engine.isRecording
+        toggled: engine.isPlaying
+        visible: !engine.isPlaying
+        onReleased: engine.play()
+        Behavior on x { SpringAnimation { spring: 2; damping: 0.2 } }
+    }
+    Button {
+        id: stopButton
+        anchors.centerIn:  playButton
+        image: "stop.png"
+        imagePressed: "stop_pressed.png"
+        visible: !playButton.visible
+        onReleased: engine.stop()
+        Behavior on x { SpringAnimation { spring: 2; damping: 0.2 } }
+    }
+
 
     Button {
         id: exitButton
@@ -132,6 +137,7 @@ Item {
         onReleased: Qt.quit()
     }
 
+    // These components will be drawn over the view when they are activated.
 
     InstrumentSelector {
         id: selector
@@ -147,7 +153,5 @@ Item {
         textPointSize: 8
         show: true
     }
-
-
 }
 
