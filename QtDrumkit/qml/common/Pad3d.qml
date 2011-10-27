@@ -8,7 +8,8 @@ Item {
     Image {
         id: img
         source: parent.sourceImage
-        scale: pad.pressed ? 0.965 : 1.0
+        scale: pad.pressed ? 0.7 : 1.0
+        Behavior on scale { SpringAnimation { spring: 5; damping: 0.2 } }
     }
 
     Pad {
