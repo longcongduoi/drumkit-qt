@@ -56,7 +56,8 @@ symbian {
    QML_IMPORT_PATH += qml/symbian
 }
 
-unix:harmattan {
+unix|harmattan {
+
    # Use Pulse Audio on Linux
    CONFIG += link_pkgconfig
    PKGCONFIG += libpulse
