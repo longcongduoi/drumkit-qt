@@ -31,7 +31,6 @@ void DrumEngine::playSample(QString name)
 	    m_drumTrackStartTime = QTime::currentTime();
 	}
     }
-    qDebug() << "playSample" << name;
 }
 
 void DrumEngine::play()

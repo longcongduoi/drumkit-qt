@@ -1,25 +1,13 @@
+CONFIG += release
+
 # Add more folders to ship with the application, here
 common_qml.source = qml/common
 common_qml.target = qml
 
-symbian {
-   platform_qml.source = qml/symbian
-   platform_qml.target = qml
-   QML_IMPORT_PATH = qml/symbian
-} else {
-   platform_qml.source = qml/harmattan
-   platform_qml.target = qml
-   QML_IMPORT_PATH = qml/harmattan
-}
-
-DEPLOYMENTFOLDERS = platform_qml common_qml
-
 # Additional import path used to resolve QML modules in Creator's code model
-QML_IMPORT_PATH = qml/common
+QML_IMPORT_PATH += qml/common
 
-VERSION = 0.5
-
-symbian:TARGET.UID3 = 0xE19608FC
+VERSION = 0.6
 
 # Smart Installer package's UID
 # This UID is from the protected range and therefore the package will
@@ -36,7 +24,6 @@ symbian:TARGET.UID3 = 0xE19608FC
 # CONFIG += mobility
 # MOBILITY +=
 
-
 # Harmattan check trickery
 exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"):!contains(MEEGO_EDITION,harmattan): {
   MEEGO_VERSION_MAJOR     = 1
@@ -44,34 +31,53 @@ exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"):!contains(MEEGO_EDITION,harmat
   MEEGO_VERSION_PATCH     = 0
   MEEGO_EDITION           = harmattan
   DEFINES += MEEGO_EDITION_HARMATTAN
-  CONFIG += maemo6
+  CONFIG += harmattan
 }
 
 unix:!symbian {
    maemo5 {
       error(Maemo5 not supported)
    } 
-
-   maemo6 {
-     message(Harmattan)
+   harmattan {
      DEFINES += Q_WS_MAEMO_6
+     message(Harmattan)
    } else {
      message(Desktop)
    }
+}
 
+symbian {
+   message(Symbian)
+# ICON = symbianicon.svg
+   TARGET.UID3 = 0xE19608FC
+
+   platform_qml.source = qml/symbian
+   platform_qml.target = qml
+   QML_IMPORT_PATH += qml/symbian
+}
+
+unix:harmattan {
    # Use Pulse Audio on Linux
    CONFIG += link_pkgconfig
    PKGCONFIG += libpulse
    DEFINES += PULSE
    SOURCES += audiooutpulse.cpp
    HEADERS += audiooutpulse.h
+
+   platform_qml.source = qml/harmattan
+   platform_qml.target = qml
+   QML_IMPORT_PATH += qml/harmattan
 }
 
-symbian {
-   message(Symbian)
+# The following is needed for the volume buttons to work.
+harmattan {
+   gameclassify.files += qtc_packaging/debian_harmattan/QtDrumkit.conf
+   gameclassify.path = /usr/share/policy/etc/syspart.conf.d
+   INSTALLS += gameclassify
 }
 
-# The .cpp file which was generated for your project. Feel free to hack it.
+
+
 SOURCES += main.cpp 
 SOURCES += drumengine.cpp
 SOURCES += sampleplayer.cpp
@@ -89,6 +95,8 @@ OBJECTS_DIR = tmp
 RCC_DIR = tmp
 UI_DIR = tmp
 
+DEPLOYMENTFOLDERS = platform_qml common_qml
+
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
@@ -99,4 +107,5 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/copyright \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
-    qtc_packaging/debian_harmattan/changelog
+    qtc_packaging/debian_harmattan/changelog \
+    qtc_packaging/debian_harmattan/QtDrumkit.conf
