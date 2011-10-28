@@ -60,7 +60,7 @@ symbian {
    HEADERS += audiogameenabler.h
 }
 
-unix|harmattan {
+unix|harmattan:!symbian {
 
    # Use Pulse Audio on Linux
    CONFIG += link_pkgconfig
