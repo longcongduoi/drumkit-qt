@@ -1,9 +1,13 @@
-// This code is largely based on SampleAsyncPlayback example
-// http://www.pulseaudio.org/wiki/SampleAsyncPlayback
 
+#include <QtCore/QDebug>
 #include <stdio.h>
 #include <pulse/pulseaudio.h>
+
+#include "audiopulseaudio.h"
 #include "GEInterfaces.h"
+
+// This code is largely based on SampleAsyncPlayback example
+// http://www.pulseaudio.org/wiki/SampleAsyncPlayback
 
 using namespace GE;
 
@@ -21,20 +25,20 @@ static void pa_state_cb(pa_context *c, void *userdata) {
     int *pa_ready = (int*)userdata;
     state = pa_context_get_state(c);
     switch  (state) {
-	// These are just here for reference
-	case PA_CONTEXT_UNCONNECTED:
-	case PA_CONTEXT_CONNECTING:
-	case PA_CONTEXT_AUTHORIZING:
-	case PA_CONTEXT_SETTING_NAME:
-	default:
-	    break;
-	case PA_CONTEXT_FAILED:
-	case PA_CONTEXT_TERMINATED:
-	    *pa_ready = 2;
-	    break;
-	case PA_CONTEXT_READY:
-	    *pa_ready = 1;
-	    break;
+        // These are just here for reference
+        case PA_CONTEXT_UNCONNECTED:
+        case PA_CONTEXT_CONNECTING:
+        case PA_CONTEXT_AUTHORIZING:
+        case PA_CONTEXT_SETTING_NAME:
+        default:
+            break;
+        case PA_CONTEXT_FAILED:
+        case PA_CONTEXT_TERMINATED:
+            *pa_ready = 2;
+            break;
+        case PA_CONTEXT_READY:
+            *pa_ready = 1;
+            break;
     }
 }
 
@@ -44,8 +48,8 @@ static void stream_request_cb(pa_stream *s, size_t length, void *userdata) {
 
     AudioSource* source = (AudioSource*)userdata;
     if(bufferSize < length*sizeof(short)) {
-	bufferSize = length*sizeof(short)*2;
-	buffer = (short*) malloc(bufferSize*sizeof(short));
+        bufferSize = length*sizeof(short)*2;
+        buffer = (short*) malloc(bufferSize*sizeof(short));
     }
     memset(buffer, 0, length*sizeof(short));
     source->pullAudio(buffer, length/2);
@@ -85,10 +89,10 @@ int pulseOutInitialize(AudioSource* audioSource) {
     // We can't do anything until PA is ready, so just iterate the mainloop
     // and continue
     while (pa_ready == 0) {
-	pa_mainloop_iterate(pa_ml, 1, NULL);
+        pa_mainloop_iterate(pa_ml, 1, NULL);
     }
     if (pa_ready == 2) {
-	goto exit;
+        goto exit;
     }
 
     // Sample format:
@@ -98,8 +102,8 @@ int pulseOutInitialize(AudioSource* audioSource) {
 
     playstream = pa_stream_new(pa_ctx, "Playback", &ss, NULL);
     if (!playstream) {
-	printf("pa_stream_new failed\n");
-	goto exit;
+        printf("pa_stream_new failed\n");
+        goto exit;
     }
 
     pa_stream_set_write_callback(playstream, stream_request_cb, audioSource);
@@ -109,23 +113,23 @@ int pulseOutInitialize(AudioSource* audioSource) {
     bufattr.prebuf = (uint32_t)-1;
     bufattr.tlength = pa_usec_to_bytes(latency,&ss);
     r = pa_stream_connect_playback(
-	playstream, 
-	NULL,
-	&bufattr,
- 	pa_stream_flags_t(PA_STREAM_INTERPOLATE_TIMING | PA_STREAM_ADJUST_LATENCY | PA_STREAM_AUTO_TIMING_UPDATE), 
-	NULL, 
-	NULL);
-    
+        playstream,
+        NULL,
+        &bufattr,
+        pa_stream_flags_t(PA_STREAM_INTERPOLATE_TIMING | PA_STREAM_ADJUST_LATENCY | PA_STREAM_AUTO_TIMING_UPDATE),
+        NULL,
+        NULL);
+
     if (r < 0) {
-	printf("pa_stream_connect_playback failed\n");
-	goto exit;
+        printf("pa_stream_connect_playback failed\n");
+        goto exit;
     }
 
     retval = 0; // everything ok
 
     // Iterate the main loop until exit flag is set.
     while (!exitFlag) {
-	pa_mainloop_iterate(pa_ml, 1, NULL);
+        pa_mainloop_iterate(pa_ml, 1, NULL);
     }
 
 exit:
@@ -141,3 +145,30 @@ exit:
 void pulseOutDeinit() {
     exitFlag = true;
 }
+
+
+AudioPulseAudio::AudioPulseAudio(GE::AudioMixer& audioMixer, QObject *parent) 
+    : QThread(parent),
+      m_audioMixer(audioMixer)
+{
+    // Start pulse audio thread.
+    start();
+    qDebug() << "Pulse Audio initialized";
+}
+
+AudioPulseAudio::~AudioPulseAudio()
+{
+    // Stop Pulse Audio wait for the thread to exit.
+    pulseOutDeinit();
+    wait();
+    qDebug() << "Pulse Audio deinitialized";
+}
+
+void AudioPulseAudio::run()
+{
+    // The thread initializes Pulse Audio and sits in a loop processing
+    // audio.
+    pulseOutInitialize(&m_audioMixer);
+}
+
+

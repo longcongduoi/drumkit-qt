@@ -50,10 +50,14 @@ symbian {
    message(Symbian)
 # ICON = symbianicon.svg
    TARGET.UID3 = 0xE19608FC
+   DEFINES += USE_GAMEENABLER
 
    platform_qml.source = qml/symbian
    platform_qml.target = qml
    QML_IMPORT_PATH += qml/symbian
+
+   SOURCES += audiogameenabler.cpp
+   HEADERS += audiogameenabler.h
 }
 
 unix|harmattan {
@@ -61,13 +65,14 @@ unix|harmattan {
    # Use Pulse Audio on Linux
    CONFIG += link_pkgconfig
    PKGCONFIG += libpulse
-   DEFINES += PULSE
-   SOURCES += audiooutpulse.cpp
-   HEADERS += audiooutpulse.h
+   DEFINES += USE_PULSEAUDIO
 
    platform_qml.source = qml/harmattan
    platform_qml.target = qml
    QML_IMPORT_PATH += qml/harmattan
+
+   SOURCES += audiopulseaudio.cpp
+   HEADERS += audiopulseaudio.h
 }
 
 # The following is needed for the volume buttons to work.
@@ -78,8 +83,7 @@ harmattan {
 }
 
 
-
-SOURCES += main.cpp 
+SOURCES += main.cpp
 SOURCES += drumengine.cpp
 SOURCES += sampleplayer.cpp
 HEADERS += drumengine.h
