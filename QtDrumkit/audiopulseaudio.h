@@ -5,7 +5,7 @@
 #include <QThread>
 #include "GEAudioMixer.h"
 
-// A class for playing samples.
+// Audio output using PulseAudio, Linux desktop/Harmattan only.
 class AudioPulseAudio : public QThread
 {
     Q_OBJECT;

@@ -1,4 +1,3 @@
-
 #include <QtCore/QDebug>
 #include "audiogameenabler.h"
 

@@ -7,6 +7,7 @@
 #include "GEAudioOut.h"
 #include "GEAudioMixer.h"
 
+// Audio output using GameEnabler.
 class AudioGameEnabler : public QObject
 {
     Q_OBJECT;

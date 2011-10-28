@@ -51,6 +51,7 @@ symbian {
 # ICON = symbianicon.svg
    TARGET.UID3 = 0xE19608FC
    DEFINES += USE_GAMEENABLER
+   #DEFINES += USE_DEVSOUND
 
    platform_qml.source = qml/symbian
    platform_qml.target = qml
@@ -58,6 +59,11 @@ symbian {
 
    SOURCES += audiogameenabler.cpp
    HEADERS += audiogameenabler.h
+
+   SOURCES += audiodevsound.cpp
+   HEADERS += audiodevsound.h
+
+   LIBS += -lmmfdevsound
 }
 
 unix|harmattan:!symbian {

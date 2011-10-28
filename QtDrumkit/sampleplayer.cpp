@@ -9,14 +9,24 @@
 
 #ifdef USE_GAMEENABLER
 #include "audiogameenabler.h"
-#else
+#endif
+
+#ifdef USE_DEVSOUND
+#include "audiodevsound.h"
+#endif
+
+#ifdef USE_PULSEAUDIO
 #include "audiopulseaudio.h"
 #endif
 
 SamplePlayer::SamplePlayer(QObject *parent) 
     : QObject(parent)
 {
+#ifdef Q_OS_SYMBIAN
+    m_audioMixer.setAbsoluteVolume(3.0f / 5);
+#else
     m_audioMixer.setAbsoluteVolume(3.0f / 10);
+#endif
 
     // Prepare the sample map and generate preloaded buffers.
     QStringList samples;
@@ -30,7 +40,11 @@ SamplePlayer::SamplePlayer(QObject *parent)
 
 #ifdef USE_GAMEENABLER
     new AudioGameEnabler(m_audioMixer, this);
-#else
+#endif
+#ifdef USE_DEVSOUND
+    new AudioDevSound(m_audioMixer, this);
+#endif
+#ifdef USE_PULSEAUDIO
     new AudioPulseAudio(m_audioMixer, this);
 #endif
 }

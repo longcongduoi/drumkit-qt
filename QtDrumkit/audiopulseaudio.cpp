@@ -1,4 +1,3 @@
-
 #include <QtCore/QDebug>
 #include <stdio.h>
 #include <pulse/pulseaudio.h>
