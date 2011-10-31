@@ -48,7 +48,7 @@ unix:!symbian {
 
 symbian {
    message(Symbian)
-# ICON = symbianicon.svg
+   ICON = QtDrumkit.svg
    TARGET.UID3 = 0xE19608FC
    DEFINES += USE_GAMEENABLER
    #DEFINES += USE_DEVSOUND
