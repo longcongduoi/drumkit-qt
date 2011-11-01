@@ -3,10 +3,13 @@
 
 #include <QObject>
 #include <QThread>
+
+#include "AudioInterface.h"
 #include "GEAudioMixer.h"
 
 // Audio output using PulseAudio, Linux desktop/Harmattan only.
-class AudioPulseAudio : public QThread
+class AudioPulseAudio : public QThread,
+        public AudioInterface
 {
     Q_OBJECT;
 public:
@@ -17,6 +20,9 @@ private:
     // From QThread. Used by Pulse Audio mode.
     void run();
     
+    // From AudioInterface. Not needed as HW volume buttons do the work.
+    void setVolume(int value) {}
+
     GE::AudioMixer& m_audioMixer;
 };
 

@@ -1,5 +1,5 @@
-
 import QtQuick 1.0
+import com.nokia.symbian 1.0
 import DrumEngine 1.0
 
 import "../common"
@@ -135,6 +135,23 @@ Item {
         image: "exit.png"
         imagePressed: "exit_pressed.png"
         onReleased: Qt.quit()
+    }
+
+    // Volume slider
+
+    Slider {
+        anchors {
+            horizontalCenter: padButton.horizontalCenter
+            top: padButton.bottom
+        }
+        minimumValue: 1
+        maximumValue: 10
+        value: 5
+        stepSize: 1
+        valueIndicatorVisible: false
+        inverted: true
+        orientation: Qt.Vertical
+        onValueChanged: engine.setVolume(value)
     }
 
     // These components will be drawn over the view when they are activated.

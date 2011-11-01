@@ -48,10 +48,10 @@ unix:!symbian {
 
 symbian {
    message(Symbian)
+   CONFIG += qt-components
    ICON = QtDrumkit.svg
    TARGET.UID3 = 0xE19608FC
-   DEFINES += USE_GAMEENABLER
-   #DEFINES += USE_DEVSOUND
+   DEFINES += USE_DEVSOUND
 
    platform_qml.source = qml/symbian
    platform_qml.target = qml
@@ -93,6 +93,7 @@ SOURCES += main.cpp
 SOURCES += drumengine.cpp
 SOURCES += sampleplayer.cpp
 HEADERS += drumengine.h
+HEADERS += audiointerface.h
 HEADERS += sampleplayer.h
 
 RESOURCES += samples.qrc

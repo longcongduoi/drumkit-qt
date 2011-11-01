@@ -51,10 +51,16 @@ void AudioDevSound::BufferToBeFilled(CMMFBuffer* aBuffer)
     CMMFDataBuffer* buf = static_cast<CMMFDataBuffer*>(aBuffer);
     TDes8& output = buf->Data();
 
-    output.SetLength(buf->RequestSize());
+    // The default buffer size is 4096.
+    // To improve latency, only part of the requested bytes are passed to DevSound.
+    // The value here was found by experimenting on N8 and 701,
+    // lower values cause distortion in the sound.
+    const TInt reqSize = 420; // ok
+
+    output.SetLength(reqSize);
     short* ptr = (short*)(output.Ptr());
-    Mem::FillZ(ptr, buf->RequestSize());
-    m_audioMixer.pullAudio(ptr, buf->RequestSize()/2);
+    Mem::FillZ(ptr, reqSize);
+    m_audioMixer.pullAudio(ptr, reqSize/2);
     m_devSound->PlayData();
 }
 
@@ -84,3 +90,10 @@ void AudioDevSound::DeviceMessage(TUid aMessageType, const TDesC8& aMsg)
     Q_UNUSED(aMsg);
 }
 
+
+void AudioDevSound::setVolume(int value)
+{
+    // Parameter value range is 0..10
+    int newVolume = (m_devSound->MaxVolume() * value) / 10;
+    m_devSound->SetVolume(newVolume);
+}

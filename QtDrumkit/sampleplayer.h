@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMap>
 
+#include "AudioInterface.h"
 #include "GEAudioMixer.h"
 #include "GEAudioBuffer.h"
 
@@ -22,14 +23,20 @@ public slots:
     // splash, tom1, tom2, tom3, china.
     void playSample(QString name);
 
+    // Sets volume, range 0..10.
+    void setVolume(int value);
+
 private:
     void play(GE::AudioBuffer* buffer);
 
     // Map of preloaded sample data.
     QMap<QString, GE::AudioBuffer*> m_samples;
     
+    // Mixer audio source
     GE::AudioMixer m_audioMixer;
-  
+
+    // Interface to the audio output backend.
+    AudioInterface* m_audioIf;
 };
 
 #endif // SAMPLEPLAYER_H

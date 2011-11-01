@@ -23,7 +23,7 @@ SamplePlayer::SamplePlayer(QObject *parent)
     : QObject(parent)
 {
 #ifdef Q_OS_SYMBIAN
-    m_audioMixer.setAbsoluteVolume(3.0f / 5);
+    m_audioMixer.setAbsoluteVolume(3.0f / 10);
 #else
     m_audioMixer.setAbsoluteVolume(3.0f / 10);
 #endif
@@ -39,13 +39,13 @@ SamplePlayer::SamplePlayer(QObject *parent)
     }
 
 #ifdef USE_GAMEENABLER
-    new AudioGameEnabler(m_audioMixer, this);
+    m_audioIf = new AudioGameEnabler(m_audioMixer, this);
 #endif
 #ifdef USE_DEVSOUND
-    new AudioDevSound(m_audioMixer, this);
+    m_audioIf = new AudioDevSound(m_audioMixer, this);
 #endif
 #ifdef USE_PULSEAUDIO
-    new AudioPulseAudio(m_audioMixer, this);
+    m_audioIf = new AudioPulseAudio(m_audioMixer, this);
 #endif
 }
 
@@ -70,3 +70,7 @@ void SamplePlayer::playSample(QString name)
     play(m_samples[name]);
 }
 
+void SamplePlayer::setVolume(int value)
+{
+    m_audioIf->setVolume(value);
+}

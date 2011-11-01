@@ -4,11 +4,13 @@
 #include <QObject>
 #include <QTimer>
 
+#include "AudioInterface.h"
 #include "GEAudioOut.h"
 #include "GEAudioMixer.h"
 
 // Audio output using GameEnabler.
-class AudioGameEnabler : public QObject
+class AudioGameEnabler : public QObject,
+        public AudioInterface
 {
     Q_OBJECT;
 public:
@@ -16,6 +18,8 @@ public:
     virtual ~AudioGameEnabler();
 
 private:
+    void setVolume(int value) {}
+
     GE::AudioOut* m_audioOut;
     GE::AudioMixer& m_audioMixer;
 

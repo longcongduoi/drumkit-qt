@@ -5,12 +5,14 @@
 #include <QTimer>
 #include <mmf/server/sounddevice.h>
 
+#include "AudioInterface.h"
 #include "GEAudioOut.h"
 #include "GEAudioMixer.h"
 
 // Audio output using Symbian native CMMFDevSound.
 class AudioDevSound : public QObject,
-        public MDevSoundObserver
+        public MDevSoundObserver,
+        public AudioInterface
 {
     Q_OBJECT;
 public:
@@ -27,6 +29,10 @@ public: // From MDevSoundObserver
    void RecordError(TInt aError);
    void ConvertError(TInt aError);
    void DeviceMessage(TUid aMessageType, const TDesC8& aMsg);
+
+public: // From AudioInterface
+
+   void setVolume(int value);
 
 private:
     GE::AudioOut* m_audioOut;
