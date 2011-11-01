@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <mmf/server/sounddevice.h>
 
-#include "AudioInterface.h"
+#include "audiointerface.h"
 #include "GEAudioOut.h"
 #include "GEAudioMixer.h"
 
