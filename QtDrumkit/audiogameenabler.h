@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QTimer>
 
-#include "AudioInterface.h"
+#include "audiointerface.h"
 #include "GEAudioOut.h"
 #include "GEAudioMixer.h"
 

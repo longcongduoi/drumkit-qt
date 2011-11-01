@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QMap>
 
-#include "AudioInterface.h"
+#include "audiointerface.h"
 #include "GEAudioMixer.h"
 #include "GEAudioBuffer.h"
 
