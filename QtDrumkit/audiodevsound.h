@@ -35,11 +35,8 @@ public: // From AudioInterface
    void setVolume(int value);
 
 private:
-    GE::AudioOut* m_audioOut;
     GE::AudioMixer& m_audioMixer;
-
     CMMFDevSound* m_devSound;
-
 };
 
 #endif 

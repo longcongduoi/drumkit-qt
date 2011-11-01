@@ -2,7 +2,6 @@
 
 #include "audiodevsound.h"
 
-#include "GEAudioOut.h"
 #include "GEAudioMixer.h"
 #include "GEAudioBuffer.h"
 #include "GEAudioBufferPlayInstance.h"
@@ -11,8 +10,6 @@ AudioDevSound::AudioDevSound(GE::AudioMixer& audioMixer, QObject *parent)
     : QObject(parent),
       m_audioMixer(audioMixer)
 {
-    m_audioOut = new GE::AudioOut(&m_audioMixer, this);
-
     m_devSound = CMMFDevSound::NewL();
     m_devSound->InitializeL(*this, KMMFFourCCCodePCM16, EMMFStatePlaying);
 
@@ -30,10 +27,16 @@ AudioDevSound::~AudioDevSound()
 void AudioDevSound::InitializeComplete(TInt aError)
 {
     qDebug() << "InitializeComplete " << aError;
+
+    // Configure sample format.
+
     TMMFCapabilities caps = m_devSound->Config();
     caps.iChannels = EMMFStereo;
     caps.iEncoding = EMMFSoundEncoding16BitPCM;
     caps.iRate = EMMFSampleRate22050Hz;
+
+    // Possible errors are ignored below:
+
     TRAPD(err, m_devSound->SetConfigL(caps));
     qDebug() << "SetConfigL()" << err;
 
@@ -53,9 +56,11 @@ void AudioDevSound::BufferToBeFilled(CMMFBuffer* aBuffer)
 
     // The default buffer size is 4096.
     // To improve latency, only part of the requested bytes are passed to DevSound.
-    // The value here was found by experimenting on N8 and 701,
+    // The value here was found by experimenting on N8 and 701.
+    // The lowest value to work on these devices is 420,
     // lower values cause distortion in the sound.
-    const TInt reqSize = 420; // ok
+    // 512 is chosen to include some safety margin.
+    const TInt reqSize = 512;
 
     output.SetLength(reqSize);
     short* ptr = (short*)(output.Ptr());
