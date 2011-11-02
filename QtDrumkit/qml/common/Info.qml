@@ -2,8 +2,11 @@ import QtQuick 1.0
 
 // Info text component.
 Item {
+    id: container
+
     property bool show: false
     property alias textPointSize: text.font.pointSize
+    property string url: "http://projects.developer.nokia.com/QtDrumkit"
 
     opacity: show ? 1.0 : 0
 
@@ -23,19 +26,37 @@ Item {
         onPressed: show = false
     }
 
-    Text {
-        id: text
-        anchors.horizontalCenter: parent.horizontalCenter
+    Column {
         anchors.verticalCenter: parent.verticalCenter
-        color: "white"
-        font.pointSize: 18
-        font.bold: true
-        text: "Welcome to QtDrumkit!\n\n"+
-              "Let your fills fly by tapping the pads.\n"+
-              "You may also record your beats and play them afterwards.\n"+
-              "Long tap on a pad lets you select different instruments.\n\n"+
-              "Tap the screen to continue!"
-        wrapMode: Text.WordWrap
-        horizontalAlignment: Text.AlignHCenter
+        width: parent.width
+
+        Text {
+            id: text
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: "white"
+            font.pointSize: 18
+            font.bold: true
+            text: "Welcome to QtDrumkit!\n\n"+
+                  "Let your fills fly by tapping the pads.\n"+
+                  "You may also record your beats and play them afterwards.\n"+
+                  "Long tap on a pad lets you select different instruments.\n\n"+
+                  "Tap the screen to continue!"
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+        }
+
+        Text {
+            id: url
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: "white"
+            font.pointSize: text.font.pointSize - 2
+            text: "\n\Project page " + container.url
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+            MouseArea {
+                anchors.fill: url
+                onClicked: Qt.openUrlExternally(container.url)
+            }
+        }
     }
 }
