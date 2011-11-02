@@ -1,6 +1,7 @@
 import QtQuick 1.0
 import com.nokia.symbian 1.0
 import DrumEngine 1.0
+import TouchEvents 1.0
 
 import "../common"
 
@@ -17,6 +18,26 @@ Item {
     DrumEngine {
         id: engine
     }
+
+    // Touch events handling
+    TouchEvents {
+        id: touchEvents
+        onTouchEventReceived: {
+            if(info.show || selector.show) {
+                // Ignore events when info view or instrument selector visible.
+                return
+            }
+            // See which pad was hit, if any. Check which view is visible:
+            // The 3d view contains pads in item 'pads', whereas the 2d pad item have
+            // them as top level children.
+            var item = !flipable.flipped ? flipable.front.childAt(x,y) : flipable.back.pads.childAt(x,y)
+            // See if there is a function called play().
+            if(item && item.play) {
+               item.play()
+            }
+        }
+    }
+
 
     // UI components
 

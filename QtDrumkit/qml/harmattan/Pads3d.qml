@@ -4,9 +4,19 @@ import DrumEngine 1.0
 import "../common"
 
 Item {
+
+    property alias pads: padItem
+
     Image {
         source: gfxPath + "3d/background.png"
     }
+
+    Item {
+        id: padItem
+        anchors.fill:  parent
+
+
+
 
     Pad3d {
         x: 230
@@ -129,6 +139,7 @@ Item {
         rotateZ: 1
         sourceImage: gfxPath+"3d/hihatclosed.png"
         sample: "hihat1"
+    }
     }
 
     Image {

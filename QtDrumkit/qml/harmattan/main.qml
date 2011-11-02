@@ -1,10 +1,13 @@
 import QtQuick 1.0
 import DrumEngine 1.0
+import TouchEvents 1.0
 
 import "../common"
 
 // Main screen for Harmattan devices (Nokia N9, N950).
 Item {
+    id: mainWindow
+
     // This property is used to find the graphics in all components.
     property string gfxPath:  "../harmattan/gfx/"
 
@@ -14,6 +17,25 @@ Item {
     // DrumEngine instance for sample playing and drum track recording and playback.
     DrumEngine {
         id: engine
+    }
+
+    // Touch events handling
+    TouchEvents {
+        id: touchEvents
+        onTouchEventReceived: {
+            if(info.show || selector.show) {
+                // Ignore events when info view or instrument selector visible.
+                return
+            }
+            // See which pad was hit, if any. Check which view is visible:
+            // The 3d view contains pads in item 'pads', whereas the 2d pad item have
+            // them as top level children.
+            var item = !flipable.flipped ? flipable.front.childAt(x,y) : flipable.back.pads.childAt(x,y)
+            // See if there is a function called play().
+            if(item && item.play) {
+               item.play()
+            }
+        }
     }
 
     // UI components
@@ -26,7 +48,7 @@ Item {
 
         property bool flipped: false
 
-        front: Pads2d {}
+        front: Pads2d { }
         back: Pads3d {
             // Mirror the back side so that after flipping the orientation ends up straight.
             transform: Rotation {

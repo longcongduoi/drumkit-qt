@@ -5,15 +5,18 @@
 
 #include "qmlapplicationviewer.h"
 #include "drumengine.h"
+#include "qmlviewer.h"
+#include "touchevents.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    // DrumEngine QML bindings
+    // Register QML bindings fo DrumEngine and TouchEvents
     qmlRegisterType<DrumEngine>("DrumEngine", 1,0, "DrumEngine");
+    qmlRegisterType<TouchEvents>("TouchEvents", 1,0, "TouchEvents");
 
-    QmlApplicationViewer viewer;
+    QmlViewer viewer;
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockLandscape);
 
     // Select the main.qml according to platform.
@@ -38,3 +41,4 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
+

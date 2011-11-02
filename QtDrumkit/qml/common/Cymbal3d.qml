@@ -3,6 +3,9 @@ import QtQuick 1.0
 Item {
     id: cymbal
 
+    width: img.width
+    height: img.height
+
     property real initialAngle: 0
     property real targetAngle: 0
     property real rotateX: 0
@@ -10,6 +13,10 @@ Item {
     property real rotateZ: 0
     property string sourceImage
     property string sample
+
+    function play() {
+        pad.play()
+    }
 
     function hit() {
         if(anim.running) {
@@ -53,6 +60,7 @@ Item {
     }
 
     Pad {
+        id: pad
         anchors.fill: img
         sample: parent.sample
         showSplash: false

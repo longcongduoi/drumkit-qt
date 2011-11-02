@@ -6,7 +6,7 @@ import "../common"
 Item {
     Image {
         source: gfxPath + "background.png"
-    }
+    }  
 
     // Top row pads from left to right
     Pad {

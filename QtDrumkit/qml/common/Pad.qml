@@ -20,12 +20,15 @@ Item {
 
     signal clicked
 
+    function play() {
+        engine.playSample(sample)
+    }
+
     MouseArea {
         id: ma
         anchors.fill: parent
         onPressed: {
             parent.clicked()
-            engine.playSample(sample)
         }
         onPressAndHold: {
             // Disable instrument selection if engine

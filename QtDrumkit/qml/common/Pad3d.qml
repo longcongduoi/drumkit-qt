@@ -1,9 +1,15 @@
 import QtQuick 1.0
 
 Item {
+    width: img.width
+    height: img.height
 
     property string sourceImage
     property string sample
+
+    function play() {
+        pad.play()
+    }
 
     Image {
         id: img

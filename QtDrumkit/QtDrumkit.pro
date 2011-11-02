@@ -72,10 +72,14 @@ unix|harmattan:!symbian {
    CONFIG += link_pkgconfig
    PKGCONFIG += libpulse
    DEFINES += USE_PULSEAUDIO
+   #DEFINES += USE_GAMEENABLER
 
    platform_qml.source = qml/harmattan
    platform_qml.target = qml
    QML_IMPORT_PATH += qml/harmattan
+
+   SOURCES += audiogameenabler.cpp
+   HEADERS += audiogameenabler.h
 
    SOURCES += audiopulseaudio.cpp
    HEADERS += audiopulseaudio.h
@@ -89,10 +93,14 @@ harmattan {
 }
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    qmlviewer.cpp \
+    touchevents.cpp
 SOURCES += drumengine.cpp
 SOURCES += sampleplayer.cpp
-HEADERS += drumengine.h
+HEADERS += drumengine.h \
+    qmlviewer.h \
+    touchevents.h
 HEADERS += audiointerface.h
 HEADERS += sampleplayer.h
 
