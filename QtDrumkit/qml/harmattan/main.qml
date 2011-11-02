@@ -90,8 +90,8 @@ Item {
 
     Button {
         id: padButton
-        anchors.top:  infoButton.bottom
-        anchors.left:  parent.left
+        anchors.top:  parent.top
+        anchors.right: parent.right
         image: flipable.flipped ? "pads.png" : "drumset.png"
         imagePressed: flipable.flipped ? "pads_pressed.png" : "drumset_pressed.png"
         onPressed: flipable.flipped = !flipable.flipped
@@ -146,16 +146,6 @@ Item {
         visible: !playButton.visible
         onReleased: engine.stop()
         Behavior on x { SpringAnimation { spring: 2; damping: 0.2 } }
-    }
-
-
-    Button {
-        id: exitButton
-        anchors.top:  parent.top
-        anchors.right:  parent.right
-        image: "exit.png"
-        imagePressed: "exit_pressed.png"
-        onReleased: Qt.quit()
     }
 
     // These components will be drawn over the view when they are activated.
