@@ -56,11 +56,8 @@ void AudioDevSound::BufferToBeFilled(CMMFBuffer* aBuffer)
 
     // The default buffer size is 4096.
     // To improve latency, only part of the requested bytes are passed to DevSound.
-    // The value here was found by experimenting on N8 and 701.
-    // The lowest value to work on these devices is 420,
-    // lower values cause distortion in the sound.
-    // 512 is chosen to include some safety margin.
-    const TInt reqSize = 512;
+    // The value here was found by experimenting.
+    const TInt reqSize = 256*3;
 
     output.SetLength(reqSize);
     short* ptr = (short*)(output.Ptr());
