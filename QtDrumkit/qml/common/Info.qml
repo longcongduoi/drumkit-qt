@@ -50,7 +50,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             color: "white"
             font.pointSize: text.font.pointSize - 2
-            text: "\n\Project page " + container.url
+            text: "\n\n"+container.url
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             MouseArea {
