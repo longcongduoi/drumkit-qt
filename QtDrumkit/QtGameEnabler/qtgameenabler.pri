@@ -8,6 +8,7 @@ SOURCES += \
     $$PWD/src/audiobufferplayinstance.cpp \
     $$PWD/src/audiomixer.cpp \
     $$PWD/src/pushaudioout.cpp \
+    $$PWD/src/pullaudioout.cpp \
     $$PWD/src/audioeffect.cpp \
     $$PWD/src/audiosourceif.cpp
 
@@ -19,6 +20,7 @@ HEADERS  += \
     $$PWD/src/audioout.h \
     $$PWD/src/audiosourceif.h \
     $$PWD/src/pushaudioout.h \
+    $$PWD/src/pullaudioout.h \
     $$PWD/src/geglobal.h \
     $$PWD/src/audioeffect.h \
     $$PWD/src/trace.h

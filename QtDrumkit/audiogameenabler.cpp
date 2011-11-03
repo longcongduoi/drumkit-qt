@@ -2,6 +2,7 @@
 #include "audiogameenabler.h"
 
 #include "pushaudioout.h"
+#include "pullaudioout.h"
 #include "audiomixer.h"
 #include "audiobuffer.h"
 #include "audiobufferplayinstance.h"
@@ -10,7 +11,7 @@ AudioGameEnabler::AudioGameEnabler(GE::AudioMixer& audioMixer, QObject *parent)
     : QObject(parent),
       m_audioMixer(audioMixer)
 {
-    m_audioOut = new GE::PushAudioOut(&m_audioMixer, this);
+    m_audioOut = new GE::PullAudioOut(&m_audioMixer, this);
     
     if(m_audioOut->needsManualTick()) {
         // On Symbian, a timer is required to drive the audio output.

@@ -5,7 +5,7 @@
 #include <QTimer>
 
 #include "audiointerface.h"
-#include "pushaudioout.h"
+#include "pullaudioout.h"
 #include "audiomixer.h"
 
 // Audio output using GameEnabler.
@@ -19,7 +19,7 @@ public:
 
 private:
 
-    GE::PushAudioOut* m_audioOut;
+    GE::PullAudioOut* m_audioOut;
     GE::AudioMixer& m_audioMixer;
 
     // Used to tick the QtGameEnabler audio engine on Symbian
