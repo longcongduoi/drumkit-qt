@@ -22,10 +22,8 @@ private:
     GE::PushAudioOut* m_audioOut;
     GE::AudioMixer& m_audioMixer;
 
-#ifdef Q_OS_SYMBIAN
     // Used to tick the QtGameEnabler audio engine on Symbian
     QTimer m_audioPullTimer;
-#endif
 };
 
 #endif 
