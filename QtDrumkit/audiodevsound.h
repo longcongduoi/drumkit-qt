@@ -32,7 +32,8 @@ public: // From MDevSoundObserver
 
 public: // From AudioInterface
 
-   void setVolume(int value);
+   void volumeUp();
+   void volumeDown();
 
 private:
     GE::AudioMixer& m_audioMixer;

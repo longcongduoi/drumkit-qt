@@ -20,9 +20,6 @@ private:
     // From QThread. Used by Pulse Audio mode.
     void run();
     
-    // From AudioInterface. Not needed as HW volume buttons do the work.
-    void setVolume(int value) {}
-
     GE::AudioMixer& m_audioMixer;
 };
 

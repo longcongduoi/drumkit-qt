@@ -44,9 +44,6 @@ public slots:
     // Stop playback or recording.
     Q_INVOKABLE void stop();
 
-    // Set volume, range 0..10.
-    Q_INVOKABLE void setVolume(int value);
-
 public:
     // Checks whether playback is possible.
     bool canPlay() const;

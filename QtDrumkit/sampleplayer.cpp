@@ -18,6 +18,7 @@
 #include "audiopulseaudio.h"
 #endif
 
+
 SamplePlayer::SamplePlayer(QObject *parent) 
     : QObject(parent)
 {
@@ -46,8 +47,17 @@ SamplePlayer::SamplePlayer(QObject *parent)
 #ifdef USE_PULSEAUDIO
     m_audioIf = new AudioPulseAudio(m_audioMixer, this);
 #endif
-}
 
+#ifdef Q_OS_SYMBIAN
+    m_volumeKeys = new VolumeKeys(this);
+    connect(m_volumeKeys, SIGNAL(volumeKeyUp()),
+            this, SLOT(volumeUp()));
+    connect(m_volumeKeys, SIGNAL(volumeKeyDown()),
+            this, SLOT(volumeDown()));
+#endif
+
+
+}
 
 SamplePlayer::~SamplePlayer()
 {
@@ -69,7 +79,14 @@ void SamplePlayer::playSample(QString name)
     play(m_samples[name]);
 }
 
-void SamplePlayer::setVolume(int value)
+void SamplePlayer::volumeDown()
 {
-    m_audioIf->setVolume(value);
+    qDebug() << "down";
+    m_audioIf->volumeDown();
+}
+
+void SamplePlayer::volumeUp()
+{
+    qDebug() << "up";
+    m_audioIf->volumeUp();
 }

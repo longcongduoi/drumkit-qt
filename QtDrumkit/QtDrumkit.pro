@@ -48,11 +48,9 @@ unix:!symbian {
 
 symbian {
    message(Symbian)
-   CONFIG += qt-components
    ICON = QtDrumkit.svg
    TARGET.UID3 = 0xE19608FC
    DEFINES += USE_DEVSOUND
-   #DEFINES += USE_GAMEENABLER
 
    platform_qml.source = qml/symbian
    platform_qml.target = qml
@@ -63,6 +61,12 @@ symbian {
 
    SOURCES += audiodevsound.cpp
    HEADERS += audiodevsound.h
+
+   SOURCES += volumekeys.cpp
+   HEADERS += volumekeys.h
+
+   LIBS += -lremconcoreapi -lremconinterfacebase
+   INCLUDEPATH += /epoc32/include/mw
 
    LIBS += -lmmfdevsound
 }

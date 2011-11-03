@@ -1,10 +1,11 @@
 #ifndef AUDIOINTERFACE_H
 #define AUDIOINTERFACE_H
 
-// Interface for the audio backends. Currently only one method available.
+// Interface for the audio backends.
 class AudioInterface {
 public:
-    virtual void setVolume(int value) = 0;
+    virtual void volumeUp() {}
+    virtual void volumeDown() {}
 };
 
 #endif // AUDIOINTERFACE_H

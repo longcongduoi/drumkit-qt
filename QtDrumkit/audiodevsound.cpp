@@ -93,9 +93,21 @@ void AudioDevSound::DeviceMessage(TUid aMessageType, const TDesC8& aMsg)
 }
 
 
-void AudioDevSound::setVolume(int value)
+void AudioDevSound::volumeDown()
 {
-    // Parameter value range is 0..10
-    int newVolume = (m_devSound->MaxVolume() * value) / 10;
+    int newVolume = m_devSound->Volume() - m_devSound->MaxVolume() / 10;
+    if(newVolume < 0) {
+        newVolume = 0;
+    }
     m_devSound->SetVolume(newVolume);
 }
+
+void AudioDevSound::volumeUp()
+{
+    int newVolume = m_devSound->Volume() + m_devSound->MaxVolume() / 10;
+    if(newVolume > m_devSound->MaxVolume()) {
+        newVolume = m_devSound->MaxVolume();
+    }
+    m_devSound->SetVolume(newVolume);
+}
+

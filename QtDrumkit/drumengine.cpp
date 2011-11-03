@@ -112,7 +112,3 @@ void DrumEngine::playbackTimerEvent()
 	}
     }
 }
-
-void DrumEngine::setVolume(int value) {
-    m_samplePlayer->setVolume(value);
-}

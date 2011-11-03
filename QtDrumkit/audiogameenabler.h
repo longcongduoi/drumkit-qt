@@ -18,7 +18,6 @@ public:
     virtual ~AudioGameEnabler();
 
 private:
-    void setVolume(int value) {}
 
     GE::PushAudioOut* m_audioOut;
     GE::AudioMixer& m_audioMixer;

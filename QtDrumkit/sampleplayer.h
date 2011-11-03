@@ -8,6 +8,10 @@
 #include "audiomixer.h"
 #include "audiobuffer.h"
 
+#ifdef Q_OS_SYMBIAN
+#include "volumekeys.h"
+#endif
+
 // A class for playing samples.
 class SamplePlayer : public QObject
 {
@@ -23,8 +27,10 @@ public slots:
     // splash, tom1, tom2, tom3, china.
     void playSample(QString name);
 
-    // Sets volume, range 0..10.
-    void setVolume(int value);
+private slots:
+
+    void volumeUp();
+    void volumeDown();
 
 private:
     void play(GE::AudioBuffer* buffer);
@@ -37,6 +43,10 @@ private:
 
     // Interface to the audio output backend.
     AudioInterface* m_audioIf;
+
+#ifdef Q_OS_SYMBIAN
+    VolumeKeys* m_volumeKeys;
+#endif
 };
 
 #endif // SAMPLEPLAYER_H
