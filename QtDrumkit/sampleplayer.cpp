@@ -81,12 +81,10 @@ void SamplePlayer::playSample(QString name)
 
 void SamplePlayer::volumeDown()
 {
-    qDebug() << "down";
     m_audioIf->volumeDown();
 }
 
 void SamplePlayer::volumeUp()
 {
-    qDebug() << "up";
     m_audioIf->volumeUp();
 }
