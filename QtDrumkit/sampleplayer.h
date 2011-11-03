@@ -5,8 +5,8 @@
 #include <QMap>
 
 #include "audiointerface.h"
-#include "GEAudioMixer.h"
-#include "GEAudioBuffer.h"
+#include "audiomixer.h"
+#include "audiobuffer.h"
 
 // A class for playing samples.
 class SamplePlayer : public QObject

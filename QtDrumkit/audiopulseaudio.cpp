@@ -3,7 +3,7 @@
 #include <pulse/pulseaudio.h>
 
 #include "audiopulseaudio.h"
-#include "GEInterfaces.h"
+#include "audiosourceif.h"
 
 // This code is largely based on SampleAsyncPlayback example
 // http://www.pulseaudio.org/wiki/SampleAsyncPlayback

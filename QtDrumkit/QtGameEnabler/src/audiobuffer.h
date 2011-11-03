@@ -1,13 +1,18 @@
 /**
  * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
  *
  * Part of the Qt GameEnabler.
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
  */
 
 #ifndef GEAUDIOBUFFER_H
 #define GEAUDIOBUFFER_H
 
-#include "GEInterfaces.h"
+#include "geglobal.h"
+#include "audiosourceif.h"
 
 // Forward declarations
 class QFile;
@@ -26,13 +31,12 @@ typedef AUDIO_SAMPLE_TYPE(*SAMPLE_FUNCTION_TYPE)(AudioBuffer *buffer,
                                                  int channel);
 
 
-class AudioBuffer : public QObject
+class Q_GE_EXPORT AudioBuffer : public QObject
 {
 public:
     explicit AudioBuffer(QObject *parent = 0);
     virtual ~AudioBuffer();
     static AudioBuffer *loadWav(QString fileName, QObject *parent = 0);
-    static AudioBuffer *loadWav(FILE *wavFile, QObject *parent = 0);
 
 public:
     void reallocate(int length);

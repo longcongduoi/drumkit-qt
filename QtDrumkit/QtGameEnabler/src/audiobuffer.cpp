@@ -1,16 +1,19 @@
 /**
  * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
  *
  * Part of the Qt GameEnabler.
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
  */
 
-#include "GEAudioBuffer.h"
+#include "audiobuffer.h"
 
-#include <math.h>
 #include <QFile>
 
-#include "GEAudioBufferPlayInstance.h"
-#include "GEAudioMixer.h"
+#include "audiobufferplayinstance.h"
+#include "audiomixer.h"
 #include "trace.h"
 
 using namespace GE;
@@ -48,16 +51,17 @@ struct SWavHeader {
 /*!
   Constructor.
 */
-AudioBuffer::AudioBuffer(QObject *parent /* = 0 */)
+AudioBuffer::AudioBuffer(QObject *parent)
     : QObject(parent),
-      m_sampleFunction(0),
-      m_data(0),
+      m_sampleFunction(NULL),
+      m_data(NULL),
       m_dataLength(0),
       m_nofChannels(0),
       m_bitsPerSample(0),
       m_signedData(false),
       m_samplesPerSec(0)
 {
+    DEBUG_INFO(this);
 }
 
 
@@ -76,18 +80,15 @@ AudioBuffer::~AudioBuffer()
 */
 void AudioBuffer::reallocate(int length)
 {
-    if (m_data) {
+    if (m_data)
         delete [] ((char*)m_data);
-    }
 
     m_dataLength = length;
 
-    if (m_dataLength > 0) {
+    if (m_dataLength > 0)
         m_data = new char[m_dataLength];
-    }
-    else {
+    else
         m_data = 0;
-    }
 }
 
 
@@ -98,23 +99,22 @@ void AudioBuffer::reallocate(int length)
 
   Returns a new buffer if successful, NULL otherwise.
 */
-AudioBuffer *AudioBuffer::loadWav(QString fileName, QObject *parent /* = 0 */)
+AudioBuffer *AudioBuffer::loadWav(QString fileName, QObject *parent)
 {
     QFile wavFile(fileName);
 
     if (wavFile.open(QIODevice::ReadOnly)) {
         AudioBuffer *buffer = loadWav(wavFile, parent);
 
-        if (!buffer) {
+        if (!buffer)
             DEBUG_INFO("Failed to load data from " << fileName << "!");
-        }
 
         wavFile.close();
         return buffer;
     }
 
     DEBUG_INFO("Failed to open " << fileName << ": " << wavFile.errorString());
-    return 0;
+    return NULL;
 }
 
 
@@ -126,12 +126,12 @@ AudioBuffer *AudioBuffer::loadWav(QString fileName, QObject *parent /* = 0 */)
 
   Returns a new buffer if successful, NULL otherwise.
 */
-AudioBuffer *AudioBuffer::loadWav(QFile &wavFile, QObject *parent /* = 0 */)
+AudioBuffer *AudioBuffer::loadWav(QFile &wavFile, QObject *parent)
 {
     if (!wavFile.isOpen()) {
         // The file is not open!
         DEBUG_INFO("The given file must be opened before calling this method!");
-        return 0;
+        return NULL;
     }
 
     SWavHeader header;
@@ -141,7 +141,7 @@ AudioBuffer *AudioBuffer::loadWav(QFile &wavFile, QObject *parent /* = 0 */)
     if (header.chunkID[0] != 'R' || header.chunkID[1] != 'I' ||
         header.chunkID[2] != 'F' || header.chunkID[3] != 'F') {
         // Incorrect header
-        return 0;
+        return NULL;
     }
 
     wavFile.read((char*)&header.chunkSize, 4);
@@ -150,7 +150,7 @@ AudioBuffer *AudioBuffer::loadWav(QFile &wavFile, QObject *parent /* = 0 */)
     if (header.format[0] != 'W' || header.format[1] != 'A' ||
         header.format[2] != 'V' || header.format[3] != 'E') {
         // Incorrect header
-        return 0;
+        return NULL;
     }
 
     wavFile.read((char*)&header.subchunk1id, 4);
@@ -158,7 +158,7 @@ AudioBuffer *AudioBuffer::loadWav(QFile &wavFile, QObject *parent /* = 0 */)
     if (header.subchunk1id[0] != 'f' || header.subchunk1id[1] != 'm' ||
         header.subchunk1id[2] != 't' || header.subchunk1id[3] != ' ') {
         // Incorrect header
-        return 0;
+        return NULL;
     }
 
     wavFile.read((char*)&header.subchunk1size, 4);
@@ -171,10 +171,10 @@ AudioBuffer *AudioBuffer::loadWav(QFile &wavFile, QObject *parent /* = 0 */)
 
     while (1) {
         if (wavFile.read((char*)&header.subchunk2id, 4) != 4)
-            return 0;
+            return NULL;
 
         if (wavFile.read((char*)&header.subchunk2size, 4) != 4)
-            return 0;
+            return NULL;
 
         if (header.subchunk2id[0] == 'd' && header.subchunk2id[1] == 'a' &&
             header.subchunk2id[2] == 't' && header.subchunk2id[3] == 'a') {
@@ -185,7 +185,7 @@ AudioBuffer *AudioBuffer::loadWav(QFile &wavFile, QObject *parent /* = 0 */)
         // This was not the data-chunk. Skip it.
         if (header.subchunk2size < 1) {
             // Error in file!
-            return 0;
+            return NULL;
         }
 
         char *unused = new char[header.subchunk2size];
@@ -195,7 +195,7 @@ AudioBuffer *AudioBuffer::loadWav(QFile &wavFile, QObject *parent /* = 0 */)
 
     // The data follows.
     if (header.subchunk2size < 1)
-        return 0;
+        return NULL;
 
     // Construct the buffer.
     AudioBuffer *buffer = new AudioBuffer(parent);
@@ -212,95 +212,11 @@ AudioBuffer *AudioBuffer::loadWav(QFile &wavFile, QObject *parent /* = 0 */)
     if (!setSampleFunction(*buffer)) {
         // Failed to resolve the sample function!
         delete buffer;
-        return 0;
+        return NULL;
     }
 
     return buffer;
 }
-
-
-/*!
-  Loads a .wav file from a preopened file handle, \a wavFile. If \a parent is
-  given, it is set as the parent of the constructed buffer.
-
-  Returns a new buffer if successful, NULL otherwise.
-*/
-AudioBuffer *AudioBuffer::loadWav(FILE *wavFile, QObject *parent /* = 0 */)
-{
-    if (!wavFile) {
-        // Invalid file handle!
-        return 0;
-    }
-
-    // Read the header.
-    SWavHeader header;
-
-    fread(header.chunkID, 4, 1, wavFile);
-
-    if (header.chunkID[0] != 'R' || header.chunkID[1] != 'I' ||
-        header.chunkID[2] != 'F' || header.chunkID[3] != 'F') {
-        // Incorrect header
-        return 0;
-    }
-
-    fread(&header.chunkSize, 4, 1, wavFile);
-    fread(header.format, 4, 1, wavFile);
-
-    if (header.format[0] != 'W' || header.format[1] != 'A' ||
-        header.format[2] != 'V' || header.format[3] != 'E') {
-        // Incorrect header
-        return 0;
-    }
-
-    fread(header.subchunk1id, 4, 1, wavFile);
-
-    if (header.subchunk1id[0] != 'f' || header.subchunk1id[1] != 'm' ||
-        header.subchunk1id[2] != 't' || header.subchunk1id[3] != ' ') {
-        // Incorrect header
-        return 0;
-    }
-
-    fread(&header.subchunk1size, 4, 1, wavFile);
-    fread(&header.audioFormat, 2, 1, wavFile);
-    fread(&header.nofChannels, 2, 1, wavFile);
-    fread(&header.sampleRate, 4, 1, wavFile);
-    fread(&header.byteRate, 4, 1, wavFile);
-    fread(&header.blockAlign, 2, 1, wavFile);
-    fread(&header.bitsPerSample, 2, 1, wavFile);
-    fread(header.subchunk2id, 4, 1, wavFile);
-
-    if (header.subchunk2id[0] != 'd' || header.subchunk2id[1] != 'a' ||
-        header.subchunk2id[2] != 't' || header.subchunk2id[3] != 'a') {
-        // Incorrect header
-        return 0;
-    }
-
-    fread(&header.subchunk2size, 4, 1, wavFile);
-
-    // The data follows.
-    if (header.subchunk2size < 1)
-        return 0;
-
-    AudioBuffer *buffer = new AudioBuffer(parent);
-
-    buffer->m_nofChannels = header.nofChannels;
-    buffer->m_bitsPerSample = header.bitsPerSample;
-    buffer->m_samplesPerSec = header.sampleRate;
-    buffer->m_signedData = 0; // Where to look for this?
-    buffer->reallocate(header.subchunk2size);
-
-    fread(buffer->m_data, 1, header.subchunk2size, wavFile);
-
-    // Select a good sampling function.
-    if (!setSampleFunction(*buffer)) {
-        // Failed to select the sampling function!
-        delete buffer;
-        return 0;
-    }
-
-    return buffer;
-}
-
 
 // Mix to  mono versions.
 

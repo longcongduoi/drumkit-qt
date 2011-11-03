@@ -1,14 +1,20 @@
 /**
  * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
  *
  * Part of the Qt GameEnabler.
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
  */
 
 #ifndef GEAUDIOBUFFERPLAYINSTANCE_H
 #define GEAUDIOBUFFERPLAYINSTANCE_H
 
-#include "GEInterfaces.h"
-
+#include <QPointer>
+#include "geglobal.h"
+#include "audiosourceif.h"
+#include "audioeffect.h"
 
 namespace GE {
 
@@ -16,7 +22,7 @@ namespace GE {
 class AudioBuffer;
 
 
-class AudioBufferPlayInstance : public AudioSource
+class Q_GE_EXPORT AudioBufferPlayInstance : public AudioSource
 {
     Q_OBJECT
 
@@ -45,6 +51,7 @@ public slots:
     void setSpeed(float speed);
     void setLeftVolume(float volume);
     void setRightVolume(float volume);
+    void setEffect(AudioEffect *effect) { m_effect = effect; }
 
 protected:
     int mixBlock(AUDIO_SAMPLE_TYPE *target, int bufferLength);
@@ -53,7 +60,8 @@ signals:
     void finished();
 
 protected: // Data
-    AudioBuffer *m_buffer; // Not owned
+    QPointer<AudioBuffer> m_buffer; // Not owned
+    QPointer<AudioEffect> m_effect; // Not owned
     bool m_finished;
     bool m_destroyWhenFinished;
     int m_fixedPos;

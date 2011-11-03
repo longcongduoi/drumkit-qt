@@ -5,7 +5,7 @@
 #include <QThread>
 
 #include "audiointerface.h"
-#include "GEAudioMixer.h"
+#include "audiomixer.h"
 
 // Audio output using PulseAudio, Linux desktop/Harmattan only.
 class AudioPulseAudio : public QThread,

@@ -1,10 +1,14 @@
 /**
  * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
  *
  * Part of the Qt GameEnabler.
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
  */
 
-#include "GEAudioMixer.h"
+#include "audiomixer.h"
 #include <memory.h>
 #include "trace.h" // For debug macros
 
@@ -24,9 +28,11 @@ using namespace GE;
 AudioMixer::AudioMixer(QObject *parent)
     : AudioSource(parent),
       m_mixingBuffer(0),
+      m_effect(0),
       m_mixingBufferLength(0),
       m_fixedGeneralVolume((int)GEMaxAudioVolumeValue)
 {
+    DEBUG_INFO(this);
 }
 
 
@@ -136,20 +142,21 @@ int AudioMixer::pullAudio(AUDIO_SAMPLE_TYPE *target, int bufferLength)
     QMutexLocker locker(&m_mutex);
     Q_UNUSED(locker); // To prevent warnings
 
-    if (m_sourceList.isEmpty()) {
-        DEBUG_INFO("No items in the source list!");
+    if ((m_sourceList.isEmpty() && m_effect.isNull())
+             || bufferLength <= 0) {
         return 0;
     }
 
     if (m_mixingBufferLength < bufferLength) {
-        if (m_mixingBuffer)
+        if (m_mixingBuffer) {
             delete [] m_mixingBuffer;
+        }
 
         m_mixingBufferLength = bufferLength;
         m_mixingBuffer = new AUDIO_SAMPLE_TYPE[m_mixingBufferLength];
     }
 
-    memset(target, 0, sizeof(AUDIO_SAMPLE_TYPE) *bufferLength);
+    memset(target, 0, sizeof(AUDIO_SAMPLE_TYPE) * bufferLength);
 
     AUDIO_SAMPLE_TYPE *t;
     AUDIO_SAMPLE_TYPE *t_target;
@@ -193,6 +200,10 @@ int AudioMixer::pullAudio(AUDIO_SAMPLE_TYPE *target, int bufferLength)
         }
     }
 
+    if (!m_effect.isNull()) {
+        return m_effect->process(target, bufferLength);
+    }
+
     //DEBUG_INFO("Done, will return buffer length: " << bufferLength);
     return bufferLength;
 }
@@ -203,6 +214,7 @@ int AudioMixer::pullAudio(AUDIO_SAMPLE_TYPE *target, int bufferLength)
 */
 void AudioMixer::setAbsoluteVolume(float volume)
 {
+    DEBUG_INFO(volume);
     m_fixedGeneralVolume = GEMaxAudioVolumeValue * volume;
     emit absoluteVolumeChanged(m_fixedGeneralVolume);
 }
@@ -215,6 +227,8 @@ void AudioMixer::setAbsoluteVolume(float volume)
 void AudioMixer::setGeneralVolume(float volume)
 {
     const int sourceCount(audioSourceCount());
+
+    DEBUG_INFO(volume);
 
     // Safety checks for possible division by zero error.
     if (volume == 0) {

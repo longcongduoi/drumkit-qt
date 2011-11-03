@@ -1,16 +1,17 @@
 #include <QtCore/QDebug>
 #include "audiogameenabler.h"
 
-#include "GEAudioOut.h"
-#include "GEAudioMixer.h"
-#include "GEAudioBuffer.h"
-#include "GEAudioBufferPlayInstance.h"
+#include "audioout.h"
+#include "pushaudioout.h"
+#include "audiomixer.h"
+#include "audiobuffer.h"
+#include "audiobufferplayinstance.h"
 
 AudioGameEnabler::AudioGameEnabler(GE::AudioMixer& audioMixer, QObject *parent)
     : QObject(parent),
       m_audioMixer(audioMixer)
 {
-    m_audioOut = new GE::AudioOut(&m_audioMixer, this);
+    m_audioOut = new GE::PushAudioOut(&m_audioMixer, this);
     
 #ifdef Q_OS_SYMBIAN
     // On Symbian, a timer is required to drive the audio output.

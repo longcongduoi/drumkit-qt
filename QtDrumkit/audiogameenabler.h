@@ -5,8 +5,8 @@
 #include <QTimer>
 
 #include "audiointerface.h"
-#include "GEAudioOut.h"
-#include "GEAudioMixer.h"
+#include "audioout.h"
+#include "audiomixer.h"
 
 // Audio output using GameEnabler.
 class AudioGameEnabler : public QObject,

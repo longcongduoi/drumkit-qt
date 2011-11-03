@@ -1,11 +1,16 @@
 /**
  * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
  *
  * Part of the Qt GameEnabler.
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
  */
 
-#include "GEAudioBufferPlayInstance.h"
-#include "GEAudioBuffer.h"
+#include "audiobufferplayinstance.h"
+#include "audiobuffer.h"
+#include "audioeffect.h"
 #include "trace.h"
 
 using namespace GE;
@@ -29,6 +34,7 @@ AudioBufferPlayInstance::AudioBufferPlayInstance(AudioBuffer *buffer /* = 0 */,
                                                  QObject *parent /* = 0 */)
     : AudioSource(parent),
       m_buffer(0),
+      m_effect(0),
       m_finished(false),
       m_destroyWhenFinished(true),
       m_fixedPos(0),
@@ -38,6 +44,7 @@ AudioBufferPlayInstance::AudioBufferPlayInstance(AudioBuffer *buffer /* = 0 */,
       m_fixedCenter(0),
       m_loopCount(0)
 {
+    DEBUG_POINT;
     if (buffer) {
         // Start playing the given buffer.
         playBuffer(buffer, GEDefaultAudioVolume, GEDefaultAudioSpeed);
@@ -50,6 +57,7 @@ AudioBufferPlayInstance::AudioBufferPlayInstance(AudioBuffer *buffer /* = 0 */,
 */
 AudioBufferPlayInstance::~AudioBufferPlayInstance()
 {
+    DEBUG_POINT;
 }
 
 
@@ -58,7 +66,7 @@ AudioBufferPlayInstance::~AudioBufferPlayInstance()
 */
 bool AudioBufferPlayInstance::isPlaying() const
 {
-    if (m_buffer)
+    if (!m_buffer.isNull())
         return true;
 
     return false;
@@ -88,7 +96,7 @@ bool AudioBufferPlayInstance::canBeDestroyed()
 int AudioBufferPlayInstance::pullAudio(AUDIO_SAMPLE_TYPE *target,
                                        int bufferLength)
 {
-    if (!m_buffer) {
+    if (m_buffer.isNull()) {
         // No sample!
         return 0;
     }
@@ -151,7 +159,7 @@ int AudioBufferPlayInstance::pullAudio(AUDIO_SAMPLE_TYPE *target,
                 // No more loops, stop the sample and return the amount of
                 // samples already mixed.
                 stop();
-                return totalMixed;
+                break;
             }
         }
 
@@ -160,6 +168,9 @@ int AudioBufferPlayInstance::pullAudio(AUDIO_SAMPLE_TYPE *target,
         if (samplesToWrite < 1)
             break;
     }
+
+    if (!m_effect.isNull())
+        return m_effect->process(target, totalMixed * 2);
 
     return totalMixed * 2;
 }
@@ -221,17 +232,15 @@ void AudioBufferPlayInstance::setLoopCount(int count)
 
 /*!
   Sets \a speed as the speed of which the buffer is played in. The given
-  argument value should be between 0.0 and 1.0 since 1.0 indicates 100 %.
+  argument value should be larger than 0.0. 1.0 indicates 100 %.
 */
 void AudioBufferPlayInstance::setSpeed(float speed)
 {
-    if (!m_buffer)
+    if (m_buffer.isNull())
         return;
 
-    m_fixedInc =
-        (int)(((float)m_buffer->getSamplesPerSec() *
-               GEMaxAudioSpeedValue * speed) /
-              (float)AUDIO_FREQUENCY);
+    m_fixedInc = qMax(1, (int)(((float)m_buffer->getSamplesPerSec() *
+        GEMaxAudioSpeedValue * speed) / (float)AUDIO_FREQUENCY));
 }
 
 

@@ -1,36 +1,30 @@
 /**
  * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
  *
  * Part of the Qt GameEnabler.
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
  */
 
-#include "GEAudioOut.h"
-
-#include <QAudioOutput>
-#include <QIODevice>
-#include <QString>
-#include <QtMultimedia/qaudio.h>
-#include <QtMultimedia/qaudiodeviceinfo.h>
-
+#include "pushaudioout.h"
 #include "trace.h" // For debug macros
 
 #if defined(QTGAMEENABLER_USE_VOLUME_HACK) && defined(Q_OS_SYMBIAN)
-    #include <SoundDevice.h>
+    #include <sounddevice.h>
+    #include <QSystemInfo>
+    QTM_USE_NAMESPACE
 #endif
 
 // Constants
-const int GEDefaultChannelCount(2);
-const QString GEDefaultAudioCodec("audio/pcm");
-const QAudioFormat::Endian GEByteOrder(QAudioFormat::LittleEndian);
-const QAudioFormat::SampleType GESampleType(QAudioFormat::SignedInt);
 const int GEThreadSleepTime(1); // Milliseconds
-
 
 using namespace GE;
 
 
 /*!
-  \class Audioout
+  \class PushAudioOut
   \brief An object deploying QAudioOutput for sending the pre-mixed/processed
          audio data into an actual audio device.
 */
@@ -39,20 +33,21 @@ using namespace GE;
 /*!
   Constructor.
 */
-AudioOut::AudioOut(AudioSource *source, QObject *parent /* = 0 */)
+PushAudioOut::PushAudioOut(AudioSource *source, QObject *parent /* = 0 */)
     : QThread(parent),
       m_audioOutput(0),
       m_outTarget(0),
-      m_source(source),
       m_sendBuffer(0),
       m_sendBufferSize(0),
       m_samplesMixed(0),
       m_threadState(NotRunning),
-      m_usingThread(false)
+      m_source(source)
 {
+    DEBUG_INFO(this);
+
     QAudioFormat format;
     format.setFrequency(AUDIO_FREQUENCY);
-    format.setChannels(GEDefaultChannelCount);
+    format.setChannels(AUDIO_CHANNELS);
     format.setSampleSize(AUDIO_SAMPLE_BITS);
     format.setCodec(GEDefaultAudioCodec);
     format.setByteOrder(GEByteOrder);
@@ -65,35 +60,24 @@ AudioOut::AudioOut(AudioSource *source, QObject *parent /* = 0 */)
 
     m_audioOutput = new QAudioOutput(info, format);
 
-#if defined(Q_WS_MAEMO_5) || defined(Q_WS_MAEMO_6)
+#if defined(Q_WS_MAEMO_5) || defined(MEEGO_EDITION_HARMATTAN)
+    m_audioOutput->setBufferSize(4096 * 8);
     m_sendBufferSize = 4096 * 4;
-#else
-    m_audioOutput->setBufferSize(4096 * 4);
-#endif
-
-    m_outTarget = m_audioOutput->start();
-
-#if defined(Q_WS_MAEMO_5) || defined(Q_WS_MAEMO_6)
-    m_audioOutput->setBufferSize(4096 * 16);
-    m_sendBufferSize = 4096 * 8;
 #else
     m_audioOutput->setBufferSize(4096 * 4);
     m_sendBufferSize = 4096 * 2;
 #endif
 
+    m_outTarget = m_audioOutput->start();
+
     DEBUG_INFO("Buffer size: " << m_audioOutput->bufferSize());
     m_sendBuffer = new AUDIO_SAMPLE_TYPE[m_sendBufferSize];
 
-#ifndef Q_OS_SYMBIAN
-    m_usingThread = true;
-    start();
-#else
+#ifdef Q_OS_SYMBIAN
+    m_needsTick = true;
 
-#if defined(QTGAMEENABLER_USE_VOLUME_HACK) && defined(Q_OS_SYMBIAN)
+#if defined(QTGAMEENABLER_USE_VOLUME_HACK)
     DEBUG_INFO("WARNING: Using the volume hack!");
-
-    //m_audioOutput->setNotifyInterval(0);
-    //connect(m_audioOutput, SIGNAL(notify()), this, SLOT(audioNotify()));
 
     // This really ugly hack is used as the last resort. This allows us to
     // adjust the application volume in Symbian. The CMMFDevSound object lies
@@ -103,8 +87,13 @@ AudioOut::AudioOut(AudioSource *source, QObject *parent /* = 0 */)
     unsigned int *pointer_to_abstract_audio =
             (unsigned int*)((unsigned char*)m_audioOutput + 8);
 
-    unsigned int *dev_sound_wrapper =
-            (unsigned int*)(*pointer_to_abstract_audio) + 13;
+    unsigned int *dev_sound_wrapper;
+    QSystemInfo sysInfo;
+    if (sysInfo.version(QSystemInfo::QtMobility) == QLatin1String("1.2.0")) {
+        dev_sound_wrapper = (unsigned int*)(*pointer_to_abstract_audio) + 16;
+    } else {
+        dev_sound_wrapper = (unsigned int*)(*pointer_to_abstract_audio) + 13;
+    }
 
     unsigned int *temp = ((unsigned int*)(*dev_sound_wrapper) + 6);
 
@@ -112,14 +101,17 @@ AudioOut::AudioOut(AudioSource *source, QObject *parent /* = 0 */)
     devSound->SetVolume(devSound->MaxVolume() * 6 / 10);
 #endif
 
-#endif // ifndef Q_OS_SYMBIAN - else
+#else // !Q_OS_SYMBIAN
+    m_needsTick = false;
+    start();
+#endif // Q_OS_SYMBIAN
 }
 
 
 /*!
   Destructor.
 */
-AudioOut::~AudioOut()
+PushAudioOut::~PushAudioOut()
 {
     if (m_threadState == DoRun) {
         // Set the thread to exit run().
@@ -141,47 +133,41 @@ AudioOut::~AudioOut()
     delete [] m_sendBuffer;
 }
 
-
 /*!
-  For internal notification solution.
-*/
-void AudioOut::audioNotify()
-{
-    tick();
-}
-
-
-/*!
-  TODO: Document what this method actually does and why it is needed.
-
   Call this method manually only if you are not using a thread (with Symbian).
 
   Note: When using Qt GameEnabler, the GameWindow instance owning this AudioOut
   instance will handle calling this method and you should not try to call this
   explicitly.
 */
-void AudioOut::tick()
+void PushAudioOut::tick()
 {
-    // Fill data to the buffer as much as there is free space available.
-    int samplesToWrite(m_audioOutput->bytesFree() /
-                       (GEDefaultChannelCount * AUDIO_SAMPLE_BITS / 8));
-    samplesToWrite *= 2;
+    if (m_source.isNull()) {
+        DEBUG_INFO("No audio source!");
+        return;
+    }
 
+    // QAudioOutput does not use period size on Symbian, and periodSize
+    // returns always the bufferSize
+#ifdef Q_OS_SYMBIAN
+    // Fill data to the buffer as much as there is free space available.
+    int samplesToWrite(m_audioOutput->bytesFree() / sizeof(AUDIO_SAMPLE_TYPE));
     if (samplesToWrite <= 0)
         return;
+#else // !Q_OS_SYMBIAN
+    // Use multiples of period size
+    int samplesToWrite(m_audioOutput->bytesFree() / m_audioOutput->periodSize());
+    if (!samplesToWrite)
+        return;
+    samplesToWrite *= m_audioOutput->periodSize() / sizeof(AUDIO_SAMPLE_TYPE);
+#endif // Q_OS_SYMBIAN
 
     if (samplesToWrite > m_sendBufferSize)
         samplesToWrite = m_sendBufferSize;
 
-    memset(m_sendBuffer, 0, m_sendBufferSize);
     int mixedSamples = m_source->pullAudio(m_sendBuffer, samplesToWrite);
-
-    // Original:
-    // m_outTarget->write((char*)m_sendBuffer, mixedSamples * 2);
-
-    // Consistent latency is achieved by always sending the required
-    // amount of bytes.
-    m_outTarget->write((char*)m_sendBuffer, samplesToWrite * 2);
+    m_outTarget->write((char*)m_sendBuffer,
+        mixedSamples * sizeof(AUDIO_SAMPLE_TYPE));
 }
 
 
@@ -190,12 +176,12 @@ void AudioOut::tick()
 
   Used only in threaded solutions.
 */
-void AudioOut::run()
+void PushAudioOut::run()
 {
     DEBUG_INFO("Starting thread.");
     m_threadState = DoRun;
 
-    if (!m_source) {
+    if (m_source.isNull()) {
         DEBUG_INFO("No audio source, exiting the thread!");
         m_threadState = NotRunning;
         return;
@@ -209,3 +195,4 @@ void AudioOut::run()
     DEBUG_INFO("Exiting thread.");
     m_threadState = NotRunning;
 }
+
