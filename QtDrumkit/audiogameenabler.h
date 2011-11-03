@@ -5,7 +5,7 @@
 #include <QTimer>
 
 #include "audiointerface.h"
-#include "audioout.h"
+#include "pushaudioout.h"
 #include "audiomixer.h"
 
 // Audio output using GameEnabler.
@@ -20,7 +20,7 @@ public:
 private:
     void setVolume(int value) {}
 
-    GE::AudioOut* m_audioOut;
+    GE::PushAudioOut* m_audioOut;
     GE::AudioMixer& m_audioMixer;
 
 #ifdef Q_OS_SYMBIAN

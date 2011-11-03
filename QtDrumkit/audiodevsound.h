@@ -6,8 +6,8 @@
 #include <mmf/server/sounddevice.h>
 
 #include "audiointerface.h"
-#include "GEAudioOut.h"
-#include "GEAudioMixer.h"
+#include "audioout.h"
+#include "audiomixer.h"
 
 // Audio output using Symbian native CMMFDevSound.
 class AudioDevSound : public QObject,

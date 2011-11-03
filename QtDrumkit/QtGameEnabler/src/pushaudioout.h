@@ -31,6 +31,7 @@ public:
 
 public:
     bool needsManualTick() const { return m_needsTick; }
+public slots:
     void tick();
 
 protected: // From QThread

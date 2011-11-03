@@ -52,6 +52,7 @@ symbian {
    ICON = QtDrumkit.svg
    TARGET.UID3 = 0xE19608FC
    DEFINES += USE_DEVSOUND
+   #DEFINES += USE_GAMEENABLER
 
    platform_qml.source = qml/symbian
    platform_qml.target = qml

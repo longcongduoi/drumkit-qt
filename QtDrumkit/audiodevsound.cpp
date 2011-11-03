@@ -2,9 +2,9 @@
 
 #include "audiodevsound.h"
 
-#include "GEAudioMixer.h"
-#include "GEAudioBuffer.h"
-#include "GEAudioBufferPlayInstance.h"
+#include "audiomixer.h"
+#include "audiobuffer.h"
+#include "audiobufferplayinstance.h"
 
 AudioDevSound::AudioDevSound(GE::AudioMixer& audioMixer, QObject *parent)
     : QObject(parent),
