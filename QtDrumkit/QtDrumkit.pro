@@ -7,7 +7,7 @@ common_qml.target = qml
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH += qml/common
 
-VERSION = 0.6
+VERSION = 1.0
 
 # Smart Installer package's UID
 # This UID is from the protected range and therefore the package will
