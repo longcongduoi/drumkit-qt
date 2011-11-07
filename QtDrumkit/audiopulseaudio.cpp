@@ -10,7 +10,7 @@
 
 using namespace GE;
 
-static int latency = 20000; // start latency in micro seconds
+static int latency = 10000; // start latency in micro seconds
 static pa_buffer_attr bufattr;
 static pa_sample_spec ss;
 static short* buffer;
