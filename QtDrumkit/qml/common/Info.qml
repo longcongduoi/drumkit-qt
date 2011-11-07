@@ -49,7 +49,7 @@ Item {
             id: url
             anchors.horizontalCenter: parent.horizontalCenter
             color: "white"
-            font.pointSize: text.font.pointSize - 2
+            font.pointSize: text.font.pointSize - 1
             text: "\n\n"+container.url
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
