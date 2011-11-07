@@ -16,7 +16,7 @@ Item {
     // Set to true if a highlight graphics should be shown when pressed.
     property bool showSplash: true
 
-    property alias pressed: ma.pressed
+    property alias pressed: ma.pressed  
 
     signal clicked
 
@@ -56,6 +56,7 @@ Item {
     }
 
     Image {
+        id: img
         source: gfxPath + "splash.png"
         anchors.centerIn: parent
         visible: showSplash && ma.pressed

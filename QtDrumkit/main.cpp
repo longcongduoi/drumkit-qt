@@ -19,6 +19,16 @@ int main(int argc, char *argv[])
     QmlViewer viewer;
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockLandscape);
 
+    // Check for VGA resolution and inform QML. Needed for some
+    // gfx layouting on on Symbian devices with VGA resolution (E6).
+    QDesktopWidget* desktop = QApplication::desktop();
+    const QRect screenRect = desktop->screenGeometry();
+    if(screenRect.width() == 640 && screenRect.height() == 480) {
+        viewer.rootContext()->setContextProperty("screenVGA", true);
+    } else {
+        viewer.rootContext()->setContextProperty("screenVGA", false);
+    }
+
     // Select the main.qml according to platform.
 #ifdef Q_OS_SYMBIAN
     viewer.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));

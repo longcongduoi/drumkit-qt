@@ -11,7 +11,7 @@ Item {
     property string gfxPath:  "../symbian/gfx/"
 
     width: 640
-    height: 360
+    height: screenVGA ? 480 : 360
 
     // DrumEngine instance for sample playing and drum track recording and playback.
     DrumEngine {
@@ -44,12 +44,13 @@ Item {
 
     Flipable {
         id: flipable
-        anchors.fill:  parent
+        anchors.fill: parent
 
         property bool flipped: false
 
         front: Pads2d {}
         back: Pads3d {
+
             // Mirror the back side so that after flipping the orientation ends up straight.
             transform: Rotation {
                 origin.x: flipable.width/2
@@ -170,7 +171,7 @@ Item {
     Info {
         id: info
         anchors.fill: parent
-        textPointSize: 8
+        textPointSize: screenVGA ? 5 : 8
         show: true
     }
 }
