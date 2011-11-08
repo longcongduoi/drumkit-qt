@@ -76,7 +76,9 @@ PROJECT FOLDER STRUCTURE
 * main folder: C++ and project files
 * qml/common: Common QML components for all platforms
 * qml/harmattan: MeeGo/Harmattan specific QML components
+* qml/harmattan/gfx: MeeGo/Harmattan specific graphics files
 * qml/symbian: Symbian specific QML components
+* qml/symbian/gfx: Symbian specific graphics files
 * samples: Audio samples
 * QtGameEnabler: QtGameEnabler audio related source files.
 
@@ -112,6 +114,7 @@ Symbian S^3 and MeeGo 1.2 Harmattan.
 Tested on:
 - Nokia N8 
 - Nokia C7 
+- Nokia E6
 - Nokia 701 
 - Nokia N9 
 - Nokia N950
