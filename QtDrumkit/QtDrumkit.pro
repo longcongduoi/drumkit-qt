@@ -1,4 +1,5 @@
 CONFIG += release
+QT += opengl multimedia
 
 # Add more folders to ship with the application, here
 common_qml.source = qml/common
