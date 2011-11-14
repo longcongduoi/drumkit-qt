@@ -18,7 +18,7 @@ class TouchEvents : public QObject
 {
     Q_OBJECT
 public:
-    TouchEvents(Qbject* parent);
+    TouchEvents(QObject *parent = 0);
 signals:
     void touchEventReceived(int x, int y);
 };
