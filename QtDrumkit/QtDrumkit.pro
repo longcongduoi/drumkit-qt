@@ -31,6 +31,7 @@ contains(MEEGO_EDITION,harmattan): {
    CONFIG += harmattan
 }
 
+
 unix:!symbian {
    maemo5 {
       error(Maemo5 not supported)
@@ -84,6 +85,21 @@ unix|harmattan:!symbian {
 
    SOURCES += audiopulseaudio.cpp
    HEADERS += audiopulseaudio.h
+}
+
+simulator {
+   message(Simulator)
+   CONFIG -= release
+   CONFIG += debug
+
+   DEFINES += USE_GAMEENABLER
+   SOURCES += audiogameenabler.cpp
+   HEADERS += audiogameenabler.h
+
+   platform_qml.source = qml/harmattan
+   platform_qml.target = qml
+   QML_IMPORT_PATH += qml/harmattan
+
 }
 
 # The following is needed for the volume buttons to work.
