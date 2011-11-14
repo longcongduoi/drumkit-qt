@@ -1,7 +1,7 @@
 # Copyright (c) 2011 Nokia Corporation.
 
 CONFIG += release
-QT += opengl multimedia
+QT += opengl
 
 # Add more folders to ship with the application, here
 common_qml.source = qml/common

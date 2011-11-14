@@ -33,11 +33,11 @@ void DrumEngine::playSample(QString name)
     m_samplePlayer->playSample(name);
 
     // If recording, store this sample to drum track.
-    if(m_state == StateRecord) {
+    if (m_state == StateRecord) {
 	m_drumTrack.append(qMakePair(QTime::currentTime(), name));
 
         // In case of the first note, the start time gets updated.
-        if(m_drumTrackStartTime.isNull()) {
+        if (m_drumTrackStartTime.isNull()) {
 	    m_drumTrackStartTime = QTime::currentTime();
 	}
     }
@@ -112,11 +112,11 @@ void DrumEngine::playbackTimerEvent()
     int elapsed = m_playbackStartTime.msecsTo(QTime::currentTime());
     QPair<QTime, QString> note = m_drumTrack[m_playbackPosition];
     int noteStart = m_drumTrackStartTime.msecsTo(note.first);
-    if(elapsed >= noteStart) {
+    if (elapsed >= noteStart) {
 	playSample(note.second);
 	m_playbackPosition++;
 
-	if(m_playbackPosition >= m_drumTrack.size()) {
+        if (m_playbackPosition >= m_drumTrack.size()) {
 	    stop();
 	}
     }

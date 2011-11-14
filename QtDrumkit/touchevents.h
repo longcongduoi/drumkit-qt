@@ -16,9 +16,9 @@
 // Touch events object to be used from QML. Contains only one signal.
 class TouchEvents : public QObject
 {
-    Q_OBJECT;
+    Q_OBJECT
 public:
-    TouchEvents();
+    TouchEvents(Qbject* parent);
 signals:
     void touchEventReceived(int x, int y);
 };
