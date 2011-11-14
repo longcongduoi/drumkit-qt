@@ -18,11 +18,14 @@
 #include "pullaudioout.h"
 #include "audiomixer.h"
 
-// Audio output using GameEnabler.
+/*!
+ * \class AudioGameEnabler
+ * \brief Audio output using GameEnabler.
+ */
 class AudioGameEnabler : public QObject,
-        public AudioInterface
+                         public AudioInterface
 {
-    Q_OBJECT;
+    Q_OBJECT
 public:
     explicit AudioGameEnabler(GE::AudioMixer &audioMixer, QObject *parent = 0);
     virtual ~AudioGameEnabler();

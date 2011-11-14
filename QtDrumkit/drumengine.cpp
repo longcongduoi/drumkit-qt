@@ -14,6 +14,14 @@
 
 using namespace GE;
 
+/*!
+  \class DrumEngine
+  \brief This class provides DrumEngine with QML bindings.
+         It has a state that can be queried with properties.
+         It can play samples, record a drum track, and start
+         and stop playback.
+*/
+
 DrumEngine::DrumEngine(QObject *parent) 
     : QObject(parent),
       m_state(StateStop)
@@ -28,6 +36,9 @@ DrumEngine::~DrumEngine()
 {
 }
 
+/*!
+  Play a sample with a name.
+*/
 void DrumEngine::playSample(QString name)
 {
     m_samplePlayer->playSample(name);
@@ -43,6 +54,9 @@ void DrumEngine::playSample(QString name)
     }
 }
 
+/*!
+  Start playback.
+*/
 void DrumEngine::play()
 {
     m_state = StatePlayback;  
@@ -54,6 +68,10 @@ void DrumEngine::play()
     m_playbackTimer.start(10); // 10 ms interval
 }
 
+
+/*!
+  Start recording.
+*/
 void DrumEngine::record()
 {
     m_state = StateRecord;
@@ -64,6 +82,54 @@ void DrumEngine::record()
     m_drumTrackStartTime = QTime();
 }
 
+
+/*!
+  Stop playback or recording.
+*/
+void DrumEngine::stop()
+{
+    m_state = StateStop;
+    updateState();
+
+    m_playbackTimer.stop();
+}
+
+/*!
+  Checks if playback is in progress.
+*/
+bool DrumEngine::isPlaying() const
+{
+    return m_state == StatePlayback;
+}
+
+/*!
+  Checks if recording is in progress.
+*/
+bool DrumEngine::isRecording() const
+{
+    return m_state == StateRecord;
+}
+
+/*!
+  Checks whether playback is possible.
+*/
+bool DrumEngine::canPlay() const
+{
+    // Requirement for playback.
+    return m_drumTrack.size() > 0;
+}
+
+/*!
+  Checks whether recording is possible.
+*/
+bool DrumEngine::canRecord() const
+{
+    return m_state == StateStop || m_state == StateRecord;
+}
+
+/*!
+  Emits state update signals.
+*/
 void DrumEngine::updateState()
 {
     // Signal state changes.
@@ -73,35 +139,9 @@ void DrumEngine::updateState()
     emit isRecordingChanged();
 }
 
-void DrumEngine::stop()
-{
-    m_state = StateStop;
-    updateState();
-
-    m_playbackTimer.stop();
-}
-
-bool DrumEngine::isPlaying() const
-{
-    return m_state == StatePlayback;
-}
-
-bool DrumEngine::isRecording() const
-{
-    return m_state == StateRecord;
-}
-
-bool DrumEngine::canPlay() const
-{
-    // Requirement for playback.
-    return m_drumTrack.size() > 0;
-}
-
-bool DrumEngine::canRecord() const
-{
-    return m_state == StateStop || m_state == StateRecord;
-}
-
+/*!
+  Timer event used for playback.
+*/
 void DrumEngine::playbackTimerEvent()
 {
     // Figure out when the current note should be played

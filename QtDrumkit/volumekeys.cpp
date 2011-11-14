@@ -11,6 +11,10 @@
 
 #include "volumekeys.h"
 
+/*!
+  \class VolumeKeys
+  \brief Symbian specific utility for reacting to hardware volume buttons.
+*/
 VolumeKeys::VolumeKeys(QObject *parent)
     : QObject(parent),
       m_interfaceSelector(0),

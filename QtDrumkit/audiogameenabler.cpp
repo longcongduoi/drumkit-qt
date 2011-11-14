@@ -17,6 +17,10 @@
 #include "audiobuffer.h"
 #include "audiobufferplayinstance.h"
 
+/*!
+ * \class AudioGameEnabler
+ * \brief Audio output using GameEnabler.
+ */
 AudioGameEnabler::AudioGameEnabler(GE::AudioMixer &audioMixer, QObject *parent)
     : QObject(parent),
       m_audioMixer(audioMixer)

@@ -146,6 +146,11 @@ void pulseOutDeinit() {
 }
 
 
+/*!
+ * \class AudioPulseAudio
+ * \brief Audio output using PulseAudio, Linux desktop/Harmattan only.
+ */
+
 AudioPulseAudio::AudioPulseAudio(GE::AudioMixer& audioMixer, QObject *parent) 
     : QThread(parent),
       m_audioMixer(audioMixer)

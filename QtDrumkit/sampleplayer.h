@@ -22,19 +22,24 @@
 #include "volumekeys.h"
 #endif
 
-// A class for playing samples.
+/*!
+  \class SamplePlayer
+  \brief A class for playing samples.
+*/
 class SamplePlayer : public QObject
 {
-    Q_OBJECT;
+    Q_OBJECT
 public:
     explicit SamplePlayer(QObject *parent = 0);
     virtual ~SamplePlayer();
 
 public slots:
 
-    // Plays a sample, where name is one of:
-    // cowbell, crash, hihat1, hihat2, kick, ride1, ride2, snare,
-    // splash, tom1, tom2, tom3, china.
+/*!
+  Plays a sample, where name is one of:
+  cowbell, crash, hihat1, hihat2, kick, ride1, ride2, snare,
+  splash, tom1, tom2, tom3, china.
+*/
     void playSample(QString name);
 
 private slots:

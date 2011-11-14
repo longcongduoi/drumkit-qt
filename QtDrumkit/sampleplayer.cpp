@@ -28,6 +28,10 @@
 #include "audiopulseaudio.h"
 #endif
 
+/*!
+  \class SamplePlayer
+  \brief A class for playing samples.
+*/
 
 SamplePlayer::SamplePlayer(QObject *parent) 
     : QObject(parent)
@@ -80,6 +84,11 @@ void SamplePlayer::play(GE::AudioBuffer *buffer)
     }
 }
 
+/*!
+  Plays a sample, where name is one of:
+  cowbell, crash, hihat1, hihat2, kick, ride1, ride2, snare,
+  splash, tom1, tom2, tom3, china.
+*/
 void SamplePlayer::playSample(QString name)
 {
     // Fetch the buffer corresponding to the name and play it.

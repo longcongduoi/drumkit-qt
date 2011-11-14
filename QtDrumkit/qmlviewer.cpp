@@ -15,6 +15,13 @@
 
 QmlViewer* QmlViewer::m_instance;
 
+/*!
+  \class QmlViewer
+  \brief A wrapper for QmlApplicationViewer to get access to touch events.
+         The signal touchEventReceived is grabbed by an instance of TouchEvents class,
+         which is created from QML. For this to work, it needs an access to
+         QmlViewer instance, therefore the static instance member.
+*/
 QmlViewer::QmlViewer()
 {
     // We'd like to have touch events.

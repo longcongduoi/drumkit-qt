@@ -19,10 +19,13 @@
 
 class SamplePlayer;
 
-// This class provides DrumEngine with QML bindings.
-// It has a state that can be queried with properties.
-// It can play samples, record a drum track, and start
-// and stop playback.
+/*!
+  \class DrumEngine
+  \brief This class provides DrumEngine with QML bindings.
+         It has a state that can be queried with properties.
+         It can play samples, record a drum track, and start
+         and stop playback.
+*/
 class DrumEngine : public QObject
 {
     Q_OBJECT
@@ -42,37 +45,21 @@ signals:
     void canRecordChanged();
 
 public slots:
-    // Play a sample with a name.
     void playSample(QString name);
-
-    // Start playback.
     void play();
-
-    // Start recording.
     void record();
-
-    // Stop playback or recording.
     void stop();
 
 public:
-    // Checks whether playback is possible.
     bool canPlay() const;
-
-    // Checks whether recording is possible.
     bool canRecord() const;
-
-    // Checks if playback is in progress.
     bool isPlaying() const;
-
-    // Checks if recording is in progress.
     bool isRecording() const;
 
 private slots:
-    // Timer event used for playback.
     void playbackTimerEvent();
 
 private:
-    // Emits state update signals.
     void updateState();
 
     enum {
@@ -81,6 +68,7 @@ private:
         StateRecord
     } m_state;
 
+    
     // Drum track is stored in this list as pairs of time stamp and sample name.
     QList<QPair<QTime, QString> > m_drumTrack;
 

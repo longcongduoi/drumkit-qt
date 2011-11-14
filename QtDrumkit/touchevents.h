@@ -13,7 +13,10 @@
 
 #include <QObject>
 
-// Touch events object to be used from QML. Contains only one signal.
+/*!
+  \class TouchEvents
+  \brief Touch events object to be used from QML. Contains only one signal.
+*/
 class TouchEvents : public QObject
 {
     Q_OBJECT

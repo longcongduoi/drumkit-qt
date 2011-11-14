@@ -19,11 +19,15 @@
 #include "audioout.h"
 #include "audiomixer.h"
 
+/*!
+ * \class AudioDevSound
+ * \brief Audio output using Symbian native CMMFDevSound.
+ */
 class AudioDevSound : public QObject,
-        public MDevSoundObserver,
-        public AudioInterface
+                      public MDevSoundObserver,
+                      public AudioInterface
 {
-    Q_OBJECT;
+    Q_OBJECT
 public:
     explicit AudioDevSound(GE::AudioMixer &audioMixer, QObject *parent = 0);
     virtual ~AudioDevSound();
@@ -46,7 +50,7 @@ public: // From AudioInterface
 
 private:
     GE::AudioMixer &m_audioMixer;
-    CMMFDevSound* m_devSound;
+    CMMFDevSound *m_devSound;
 };
 
 #endif 

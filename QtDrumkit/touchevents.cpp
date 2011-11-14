@@ -11,6 +11,10 @@
 #include "touchevents.h"
 #include "qmlviewer.h"
 
+/*!
+  \class TouchEvents
+  \brief Touch events object to be used from QML. Contains only one signal.
+*/
 TouchEvents::TouchEvents(QObject* parent)
     : QObject(parent)
 {
