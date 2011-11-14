@@ -29,7 +29,6 @@ VERSION = 1.0
 
 contains(MEEGO_EDITION,harmattan): {
    CONFIG += harmattan
-   DEFINES += Q_OS_MEEGO
 }
 
 unix:!symbian {
