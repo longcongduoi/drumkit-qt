@@ -33,16 +33,16 @@ signals:
 
 public slots:
     // Play a sample with a name.
-    Q_INVOKABLE void playSample(QString name);
+    void playSample(QString name);
 
     // Start playback.
-    Q_INVOKABLE void play();
+    void play();
 
     // Start recording.
-    Q_INVOKABLE void record();
+    void record();
 
     // Stop playback or recording.
-    Q_INVOKABLE void stop();
+    void stop();
 
 public:
     // Checks whether playback is possible.

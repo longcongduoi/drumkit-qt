@@ -22,11 +22,8 @@
 SamplePlayer::SamplePlayer(QObject *parent) 
     : QObject(parent)
 {
-#ifdef Q_OS_SYMBIAN
+    // Set a reasonable volume for the mixer.
     m_audioMixer.setAbsoluteVolume(3.0f / 10);
-#else
-    m_audioMixer.setAbsoluteVolume(3.0f / 10);
-#endif
 
     // Prepare the sample map and generate preloaded buffers.
     QStringList samples;
@@ -34,7 +31,7 @@ SamplePlayer::SamplePlayer(QObject *parent)
 	    << "kick" << "ride1" << "ride2" << "snare" 
             << "splash" << "tom1" << "tom2" << "tom3" << "china";
 
-    foreach(QString name, samples) {
+    foreach (QString name, samples) {
         m_samples[name] = GE::AudioBuffer::loadWav(":/samples/"+name+".wav", this);
     }
 
@@ -68,7 +65,7 @@ void SamplePlayer::play(GE::AudioBuffer* buffer)
     // Play the AudioBuffer using mixer.
     Q_ASSERT(buffer);
     GE::AudioBufferPlayInstance* inst = buffer->playWithMixer(m_audioMixer);   
-    if(inst == 0) {
+    if (inst == 0) {
         qWarning() << "playWithMixer failed";
     }
 }
