@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
+ *
+ * Part of the QtDrumkit
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
+ */
+
 #ifndef DRUMENGINE_H
 #define DRUMENGINE_H
 
@@ -88,7 +98,7 @@ private:
     int m_playbackPosition;
 
     // Sample player utility.
-    SamplePlayer* m_samplePlayer;
+    SamplePlayer *m_samplePlayer;
 };
 
 #endif // DRUMENGINE_H

@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ */
+
 import QtQuick 1.0
 
 // A button that displays an animation when not pressed.
@@ -30,16 +34,16 @@ Item {
         source: gfxPath + animation
         x: 0
         y: -parent.height * parent.currentFrame
-        visible: !ma.pressed
+        visible: !mouseArea.pressed
     }
 
     Image {
         source: gfxPath + imagePressed
-        visible: ma.pressed
+        visible: mouseArea.pressed
     }
 
     MouseArea {
-        id: ma
+        id: mouseArea
         anchors.fill: parent
         enabled: parent.enabled
         onReleased: parent.released()

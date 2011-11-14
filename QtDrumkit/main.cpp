@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
+ *
+ * Part of the QtDrumkit
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
+ */
+
 #include <QDebug>
 #include <QtGui/QApplication>
 #include <QGLWidget>
@@ -21,7 +31,7 @@ int main(int argc, char *argv[])
 
     // Check for VGA resolution and inform QML. Needed for some
     // gfx layouting on on Symbian devices with VGA resolution (E6).
-    QDesktopWidget* desktop = QApplication::desktop();
+    QDesktopWidget *desktop = QApplication::desktop();
     const QRect screenRect = desktop->screenGeometry();
     if(screenRect.width() == 640 && screenRect.height() == 480) {
         viewer.rootContext()->setContextProperty("screenVGA", true);

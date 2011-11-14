@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
+ *
+ * Part of the QtDrumkit
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
+ */
+
 #include <QtCore/QDebug>
 
 #include "audiodevsound.h"
@@ -6,7 +16,11 @@
 #include "audiobuffer.h"
 #include "audiobufferplayinstance.h"
 
-AudioDevSound::AudioDevSound(GE::AudioMixer& audioMixer, QObject *parent)
+/*!
+ * \class AudioDevSound
+ * \brief Audio output using Symbian native CMMFDevSound.
+ */
+AudioDevSound::AudioDevSound(GE::AudioMixer &audioMixer, QObject *parent)
     : QObject(parent),
       m_audioMixer(audioMixer)
 {
@@ -52,7 +66,7 @@ void AudioDevSound::ToneFinished(TInt aError)
 void AudioDevSound::BufferToBeFilled(CMMFBuffer* aBuffer) 
 {
     CMMFDataBuffer* buf = static_cast<CMMFDataBuffer*>(aBuffer);
-    TDes8& output = buf->Data();
+    TDes8 &output = buf->Data();
 
     // The default buffer size is 4096.
     // To improve latency, only part of the requested bytes are passed to DevSound.
@@ -86,7 +100,7 @@ void AudioDevSound::ConvertError(TInt aError)
     Q_UNUSED(aError);
 }
 
-void AudioDevSound::DeviceMessage(TUid aMessageType, const TDesC8& aMsg) 
+void AudioDevSound::DeviceMessage(TUid aMessageType, const TDesC8 &aMsg) 
 {
     Q_UNUSED(aMessageType);
     Q_UNUSED(aMsg);

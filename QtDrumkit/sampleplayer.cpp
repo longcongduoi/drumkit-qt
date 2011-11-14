@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
+ *
+ * Part of the QtDrumkit
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
+ */
+
 #include <QtCore/QDebug>
 #include <QStringList>
 #include "sampleplayer.h"
@@ -63,11 +73,11 @@ SamplePlayer::~SamplePlayer()
 {
 }
 
-void SamplePlayer::play(GE::AudioBuffer* buffer) 
+void SamplePlayer::play(GE::AudioBuffer *buffer) 
 {
     // Play the AudioBuffer using mixer.
     Q_ASSERT(buffer);
-    GE::AudioBufferPlayInstance* inst = buffer->playWithMixer(m_audioMixer);   
+    GE::AudioBufferPlayInstance *inst = buffer->playWithMixer(m_audioMixer);   
     if(inst == 0) {
         qWarning() << "playWithMixer failed";
     }

@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ */
+
 import QtQuick 1.0
 
 // A togglable button that can be enabled or disabled.
@@ -16,11 +20,11 @@ Item {
 
     Image {
         id: img
-        source: parent.toggled || ma.pressed ? gfxPath + imagePressed : gfxPath + image
+        source: parent.toggled || mouseArea.pressed ? gfxPath + imagePressed : gfxPath + image
     }
 
     MouseArea {
-        id: ma
+        id: mouseArea
         anchors.fill: img
         enabled: parent.enabled
         onPressed: parent.pressed()

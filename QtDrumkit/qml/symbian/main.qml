@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ */
+
 import QtQuick 1.0
 import DrumEngine 1.0
 import TouchEvents 1.0

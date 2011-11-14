@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
+ *
+ * Part of the QtDrumkit
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
+ */
+
 #ifndef SAMPLEPLAYER_H
 #define SAMPLEPLAYER_H
 
@@ -33,7 +43,7 @@ private slots:
     void volumeDown();
 
 private:
-    void play(GE::AudioBuffer* buffer);
+    void play(GE::AudioBuffer *buffer);
 
     // Map of preloaded sample data.
     QMap<QString, GE::AudioBuffer*> m_samples;
@@ -42,10 +52,10 @@ private:
     GE::AudioMixer m_audioMixer;
 
     // Interface to the audio output backend.
-    AudioInterface* m_audioIf;
+    AudioInterface *m_audioIf;
 
 #ifdef Q_OS_SYMBIAN
-    VolumeKeys* m_volumeKeys;
+    VolumeKeys *m_volumeKeys;
 #endif
 };
 

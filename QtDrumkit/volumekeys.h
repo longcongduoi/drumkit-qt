@@ -1,4 +1,14 @@
-// Based on volumekeys.h from Qt GameEnabler.
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
+ *
+ * Part of the QtDrumkit
+ * Based on volumekeys.h from Qt GameEnabler.
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
+ */
+
 
 #ifndef VOLUMEKEYS_H
 #define VOLUMEKEYS_H

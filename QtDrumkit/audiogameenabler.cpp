@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ * All rights reserved.
+ *
+ * Part of the QtDrumkit
+ *
+ * For the applicable distribution terms see the license text file included in
+ * the distribution.
+ */
+
 #include <QtCore/QDebug>
 #include "audiogameenabler.h"
 
@@ -7,7 +17,7 @@
 #include "audiobuffer.h"
 #include "audiobufferplayinstance.h"
 
-AudioGameEnabler::AudioGameEnabler(GE::AudioMixer& audioMixer, QObject *parent)
+AudioGameEnabler::AudioGameEnabler(GE::AudioMixer &audioMixer, QObject *parent)
     : QObject(parent),
       m_audioMixer(audioMixer)
 {

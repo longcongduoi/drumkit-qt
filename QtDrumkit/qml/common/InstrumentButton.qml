@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ */
+
 import QtQuick 1.0
 
 // Button for selecting instruments.
@@ -19,7 +23,6 @@ Item {
     }
 
     MouseArea {
-        id: ma
         anchors.fill: img
         onPressed: {
             container.focus = true

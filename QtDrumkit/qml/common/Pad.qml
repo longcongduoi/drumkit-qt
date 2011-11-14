@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2011 Nokia Corporation.
+ */
+
 import QtQuick 1.0
 
 // Instrument pad component.
@@ -16,7 +20,7 @@ Item {
     // Set to true if a highlight graphics should be shown when pressed.
     property bool showSplash: true
 
-    property alias pressed: ma.pressed  
+    property alias pressed: mouseArea.pressed  
 
     signal clicked
 
@@ -25,7 +29,7 @@ Item {
     }
 
     MouseArea {
-        id: ma
+        id: mouseArea
         anchors.fill: parent
         onPressed: {
             parent.clicked()
@@ -59,7 +63,7 @@ Item {
         id: img
         source: gfxPath + "splash.png"
         anchors.centerIn: parent
-        visible: showSplash && ma.pressed
+        visible: showSplash && mouseArea.pressed
     }
 
     // Instrument Selector signal connection to all pad instances.

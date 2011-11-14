@@ -1,3 +1,5 @@
+# Copyright (c) 2011 Nokia Corporation.
+
 CONFIG += release
 QT += opengl multimedia
 
