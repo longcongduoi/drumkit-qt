@@ -27,14 +27,9 @@ VERSION = 1.0
 # CONFIG += mobility
 # MOBILITY +=
 
-# Harmattan check trickery
-exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"):!contains(MEEGO_EDITION,harmattan): {
-  MEEGO_VERSION_MAJOR     = 1
-  MEEGO_VERSION_MINOR     = 2
-  MEEGO_VERSION_PATCH     = 0
-  MEEGO_EDITION           = harmattan
-  DEFINES += MEEGO_EDITION_HARMATTAN
-  CONFIG += harmattan
+contains(MEEGO_EDITION,harmattan): {
+   CONFIG += harmattan
+   DEFINES += Q_OS_MEEGO
 }
 
 unix:!symbian {
@@ -42,7 +37,6 @@ unix:!symbian {
       error(Maemo5 not supported)
    } 
    harmattan {
-     DEFINES += Q_WS_MAEMO_6
      message(Harmattan)
    } else {
      message(Desktop)

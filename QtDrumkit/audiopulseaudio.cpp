@@ -10,7 +10,7 @@
 
 using namespace GE;
 
-static int latency = 10000; // start latency in micro seconds
+static int latency = 20000; // start latency in micro seconds
 static pa_buffer_attr bufattr;
 static pa_sample_spec ss;
 static short* buffer;
@@ -46,7 +46,7 @@ static void pa_state_cb(pa_context *c, void *userdata) {
 static void stream_request_cb(pa_stream *s, size_t length, void *userdata) {
 
     AudioSource* source = (AudioSource*)userdata;
-    if(bufferSize < length*sizeof(short)) {
+    if (bufferSize < length*sizeof(short)) {
         bufferSize = length*sizeof(short)*2;
         buffer = (short*) malloc(bufferSize*sizeof(short));
     }
