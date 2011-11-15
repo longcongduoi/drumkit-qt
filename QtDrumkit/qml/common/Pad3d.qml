@@ -8,8 +8,8 @@ Item {
     width: img.width
     height: img.height
 
-    property string sourceImage
-    property string sample
+    property alias sourceImage: img.source
+    property alias sample: pad.sample
 
     function play() {
         pad.play()
@@ -17,7 +17,6 @@ Item {
 
     Image {
         id: img
-        source: parent.sourceImage
         scale: pad.pressed ? 0.9 : 1.0
         Behavior on scale { SpringAnimation { spring: 5; damping: 0.2 } }
     }
@@ -25,7 +24,6 @@ Item {
     Pad {
         id: pad
         anchors.fill: img
-        sample: parent.sample
         showSplash: false
     }
 }

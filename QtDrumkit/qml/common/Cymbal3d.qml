@@ -15,8 +15,8 @@ Item {
     property real rotateX: 0
     property real rotateY: 0
     property real rotateZ: 0
-    property string sourceImage
-    property string sample
+    property alias sourceImage: img.source
+    property alias sample: pad.sample
 
     function play() {
         pad.play()
@@ -31,7 +31,6 @@ Item {
 
     Image {
         id: img
-        source: cymbal.sourceImage
     }
 
     transform: Rotation {
@@ -66,7 +65,6 @@ Item {
     Pad {
         id: pad
         anchors.fill: img
-        sample: parent.sample
         showSplash: false
         onClicked: parent.hit()
     }
