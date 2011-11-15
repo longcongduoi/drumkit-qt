@@ -26,7 +26,7 @@ Item {
     TouchEvents {
         id: touchEvents
         onTouchEventReceived: {
-            if(info.show || selector.show) {
+            if (info.show || selector.show) {
                 // Ignore events when info view or instrument selector visible.
                 return
             }
@@ -35,7 +35,7 @@ Item {
             // them as top level children.
             var item = !flipable.flipped ? flipable.front.childAt(x,y) : flipable.back.pads.childAt(x,y)
             // See if there is a function called play().
-            if(item && item.play) {
+            if (item && item.play) {
                item.play()
             }
         }

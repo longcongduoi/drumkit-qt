@@ -23,7 +23,7 @@ Item {
     }
 
     function hit() {
-        if(anim.running) {
+        if (anim.running) {
             anim.stop()
         }
         anim.start()

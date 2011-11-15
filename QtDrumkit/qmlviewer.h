@@ -30,7 +30,7 @@ public:
 signals:
     void touchEventReceived(int x, int y);
 private:
-    static QmlViewer* m_instance;
+    static QmlViewer *m_instance;
 };
 
 #endif // QMLVIEWER_H

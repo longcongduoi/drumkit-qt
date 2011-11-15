@@ -45,7 +45,7 @@ static void pa_state_cb(pa_context *c, void *userdata) {
 // Data is retrieved from GE::AudioSource, which is the mixer.
 static void stream_request_cb(pa_stream *s, size_t length, void *userdata) {
 
-    AudioSource* source = (AudioSource*)userdata;
+    AudioSource* source = reinterpret_cast<AudioSource*>(userdata);
     if (bufferSize < length*sizeof(short)) {
         bufferSize = length*sizeof(short)*2;
         buffer = (short*) malloc(bufferSize*sizeof(short));

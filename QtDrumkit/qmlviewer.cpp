@@ -13,7 +13,7 @@
 
 #include "qmlviewer.h"
 
-QmlViewer* QmlViewer::m_instance;
+QmlViewer *QmlViewer::m_instance;
 
 /*!
   \class QmlViewer
@@ -29,16 +29,16 @@ QmlViewer::QmlViewer()
     m_instance = this;
 }
 
-QmlViewer* QmlViewer::instance() {
+QmlViewer *QmlViewer::instance() {
     return m_instance;
 }
 
-bool QmlViewer::event(QEvent* event) {
+bool QmlViewer::event(QEvent *event) {
 
     // Grab touch events and signal appropriately.
 
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate) {
-        QTouchEvent* te = static_cast<QTouchEvent*>(event);
+        QTouchEvent *te = static_cast<QTouchEvent*>(event);
         foreach (QTouchEvent::TouchPoint tp, te->touchPoints()) {
             if (tp.state() == Qt::TouchPointPressed) {
                 emit touchEventReceived(tp.screenPos().x(), tp.screenPos().y());

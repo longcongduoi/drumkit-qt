@@ -37,7 +37,7 @@ Item {
         onPressAndHold: {
             // Disable instrument selection if engine
             // is doing playback or recording.
-            if(!engine.isPlaying && !engine.isRecording) {
+            if (!engine.isPlaying && !engine.isRecording) {
                 selectMode = true
                 // Show the Instrument Selector.
                 // Set the origin coordinates according to this pad.
@@ -45,7 +45,7 @@ Item {
                 // showSplash flag incidentally also indicates that the pad is used from the 3d
                 // view. The coordinates need to be mapped to the selector coordinates,
                 // which fills the main screen.
-                if(!showSplash) {
+                if (!showSplash) {
                     var xy = mapToItem(selector, parent.x + parent.width/2, parent.y + parent.height/2)
                     selector.originX = xy.x
                     selector.originY = xy.y
@@ -71,7 +71,7 @@ Item {
         target: selector
         onSelected: {
             // Check if thes selector signal was targeted to this pad.
-            if(selectMode && selector.selectedSample) {
+            if (selectMode && selector.selectedSample) {
                 console.log("Changing " + sample + " to " + selector.selectedSample)
                 sample = selector.selectedSample
                 selectMode = false

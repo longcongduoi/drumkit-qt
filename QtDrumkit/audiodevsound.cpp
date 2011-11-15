@@ -63,9 +63,9 @@ void AudioDevSound::ToneFinished(TInt aError)
     Q_UNUSED(aError);
 }
 
-void AudioDevSound::BufferToBeFilled(CMMFBuffer* aBuffer) 
+void AudioDevSound::BufferToBeFilled(CMMFBuffer *aBuffer) 
 {
-    CMMFDataBuffer* buf = static_cast<CMMFDataBuffer*>(aBuffer);
+    CMMFDataBuffer *buf = static_cast<CMMFDataBuffer*>(aBuffer);
     TDes8 &output = buf->Data();
 
     // The default buffer size is 4096.
@@ -74,7 +74,7 @@ void AudioDevSound::BufferToBeFilled(CMMFBuffer* aBuffer)
     const TInt reqSize = 256*3;
 
     output.SetLength(reqSize);
-    short* ptr = (short*)(output.Ptr());
+    short *ptr = reinterpret_cast<short*>(output.Ptr());
     Mem::FillZ(ptr, reqSize);
     m_audioMixer.pullAudio(ptr, reqSize/2);
     m_devSound->PlayData();

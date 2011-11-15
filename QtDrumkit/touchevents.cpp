@@ -15,7 +15,7 @@
   \class TouchEvents
   \brief Touch events object to be used from QML. Contains only one signal.
 */
-TouchEvents::TouchEvents(QObject* parent)
+TouchEvents::TouchEvents(QObject *parent)
     : QObject(parent)
 {
     // Reroute QmlViewer instance signal through this object.
