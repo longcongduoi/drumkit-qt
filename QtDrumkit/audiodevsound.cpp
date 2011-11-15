@@ -74,7 +74,7 @@ void AudioDevSound::BufferToBeFilled(CMMFBuffer *aBuffer)
     const TInt reqSize = 256*3;
 
     output.SetLength(reqSize);
-    short *ptr = reinterpret_cast<short*>(output.Ptr());
+    short *ptr = (short*)output.Ptr();
     Mem::FillZ(ptr, reqSize);
     m_audioMixer.pullAudio(ptr, reqSize/2);
     m_devSound->PlayData();
