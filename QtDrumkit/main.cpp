@@ -33,11 +33,19 @@ int main(int argc, char *argv[])
     // gfx layouting on on Symbian devices with VGA resolution (E6).
     QDesktopWidget *desktop = QApplication::desktop();
     const QRect screenRect = desktop->screenGeometry();
+    QDeclarativeContext* context = viewer.rootContext();
     if (screenRect.width() == 640 && screenRect.height() == 480) {
-        viewer.rootContext()->setContextProperty("screenVGA", true);
+        context->setContextProperty("screenVGA", true);
     } else {
-        viewer.rootContext()->setContextProperty("screenVGA", false);
+        context->setContextProperty("screenVGA", false);
     }
+
+    // Provide information whether running in simulator. Used in Pad.qml.
+#ifdef QT_SIMULATOR
+    context->setContextProperty("simulator", true);
+#else
+    context->setContextProperty("simulator", false);
+#endif
 
     // Select the main.qml according to platform.
 #ifdef Q_OS_SYMBIAN

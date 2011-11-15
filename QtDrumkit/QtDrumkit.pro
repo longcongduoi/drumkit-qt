@@ -32,7 +32,7 @@ contains(MEEGO_EDITION,harmattan): {
 }
 
 
-unix:!symbian {
+unix:!symbian:!simulator {
    maemo5 {
       error(Maemo5 not supported)
    } 
@@ -68,20 +68,16 @@ symbian {
    LIBS += -lmmfdevsound
 }
 
-unix|harmattan:!symbian {
+unix|harmattan:!symbian:!simulator {
 
-   # Use Pulse Audio on Linux
+   # Use Pulse Audio on Linux/MeeGo
    CONFIG += link_pkgconfig
    PKGCONFIG += libpulse
    DEFINES += USE_PULSEAUDIO
-   #DEFINES += USE_GAMEENABLER
 
    platform_qml.source = qml/harmattan
    platform_qml.target = qml
    QML_IMPORT_PATH += qml/harmattan
-
-   SOURCES += audiogameenabler.cpp
-   HEADERS += audiogameenabler.h
 
    SOURCES += audiopulseaudio.cpp
    HEADERS += audiopulseaudio.h
@@ -92,6 +88,7 @@ simulator {
    CONFIG -= release
    CONFIG += debug
 
+   # Use GameEnabler audio on simulator
    DEFINES += USE_GAMEENABLER
    SOURCES += audiogameenabler.cpp
    HEADERS += audiogameenabler.h

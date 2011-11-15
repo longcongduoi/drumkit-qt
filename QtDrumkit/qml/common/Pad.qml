@@ -32,6 +32,11 @@ Item {
         id: mouseArea
         anchors.fill: parent
         onPressed: {
+            if (simulator) {
+                // Simulator specific! Play a sample with an ordinary mouse click.
+                // Touch events are in available on simulator.
+                play()
+            }
             parent.clicked()
         }
         onPressAndHold: {
