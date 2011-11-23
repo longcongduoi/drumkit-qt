@@ -30,44 +30,49 @@ PREREQUISITES
 IMPORTANT CLASSES / FILES
 -------------------------------------------------------------------------------
 
-DrumEngine: Engine API visible to QML
+- drumengine.h: Engine API visible to QML
+- sampleplayer.h: Handles initialization of audio and playback of samples.
+- qmlviewer.h: QmlApplicationViewer wrapper for catching touch events.
+- touchevents.h: Touch event API visible to QML
 
-SamplePlayer: Handles initialization of audio and playback of samples.
+- Pads2d.qml: 2D pad view, positions Pad-components on the screen.
+- Pads3d.qml: 3D drumkit view, positions Cymbal3d and Pad3d components
+  on the screen.
+- AnimButton.qml: A button component that is able to display an 
+  animation using a PNG file. This is used for the record button.
+- Button.qml: A simple button component that can be toggled. Used for
+  all the other buttons.
+- Info.qml: A component displaying the information text.
+- Pad.qml: Instrument pad component. Plays a specified sample when
+  tapped, and opens the instrument selector on a long tap.
+- Pad3d.qml: Instrument pad component for the 3d view. Contains a
+  bouncing animation in addition to the Pad component.
+- Cymbal3d.qml: Cymbal pad component for the 3d view. Contains a
+  rotation animation in addition to the Pad component.
+- InstrumentSelector.qml: Instrument selector component. Arranges
+  InstrumentButton components on a circle and performs transition
+  animations. Used by the Pad component for configuring the sample for
+  the pad.
+- InstrumentButton.qml: A component for selecting instruments within the
+  InstrumentSelector. Displays a selection highlight and plays the
+  corresponding sample.
 
-QmlViewer: QmlApplicationViewer wrapper for catching touch events.
+Important classes:
 
-TouchEvents: Touch event API visible to QML
+Qt:
+- QDeclarativeView, QThread
 
-Pads2d.qml: 2D pad view, positions Pad-components on the screen.
+Game Enabler:
+- GE::AudioMixer
+- GE::AudioBuffer
 
-Pads3d.qml: 3D drumkit view, positions Cymbal3d and Pad3d components
-on the screen.
+Symbian:
+- CMMFDevSound
+- MDevSoundObserver
 
-AnimButton.qml: A button component that is able to display an
-animation using a PNG file. This is used for the record button.
+Pulse Audio structs:
+- pa_mainloop, pa_mainloop_api, pa_context, pa_stream
 
-Button.qml: A simple button component that can be toggled. Used for
-all the other buttons.
-
-Info.qml: A component displaying the information text.
-
-Pad.qml: Instrument pad component. Plays a specified sample when
-tapped, and opens the instrument selector on a long tap.
-
-Pad3d.qml: Instrument pad component for the 3d view. Contains a
-bouncing animation in addition to the Pad component.
-
-Cymbal3d.qml: Cymbal pad component for the 3d view. Contains a
-rotation animation in addition to the Pad component.
-
-InstrumentSelector.qml: Instrument selector component. Arranges
-InstrumentButton components on a circle and performs transition
-animations. Used by the Pad component for configuring the sample for
-the pad.
-
-InstrumentButton.qml: A component for selecting instruments within the
-InstrumentSelector. Displays a selection highlight and plays the
-corresponding sample.
 
 
 PROJECT FOLDER STRUCTURE
