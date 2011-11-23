@@ -73,6 +73,20 @@ Symbian:
 Pulse Audio structs:
 - pa_mainloop, pa_mainloop_api, pa_context, pa_stream
 
+Standard QML elements used:
+- Behavior
+- Column
+- Connections
+- FocusScope
+- Image 
+- Item 
+- MouseArea
+- NumberAnimation
+- PropertyAnimation
+- SequentialAnimation
+- Text
+- Timer
+
 
 
 PROJECT FOLDER STRUCTURE
