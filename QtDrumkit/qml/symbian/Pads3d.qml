@@ -7,6 +7,7 @@ import DrumEngine 1.0
 
 import "../common"
 
+// 3d view
 Item {
     property alias pads: padItem
 

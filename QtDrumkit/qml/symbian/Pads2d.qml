@@ -7,6 +7,7 @@ import DrumEngine 1.0
 
 import "../common"
 
+// 2d view
 Item {
     id: container
 

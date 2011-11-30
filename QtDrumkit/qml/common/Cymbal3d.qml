@@ -4,6 +4,8 @@
 
 import QtQuick 1.0
 
+// Cymbal pad for the 3d view. Provides a configurable swinging animation
+// when hit.
 Item {
     id: cymbal
 

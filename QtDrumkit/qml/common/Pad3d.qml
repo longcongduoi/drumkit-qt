@@ -4,6 +4,7 @@
 
 import QtQuick 1.0
 
+// Pad for the 3d view, provides a bouncy animation when pad is hit.
 Item {
     width: img.width
     height: img.height
