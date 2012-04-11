@@ -1,3 +1,8 @@
+qtdrumkit (1.1.0) unstable; urgency=low
+  * Modified Drumkit description texts & updated the information view.
+
+ -- unknown <>  Tue, 10 Apr 2012 12:09:46 +0300
+
 qtdrumkit (1.0.0) unstable; urgency=low
 
   * Initial Release.

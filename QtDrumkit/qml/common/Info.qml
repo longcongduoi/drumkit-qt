@@ -40,11 +40,12 @@ Item {
             color: "white"
             font.pointSize: 18
             font.bold: true
-            text: "Welcome to QtDrumkit!\n\n"+
+            text: "Drumkit v1.1\n\n"+
                   "Let your fills fly by tapping the pads.\n"+
                   "You may also record your beats and play them afterwards.\n"+
-                  "Long tap on a pad lets you select different instruments.\n\n"+
-                  "Tap the screen to continue!"
+                  "Long tap on a pad lets you select different instruments.\n"+
+                  "Tap the screen to continue! \n\n"+
+                  "Drumkit is a Nokia Developer example application hosted at:"
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
         }
@@ -54,7 +55,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             color: "white"
             font.pointSize: text.font.pointSize - 1
-            text: "\n\n"+container.url
+            text: "\n" + container.url
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             MouseArea {
