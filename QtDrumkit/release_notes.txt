@@ -157,4 +157,5 @@ https://projects.developer.nokia.com/QtDrumkit/browser/QtDrumkit/Licence.txt
 VERSION HISTORY 
 -------------------------------------------------------------------------------
 
+1.1     Updates to Drumkit description texts & updated the information view.
 1.0     First version
