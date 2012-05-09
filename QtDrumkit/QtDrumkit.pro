@@ -1,6 +1,7 @@
 # Copyright (c) 2011 Nokia Corporation.
 
-CONFIG += release
+CONFIG += release mobility
+MOBILITY += multimedia
 QT += opengl
 
 # Add more folders to ship with the application, here
@@ -10,7 +11,7 @@ common_qml.target = qml
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH += qml/common
 
-VERSION = 1.1
+VERSION = 1.2
 
 # Smart Installer package's UID
 # This UID is from the protected range and therefore the package will
@@ -21,11 +22,6 @@ VERSION = 1.1
 
 # Allow network access on Symbian
 #symbian:TARGET.CAPABILITY += NetworkServices
-
-# If your application uses the Qt Mobility libraries, uncomment the following
-# lines and add the respective components to the MOBILITY variable.
-# CONFIG += mobility
-# MOBILITY +=
 
 contains(MEEGO_EDITION,harmattan): {
    CONFIG += harmattan
@@ -69,18 +65,9 @@ symbian {
 }
 
 unix|harmattan:!symbian:!simulator {
-
-   # Use Pulse Audio on Linux/MeeGo
-   CONFIG += link_pkgconfig
-   PKGCONFIG += libpulse
-   DEFINES += USE_PULSEAUDIO
-
    platform_qml.source = qml/harmattan
    platform_qml.target = qml
    QML_IMPORT_PATH += qml/harmattan
-
-   SOURCES += audiopulseaudio.cpp
-   HEADERS += audiopulseaudio.h
 }
 
 simulator {

@@ -1,3 +1,8 @@
+qtdrumkit (1.2.0) unstable; urgency=low
+  * New Drumkit Engine using QML SoundEffect.
+
+ -- unknown <>  Thu, 26 Apr 2012 10:23:06 +0300
+
 qtdrumkit (1.1.0) unstable; urgency=low
   * Modified Drumkit description texts & updated the information view.
 

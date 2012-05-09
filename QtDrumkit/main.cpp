@@ -23,7 +23,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     // Register QML bindings fo DrumEngine and TouchEvents
+#ifdef Q_OS_SYMBIAN
     qmlRegisterType<DrumEngine>("DrumEngine", 1,0, "DrumEngine");
+#endif
     qmlRegisterType<TouchEvents>("TouchEvents", 1,0, "TouchEvents");
 
     QmlViewer viewer;

@@ -3,7 +3,6 @@
  */
 
 import QtQuick 1.0
-import DrumEngine 1.0
 import TouchEvents 1.0
 
 import "../common"
@@ -110,10 +109,10 @@ Item {
         id: recButton
         image: "record.png"
         imagePressed: "record_pressed.png"
-        enabled: engine.canRecord && !engine.isPlaying
+        enabled: !engine.isPlaying
         toggled: engine.isRecording
         visible: !engine.isRecording
-        onReleased: engine.record()
+        onReleased: engine.startRecording()
         Behavior on x { SpringAnimation { spring: 2; damping: 0.2 } }
     }
 
@@ -125,7 +124,7 @@ Item {
         width: 103
         height: 103
         visible: !recButton.visible
-        onReleased: engine.stop()
+        onReleased: engine.stopRecording()
         Behavior on x { SpringAnimation { spring: 2; damping: 0.2 } }
     }
 
@@ -135,10 +134,10 @@ Item {
         id: playButton
         image: "play.png"
         imagePressed: "play_pressed.png"
-        enabled: engine.canPlay && !engine.isRecording
+        enabled: !engine.isRecording && !engine.emptyTrack
         toggled: engine.isPlaying
         visible: !engine.isPlaying
-        onReleased: engine.play()
+        onReleased: engine.playTrack()
         Behavior on x { SpringAnimation { spring: 2; damping: 0.2 } }
     }
 
@@ -148,7 +147,7 @@ Item {
         image: "stop.png"
         imagePressed: "stop_pressed.png"
         visible: !playButton.visible
-        onReleased: engine.stop()
+        onReleased: engine.stopPlaying()
         Behavior on x { SpringAnimation { spring: 2; damping: 0.2 } }
     }
 

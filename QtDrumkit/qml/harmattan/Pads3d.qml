@@ -3,7 +3,6 @@
  */
 
 import QtQuick 1.0
-import DrumEngine 1.0
 
 import "../common"
 
