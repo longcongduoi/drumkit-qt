@@ -16,11 +16,11 @@ the application uses a combination of  Qt GameEnabler,  DevSound
 
 The application has been ported from MIDP: Java Drumkit Example, available at  http://www.developer.nokia.com/info/sw.nokia.com/id/1fe81968-abbf-48d1-a137-a203094611b2/MIDP_Java_Drumkit_Example_v1_0_en.zip.html. At the same time, also an XNA version has been developed for Windows Phone, available at http://www.developer.nokia.com/info/sw.nokia.com/id/24a1d1e7-85cd-43ba-9382-260285144383/Drumkit_XNA.html.
 
-This project is hosted in a Nokia Developer Project at:
-http://projects.developer.nokia.com/QtDrumkit
+This project is hosted in a GitHub:
+https://github.com/nokia-developer/drumkit-qt
 
 For more information about the implementation, see the project wiki page:
-http://projects.developer.nokia.com/QtDrumkit/wiki
+https://github.com/nokia-developer/drumkit-qt/wiki
 
 
 PREREQUISITES
@@ -106,14 +106,12 @@ PROJECT FOLDER STRUCTURE
 BUILD & INSTALLATION INSTRUCTIONS
 -------------------------------------------------------------------------------
 
-Preparations
-~~~~~~~~~~~~
+**Preparations**
 
 Check that you have the latest Qt/Qt SDK installed in the development
 environment and on the device.
 
-Build & installation instructions using Qt SDK
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Build & installation instructions using Qt SDK**
 
 Compiling the examples;
 
@@ -146,11 +144,11 @@ Developed with Qt SDK 1.1.
 LICENSE AND COPYRIGHT INFORMATION
 -------------------------------------------------------------------------------
 
-Copyright (c) 2011 Nokia Corporation.
+Copyright (c) 2011-2013 Nokia Corporation.
 
 See the license text file delivered with this project. The license file is 
 also available online at:
-https://projects.developer.nokia.com/QtDrumkit/browser/QtDrumkit/Licence.txt
+https://github.com/nokia-developer/drumkit-qt/blob/master/Licence.txt
 
 
 
